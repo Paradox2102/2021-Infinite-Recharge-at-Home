@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.lib.Camera;
 import frc.lib.Logger;
 import frc.lib.Camera.CameraData;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class PathChooserCommandGroupA extends InstantCommand {
@@ -19,12 +19,12 @@ public class PathChooserCommandGroupA extends InstantCommand {
    * Creates a new PathChooserCommand.
    */
   Camera m_camera;
-  DriveSubsystem m_subsystem;
+  DriveSubsystemOriginal m_subsystem;
   IntakeSubsystem m_intakeSubsystem;
   double m_searchPower;
   double m_turnPower;
 
-  public PathChooserCommandGroupA(Camera camera, DriveSubsystem subsystem, IntakeSubsystem intakeSubsystem,
+  public PathChooserCommandGroupA(Camera camera, DriveSubsystemOriginal subsystem, IntakeSubsystem intakeSubsystem,
       double searchPower, double turnPower) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_camera = camera;

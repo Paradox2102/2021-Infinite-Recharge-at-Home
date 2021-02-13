@@ -17,34 +17,39 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class pathAuto extends ParallelCommandGroup {
+public class SlalomPath extends ParallelCommandGroup {
   /**
    * Creates a new pathAuto.
    */
 
   //Waypoints
-  // 0,0,90,1,13
-  // -5,15,90
-  // 0.5,22.5,90,4,4
-  // -5,22.5,-90
-  // 0,15,-90,12,6
-  // -6.5,-2.5,-90
+  // 5,3.5,90,1,13
+  // 0,18.5,90
+  // 5.5,26,90,4,4
+  // 0,26,-90
+  // 5,18.5,-90,12,6
+  // -1.5,1,-90
 
-  static final Waypoint[] k_drive6ft = { 
-      new Waypoint(0, 0, Math.toRadians(90), 1, 13, 0),
-      new Waypoint(-5, 15, Math.toRadians(90)), 
-      new Waypoint(0.5, 22.5, Math.toRadians(90), 4, 4, 0), 
-      new Waypoint(-5, 22.5, Math.toRadians(-90)),
-      new Waypoint(0, 15, Math.toRadians(-90), 12, 6, 0), 
-      new Waypoint(-6.5, -2.5, Math.toRadians(-90)) };
+  // static final Waypoint[] k_driveSlalom = { 
+  //     new Waypoint(5, 3.5, Math.toRadians(90), 1, 13, 0),
+  //     new Waypoint(0, 18.5, Math.toRadians(90)), 
+  //     new Waypoint(5.5, 25, Math.toRadians(90), 4, 4, 0), 
+  //     new Waypoint(0, 25, Math.toRadians(-90)),
+  //     new Waypoint(5, 18.5, Math.toRadians(-90), 12, 6, 0), 
+  //     new Waypoint(-1.5, 1, Math.toRadians(-90)) };
+
+  static final Waypoint[] k_drive10ft = {
+    new Waypoint(5, 3.5, Math.toRadians(90)),
+    new Waypoint(5, 23.5, 90)
+  };
       
   DriveSubsystem m_driveSubsystem;
 
-  public pathAuto(DriveSubsystem driveSubsystem) {
+  public SlalomPath(DriveSubsystem driveSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     m_driveSubsystem = driveSubsystem;
-    addCommands(new SequentialCommandGroup(new CreatePathCommand(driveSubsystem, k_drive6ft, PathConfigs.fastAccel)));
+    addCommands(new SequentialCommandGroup(new CreatePathCommand(driveSubsystem, k_drive10ft, PathConfigs.fastAccel, false, true, true)));
   }
 
   @Override

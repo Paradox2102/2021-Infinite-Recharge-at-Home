@@ -19,7 +19,7 @@ package frc.robot;
  */
 public final class Constants {
     public static PracticeType m_robotConstants = new PracticeType();
-    // public static FinalType m_robotConstants = new FinalType();
+    //public static FinalType m_robotConstants = new FinalType();
     public static int k_leftDrive = 1;
     public static int k_leftFollower = 2;
     public static int k_rightDrive = 3;

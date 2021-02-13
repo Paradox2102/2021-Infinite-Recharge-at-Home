@@ -12,16 +12,16 @@ import frc.lib.Camera;
 import frc.lib.Logger;
 import frc.lib.Camera.BallSide;
 import frc.lib.Camera.CameraData;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 
 public class DriveToCenterBallsCommand extends CommandBase {
-  DriveSubsystem m_driveSubsystem;
+  DriveSubsystemOriginal m_driveSubsystem;
   Camera m_backCamera;
   double m_power;
   double k_p = 0.05;
   double k_deadZone = 50;
 
-  public DriveToCenterBallsCommand(DriveSubsystem driveSubsystem, Camera backCamera, double power) {
+  public DriveToCenterBallsCommand(DriveSubsystemOriginal driveSubsystem, Camera backCamera, double power) {
     m_driveSubsystem = driveSubsystem;
     m_backCamera = backCamera;
     m_power = power;

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib.Camera;
 import frc.robot.commands.Drive.DriveByDistanceCommand;
 import frc.robot.commands.Drive.TurnByAngleCommand;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 import frc.robot.subsystems.IntakeSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -23,7 +23,7 @@ public class closePathAutoGroupA extends ParallelCommandGroup {
   /**
    * Creates a new driveToBallAuto.
    */
-  public closePathAutoGroupA(Camera camera, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem,
+  public closePathAutoGroupA(Camera camera, DriveSubsystemOriginal driveSubsystem, IntakeSubsystem intakeSubsystem,
       double searchPower, double turnPower) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());

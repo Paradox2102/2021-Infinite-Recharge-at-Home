@@ -12,18 +12,18 @@ import frc.lib.Camera;
 import frc.lib.Logger;
 import frc.lib.Camera.BallSide;
 import frc.lib.Camera.CameraData;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 
 public class TurnToBallsCommand extends CommandBase {
   /**
    * Creates a new TurnToBallsCommand.
    */
-  DriveSubsystem m_driveSubsystem;
+  DriveSubsystemOriginal m_driveSubsystem;
   Camera m_frontCamera;
   double m_power;
   double k_deadZone = 50;
 
-  public TurnToBallsCommand(DriveSubsystem driveSubsystem, Camera frontCamera, double power) {
+  public TurnToBallsCommand(DriveSubsystemOriginal driveSubsystem, Camera frontCamera, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveSubsystem = driveSubsystem;
     m_frontCamera = frontCamera;

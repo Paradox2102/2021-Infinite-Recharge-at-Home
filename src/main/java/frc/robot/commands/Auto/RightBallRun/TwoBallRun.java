@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.PurePursuit.PathConfigs;
 import frc.robot.commands.Auto.CreatePathCommand;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -29,7 +29,7 @@ public class TwoBallRun extends ParallelDeadlineGroup {
   static final Waypoint[] k_2Ball = { new Waypoint(6, 10, Math.toRadians(90), 2, 4, 5),
       new Waypoint(10.1, 20.5, Math.toRadians(50)) };
 
-  public TwoBallRun(DriveSubsystem driveSubsystem) {
+  public TwoBallRun(DriveSubsystemOriginal driveSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(new CreatePathCommand(driveSubsystem, k_2Ball, PathConfigs.fast, true, true, true));

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.Camera;
 import frc.robot.commands.Camera.ToggleLightsCommand;
 import frc.robot.commands.Drive.SmoothTurnCommand;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -20,7 +20,7 @@ public class farPathAutoGroupA extends SequentialCommandGroup {
   /**
    * Creates a new farPathAuto.
    */
-  public farPathAutoGroupA(Camera camera, DriveSubsystem driveSubsystem, double searchPower, double turnPower) {
+  public farPathAutoGroupA(Camera camera, DriveSubsystemOriginal driveSubsystem, double searchPower, double turnPower) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(new ToggleLightsCommand(camera, true), new driveToBallCommand(camera, driveSubsystem, searchPower),
