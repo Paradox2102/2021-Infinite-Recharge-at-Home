@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.lib.Camera;
 import frc.lib.Logger;
 import frc.lib.Camera.CameraData;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 import frc.robot.subsystems.IntakeSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,12 +19,12 @@ import frc.robot.subsystems.IntakeSubsystem;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class PathChooserCommandGroupB extends InstantCommand {
   Camera m_camera;
-  DriveSubsystem m_subsystem;
+  DriveSubsystemOriginal m_subsystem;
   IntakeSubsystem m_intakeSubsystem;
   double m_searchPower;
   double m_turnPower;
 
-  public PathChooserCommandGroupB(Camera camera, DriveSubsystem subsystem, IntakeSubsystem intakeSubsystem,
+  public PathChooserCommandGroupB(Camera camera, DriveSubsystemOriginal subsystem, IntakeSubsystem intakeSubsystem,
       double searchPower, double turnPower) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_camera = camera;

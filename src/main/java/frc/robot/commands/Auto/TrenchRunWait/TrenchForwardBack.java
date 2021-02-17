@@ -10,7 +10,7 @@ package frc.robot.commands.Auto.TrenchRunWait;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.PurePursuit.PathConfigs;
 import frc.robot.commands.Auto.CreatePathCommand;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 import frc.pathfinder.Pathfinder.Waypoint;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -27,7 +27,7 @@ public class TrenchForwardBack extends SequentialCommandGroup {
   final static Waypoint[] k_forwardsTrench = { new Waypoint(-11, 25, Math.toRadians(-90), 5),
       new Waypoint(-11, 15, Math.toRadians(-90)) };
 
-  public TrenchForwardBack(DriveSubsystem driveSubsystem) {
+  public TrenchForwardBack(DriveSubsystemOriginal driveSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(new CreatePathCommand(driveSubsystem, k_backwardsTrench, PathConfigs.fast, true, true, true),

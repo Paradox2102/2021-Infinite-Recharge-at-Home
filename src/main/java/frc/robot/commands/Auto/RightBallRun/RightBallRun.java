@@ -15,7 +15,7 @@ import frc.robot.commands.Auto.TurnToBallsCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Teleop.SpinUpCommand;
 import frc.robot.commands.Turret.TurretTrackingCommand;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -31,7 +31,7 @@ public class RightBallRun extends ParallelCommandGroup {
    */
   double k_offset = 0;
 
-  public RightBallRun(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, double power,
+  public RightBallRun(DriveSubsystemOriginal driveSubsystem, IntakeSubsystem intakeSubsystem, double power,
       TurretSubsystem turretSubsystem, Camera turretCamera, ShooterSubsystem shooterSubsystem,
       IndexerSubsystem indexerSubsystem, double shooterSpeed, ThroatSubsystem throatSubsystem) {
     // Add your commands in the super() call, e.g.

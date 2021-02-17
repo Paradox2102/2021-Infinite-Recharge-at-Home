@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.PurePursuit.PathConfigs;
 import frc.robot.commands.Auto.CreatePathCommand;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -23,7 +23,7 @@ public class DriveToCenter extends SequentialCommandGroup {
   static final Waypoint[] k_centerDrive = { new Waypoint(10.5, 20.5, Math.toRadians(230), 3, 3, 3, 3, 5),
       new Waypoint(3.1, 15.2, Math.toRadians(-110)) };
 
-  public DriveToCenter(DriveSubsystem driveSubsystem) {
+  public DriveToCenter(DriveSubsystemOriginal driveSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(new CreatePathCommand(driveSubsystem, k_centerDrive, PathConfigs.fast, false, false, true));

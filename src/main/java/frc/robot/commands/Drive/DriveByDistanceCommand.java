@@ -10,10 +10,10 @@ package frc.robot.commands.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Logger;
 import frc.robot.PositionTracker.PositionContainer;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOriginal;
 
 public class DriveByDistanceCommand extends CommandBase {
-  DriveSubsystem m_subsystem;
+  DriveSubsystemOriginal m_subsystem;
   PositionContainer m_pos;
   double m_distance;
   double m_power;
@@ -21,7 +21,7 @@ public class DriveByDistanceCommand extends CommandBase {
   /**
    * Creates a new DriveByDistanceCommand.
    */
-  public DriveByDistanceCommand(DriveSubsystem subsystem, double distance, double power) {
+  public DriveByDistanceCommand(DriveSubsystemOriginal subsystem, double distance, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsystem;
     m_power = power;
