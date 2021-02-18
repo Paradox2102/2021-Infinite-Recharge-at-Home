@@ -23,25 +23,29 @@ public class SlalomPath extends ParallelCommandGroup {
    */
 
   //Waypoints
-  // 5,3.5,90,1,13
-  // 0,18.5,90
+  // 5,3.5,90,3,3
+  // 0,10,90
+  // 0,19,90,4,4
   // 5.5,26,90,4,4
   // 0,26,-90
-  // 5,18.5,-90,12,6
+  // 5,20,-90
+  // 5,12,-90,5,6
   // -1.5,1,-90
 
-  // static final Waypoint[] k_driveSlalom = { 
-  //     new Waypoint(5, 3.5, Math.toRadians(90), 1, 13, 0),
-  //     new Waypoint(0, 18.5, Math.toRadians(90)), 
-  //     new Waypoint(5.5, 25, Math.toRadians(90), 4, 4, 0), 
-  //     new Waypoint(0, 25, Math.toRadians(-90)),
-  //     new Waypoint(5, 18.5, Math.toRadians(-90), 12, 6, 0), 
-  //     new Waypoint(-1.5, 1, Math.toRadians(-90)) };
+  static final Waypoint[] k_driveSlalom = { 
+      new Waypoint(5, 3.5, Math.toRadians(90), 3, 3, 0),
+      new Waypoint(0, 10, Math.toRadians(90)),
+      new Waypoint(0, 19, Math.toRadians(90), 4, 4, 0), 
+      new Waypoint(5.5, 26, Math.toRadians(90), 4, 4, 0), 
+      new Waypoint(0, 26, Math.toRadians(-90)),
+      new Waypoint(5, 20, Math.toRadians(-90)), 
+      new Waypoint(5, 12, Math.toRadians(-90), 5, 6, 0),
+      new Waypoint(-1.5, 1, Math.toRadians(-90)) };
 
-  static final Waypoint[] k_drive10ft = {
-    new Waypoint(5, 3.5, Math.toRadians(90)),
-    new Waypoint(5, 23.5, 90)
-  };
+  // static final Waypoint[] k_drive20ft = {
+  //   new Waypoint(5, 0, Math.toRadians(90)),
+  //   new Waypoint(5, 20, Math.toRadians(90))
+  // };
       
   DriveSubsystem m_driveSubsystem;
 
@@ -49,7 +53,7 @@ public class SlalomPath extends ParallelCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     m_driveSubsystem = driveSubsystem;
-    addCommands(new SequentialCommandGroup(new CreatePathCommand(driveSubsystem, k_drive10ft, PathConfigs.fastAccel, false, true, true)));
+    addCommands(new SequentialCommandGroup(new CreatePathCommand(driveSubsystem, k_driveSlalom, PathConfigs.fast, false, true, true)));
   }
 
   @Override

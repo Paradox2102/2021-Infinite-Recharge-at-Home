@@ -17,7 +17,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class pathAuto extends ParallelCommandGroup {
+public class BarrelPath extends ParallelCommandGroup {
   /**
    * Creates a new pathAuto.
    */
@@ -40,7 +40,7 @@ public class pathAuto extends ParallelCommandGroup {
       
   DriveSubsystem m_driveSubsystem;
 
-  public pathAuto(DriveSubsystem driveSubsystem) {
+  public BarrelPath(DriveSubsystem driveSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     m_driveSubsystem = driveSubsystem;

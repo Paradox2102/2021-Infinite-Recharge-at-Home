@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.pathfinder.Pathfinder.Path;
 import frc.pathfinder.Pathfinder.Segment;
+import frc.PiCamera.Logger;
 import frc.lib.CSVWriter;
 import frc.lib.CSVWriter.Field;
 import frc.robot.PositionTracker.PositionContainer;
@@ -18,8 +19,8 @@ public class PurePursuit {
 	private final int k_maxTimeLookAhead = 1;
 
 	private final double k_maxVelFast = 6;// 7.96;//10.7
-	private final double k_maxAcc = 4;
-	private final double k_maxDeccel = 4;
+	private final double k_maxAcc = 3; //4
+	private final double k_maxDeccel = 3; //4
 	private final double k_maxJerk = 100;
 
 	private final double k_width = 2.17;

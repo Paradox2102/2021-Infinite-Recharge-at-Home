@@ -304,6 +304,8 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
     return feet * k_ticksFootSpark;
   }
 
+  
+
   public void resetAngle(double angle) {
     m_gyro.setYaw(angle);
     m_posTracker.setAngle(angle);
