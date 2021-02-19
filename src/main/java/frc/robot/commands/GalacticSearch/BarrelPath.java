@@ -38,13 +38,13 @@ public class BarrelPath extends ParallelCommandGroup {
       new Waypoint(0, 3.5, Math.toRadians(90)),
       new Waypoint(0, 13, Math.toRadians(70)), 
       new Waypoint(5, 12.6, Math.toRadians(-90), 3, 3, 0), 
-      new Waypoint(0, 13, Math.toRadians(95)),
-      new Waypoint(-.75, 20, Math.toRadians(100)), 
+      new Waypoint(0, 13, Math.toRadians(90)),
+      new Waypoint(.5, 20, Math.toRadians(100)), 
       new Waypoint(-5, 20, Math.toRadians(-90), 2, 2, 0),
       new Waypoint(-.75, 19, Math.toRadians(55), 1, 1, 0),
       new Waypoint(4.5, 25, Math.toRadians(90), 2, 2, 0), 
-      new Waypoint(0, 25, Math.toRadians(-90), 2, 2, 0), 
-      new Waypoint(0, 3.5, Math.toRadians(-90))
+      new Waypoint(0.75, 25, Math.toRadians(-90), 2, 2, 0), 
+      new Waypoint(-.5, 3.5, Math.toRadians(-90))
      };
       
   DriveSubsystem m_driveSubsystem;

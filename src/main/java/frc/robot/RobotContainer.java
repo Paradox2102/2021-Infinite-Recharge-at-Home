@@ -28,6 +28,7 @@ import frc.robot.commands.Auto.TrenchRun.TrenchRun;
 import frc.robot.commands.Auto.TrenchRunWait.TrenchRunWait;
 import frc.robot.commands.GalacticSearch.PathChooserCommandGroupA;
 import frc.robot.commands.GalacticSearch.SlalomPath;
+import frc.robot.commands.GalacticSearch.BarrelPath;
 import frc.robot.commands.GalacticSearch.BouncePath;
 import frc.robot.commands.Camera.BallDriveCommand;
 import frc.robot.commands.Climber.MoveClimberCommand;
@@ -139,7 +140,8 @@ public class RobotContainer {
 
   // JoystickButton m_galacticSearchA = new JoystickButton(m_stick, 11);
   // JoystickButton m_galacticSearchB = new JoystickButton(m_stick, 12);
-  JoystickButton m_bouncePath = new JoystickButton(m_stick, 12);
+  //JoystickButton m_bouncePath = new JoystickButton(m_stick, 12);
+  JoystickButton m_barrelPath = new JoystickButton(m_stick, 12);
   //JoystickButton m_SlalomPath = new JoystickButton(m_stick, 12);
   JoystickButton m_calibratePowerCommand = new JoystickButton(m_stick, 11);
 
@@ -273,7 +275,8 @@ public class RobotContainer {
     // m_galacticSearchB.toggleWhenPressed(new
     // PathChooserCommandGroupB(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
     // Constants.k_searchPower, Constants.k_turnPower));
-     m_bouncePath.toggleWhenPressed(new BouncePath(m_driveSubsystem));
+    // m_bouncePath.toggleWhenPressed(new BouncePath(m_driveSubsystem));
+     m_barrelPath.toggleWhenPressed(new BarrelPath(m_driveSubsystem));
     //m_slalomPath.toggleWhenPressed(new SlalomPath(m_driveSubsystem));
     m_calibratePowerCommand.toggleWhenPressed(new CalibrateSpeedCommand(m_driveSubsystem, 2200));
   }
