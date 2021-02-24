@@ -8,7 +8,6 @@
 package frc.robot.commands.Teleop;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ThroatSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,7 +17,7 @@ public class ShootCommand extends ParallelCommandGroup {
   /**
    * Creates a new ShootCommand.
    */
-  public ShootCommand(ThroatSubsystem throatSubsystem, IndexerSubsystem indexerSubsystem, double throatPower, double indexerPower) {
+  public ShootCommand(ThroatSubsystem throatSubsystem, double throatPower, double indexerPower) {
     // addCommands(new ThroatPowerCommand(throatSubsystem, throatPower), new IndexCommand(indexerSubsystem, indexerPower));
   }
 }

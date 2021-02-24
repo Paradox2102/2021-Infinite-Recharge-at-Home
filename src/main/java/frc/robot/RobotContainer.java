@@ -21,44 +21,32 @@ import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
 import frc.robot.commands.Auto.DoNothingCommand;
-import frc.robot.commands.Auto.FiveBallCenter.FiveBallCenter;
-import frc.robot.commands.Auto.InnerPortRun.InnerPortRunCommand;
-import frc.robot.commands.Auto.RightBallRunCameraAlign.RightBallRun;
-import frc.robot.commands.Auto.TrenchRun.TrenchRun;
-import frc.robot.commands.Auto.TrenchRunWait.TrenchRunWait;
 import frc.robot.commands.GalacticSearch.PathChooserCommandGroupA;
 import frc.robot.commands.GalacticSearch.SlalomPath;
 import frc.robot.commands.GalacticSearch.BouncePath;
 import frc.robot.commands.Camera.BallDriveCommand;
-import frc.robot.commands.Climber.MoveClimberCommand;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
 import frc.robot.commands.Drive.CalibratePowerCommand;
 import frc.robot.commands.Drive.CalibrateSpeedCommand;
 import frc.robot.commands.Intake.ActuateIntakeCommand;
-import frc.robot.commands.Indexer.IndexCommand;
 import frc.robot.commands.Intake.AmbientIntakePowerCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Serializer.SerializeCommand;
-import frc.robot.commands.Shooter.IncrementTrimCommand;
-import frc.robot.commands.Snoot.FixedRotationCommand;
-import frc.robot.commands.Snoot.SnootTesting;
-import frc.robot.commands.Teleop.FireCommand;
-import frc.robot.commands.Teleop.SpinUpCommand;
+import frc.robot.commands.Shooter.SetAngleCommand;
+import frc.robot.commands.Shooter.SpinUpShooterCommand;
 import frc.robot.commands.Teleop.UnJumbleCommand;
 import frc.robot.commands.Throat.ThroatAtSpeedCommand;
 import frc.robot.commands.Throat.ThroatMoveCommand;
 import frc.robot.commands.Turret.IncrementOffsetCommand;
 import frc.robot.commands.Turret.TurretMoveCommand;
 import frc.robot.commands.Turret.TurretTrackingCommand;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DriveSubsystemOriginal;
 import frc.robot.subsystems.DriveSubsystemSPARKMAX;
-import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
+import frc.robot.subsystems.ShooterAngleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SnootSubsystem;
 import frc.robot.subsystems.ThroatSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
@@ -75,11 +63,11 @@ public class RobotContainer {
   TurretSubsystem m_turretSubsystem = new TurretSubsystem();
   ThroatSubsystem m_throatSubsystem = new ThroatSubsystem();
   ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  ShooterAngleSubsystem m_shooterAngleSubsystem = new ShooterAngleSubsystem();
   SerializerSubsystem m_serializerSubsystem = new SerializerSubsystem();
-  IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-  SnootSubsystem m_snootSubsystem = new SnootSubsystem();
+  // ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  // SnootSubsystem m_snootSubsystem = new SnootSubsystem();
 
   Camera m_turretCamera = new Camera();
   Camera m_backCamera = new Camera();
@@ -150,6 +138,9 @@ public class RobotContainer {
 
   double m_shooterSpeed = 33000;// 31000; //36000;
 
+  double m_shooterPower = 0.5;
+  double m_backWheelPower = 0.5;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -157,6 +148,8 @@ public class RobotContainer {
     // Configure the button bindings
     m_turretCamera.connect(Constants.m_robotConstants.k_ipAddress);
     m_backCamera.connect(Constants.m_robotConstants.k_ipAddressBack);
+
+    m_shooterAngleSubsystem.setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, m_climbStick));
 
     configureButtonBindings();
 
@@ -172,21 +165,21 @@ public class RobotContainer {
     // Waypoint[] k_10ft = { new Waypoint(0, 0, Math.toRadians(90), 5), new
     // Waypoint(0, 10, Math.toRadians(90)) };
 
-    m_chooser.setDefaultOption("Do Nothing", new DoNothingCommand());
-    m_chooser.addOption("Trench Run 8 ball",
-        new TrenchRun(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_turretSubsystem, m_throatSubsystem,
-            m_indexerSubsystem, m_serializerSubsystem, m_turretCamera, 35000, () -> getPos().x, () -> getPos().y,
-            m_backCamera));
-    m_chooser.addOption("Trench Run Pause and Shoot",
-        new TrenchRunWait(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_turretSubsystem, m_throatSubsystem,
-            m_indexerSubsystem, m_serializerSubsystem, m_turretCamera, 35000, () -> getPos().x, () -> getPos().y));
-    m_chooser.addOption("5 Ball Center", new FiveBallCenter(m_driveSubsystem, m_intakeSubsystem, m_turretCamera, 0.4,
-        m_turretSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed, m_throatSubsystem));
-    m_chooser.addOption("Right 7 Ball Run", new RightBallRun(m_driveSubsystem, m_intakeSubsystem, m_turretSubsystem,
-        m_turretCamera, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed, m_throatSubsystem, m_backCamera));
-    m_chooser.addOption("Exhaust Port Run",
-        new InnerPortRunCommand(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_indexerSubsystem,
-            m_turretSubsystem, m_throatSubsystem, m_turretCamera, m_backCamera, m_shooterSpeed));
+    // m_chooser.setDefaultOption("Do Nothing", new DoNothingCommand());
+    // m_chooser.addOption("Trench Run 8 ball",
+    //     new TrenchRun(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_turretSubsystem, m_throatSubsystem,
+    //         m_indexerSubsystem, m_serializerSubsystem, m_turretCamera, 35000, () -> getPos().x, () -> getPos().y,
+    //         m_backCamera));
+    // m_chooser.addOption("Trench Run Pause and Shoot",
+    //     new TrenchRunWait(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_turretSubsystem, m_throatSubsystem,
+    //         m_indexerSubsystem, m_serializerSubsystem, m_turretCamera, 35000, () -> getPos().x, () -> getPos().y));
+    // m_chooser.addOption("5 Ball Center", new FiveBallCenter(m_driveSubsystem, m_intakeSubsystem, m_turretCamera, 0.4,
+    //     m_turretSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed, m_throatSubsystem));
+    // m_chooser.addOption("Right 7 Ball Run", new RightBallRun(m_driveSubsystem, m_intakeSubsystem, m_turretSubsystem,
+    //     m_turretCamera, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed, m_throatSubsystem, m_backCamera));
+    // m_chooser.addOption("Exhaust Port Run",
+    //     new InnerPortRunCommand(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_indexerSubsystem,
+    //         m_turretSubsystem, m_throatSubsystem, m_turretCamera, m_backCamera, m_shooterSpeed));
     // m_chooser.addOption("10 ft", new CreatePathCommand(m_driveSubsystem, k_10ft,
     // PathConfigs.fast));
     // m_chooser.addOption("Trench Forward Backward", new
@@ -225,14 +218,13 @@ public class RobotContainer {
     m_intakeClimb.whileHeld(new IntakeCommand(m_intakeSubsystem, 0.9));
     m_outtake.toggleWhenPressed(new IntakeCommand(m_intakeSubsystem, -0.75));
     m_outtakeClimb.whileHeld(new IntakeCommand(m_intakeSubsystem, -0.75));
-   m_spinUp.toggleWhenPressed(
-       new SpinUpCommand(m_turretSubsystem, m_turretCamera, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed));
+   m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterPower, m_backWheelPower, m_stick));
     // m_spinUpTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem,
     // m_turretCamera));
-    m_spinUpClimb.toggleWhenPressed(
-        new SpinUpCommand(m_turretSubsystem, m_turretCamera, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed));
-    m_spinUpTrackClimb.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
-    m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    // m_spinUpClimb.toggleWhenPressed(
+    //     new SpinUpCommand(m_turretSubsystem, m_turretCamera, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed));
+    // m_spinUpTrackClimb.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
+    // m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem, m_intakeSubsystem));
     m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.35));
     m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.35));
 
@@ -243,23 +235,22 @@ public class RobotContainer {
     m_feederIntakeClimb.whileHeld(new AmbientIntakePowerCommand(m_intakeSubsystem, -0.5));
     m_feederIntake.whileHeld(new AmbientIntakePowerCommand(m_intakeSubsystem, -0.5));
 
-    m_manualControlPanel.whileActiveOnce(new FixedRotationCommand(m_snootSubsystem, 0.25, 4.125));
+    // m_manualControlPanel.whileActiveOnce(new FixedRotationCommand(m_snootSubsystem, 0.25, 4.125));
 
-    m_increaseTrim.whenActive(new IncrementTrimCommand(m_shooterSubsystem, 500), true);
-    m_decreaseTrim.whenActive(new IncrementTrimCommand(m_shooterSubsystem, -500), true);
+    // m_increaseTrim.whenActive(new IncrementTrimCommand(m_shooterSubsystem, 500), true);
+    // m_decreaseTrim.whenActive(new IncrementTrimCommand(m_shooterSubsystem, -500), true);
 
     m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
 
-    m_climb.whileHeld(new MoveClimberCommand(m_climberSubsystem, () -> -m_climbStick.getY()));
+    // m_climb.whileHeld(new MoveClimberCommand(m_climberSubsystem, () -> -m_climbStick.getY()));
     m_calibrateSpeed.whileHeld(new ThroatMoveCommand(m_throatSubsystem, 0.85));
-    m_calibrateSpeedShooter.toggleWhenPressed(
-        new frc.robot.commands.Shooter.CalibrateSpeedCommand(m_shooterSubsystem, () -> getThrottleCalib()));
-    m_calibrateSpeedShooter.toggleWhenPressed(new IndexCommand(m_indexerSubsystem, 0.5));
+    // m_calibrateSpeedShooter.toggleWhenPressed(
+    //     new frc.robot.commands.Shooter.CalibrateSpeedCommand(m_shooterSubsystem, () -> getThrottleCalib()));
     // m_throat.toggleWhenPressed(new ParallelDeadlineGroup(new
     // ThroatAtSpeedCommand(m_throatSubsystem, 0.75), new
     // IntakeCommand(m_intakeSubsystem, 0.5)));
-    m_snootTesting.whileHeld(new SnootTesting(m_snootSubsystem, 0.25));
-    m_snootSetRotation.whenPressed(new FixedRotationCommand(m_snootSubsystem, 0.25, 3.2));
+    // m_snootTesting.whileHeld(new SnootTesting(m_snootSubsystem, 0.25));
+    // m_snootSetRotation.whenPressed(new FixedRotationCommand(m_snootSubsystem, 0.25, 3.2));
 
     m_toggleIntake.toggleWhenPressed(new ActuateIntakeCommand(m_intakeSubsystem));
 
@@ -300,7 +291,7 @@ public class RobotContainer {
       pColor = "None";
     }
     SmartDashboard.putString("Control Panel Color:", pColor);
-    SmartDashboard.putNumber("Trim", m_shooterSubsystem.getTrim());
+    // SmartDashboard.putNumber("Trim", m_shooterSubsystem.getTrim());
     SmartDashboard.putNumber("Time Left", DriverStation.getInstance().getMatchTime());
     SmartDashboard.putNumber("Offset", m_turretSubsystem.getOffset());
     SmartDashboard.putBoolean("Lights State", m_turretCamera.getLightsState());
@@ -375,9 +366,9 @@ public class RobotContainer {
     return m_turretCamera.createData().canSee();
   }
 
-  public void setTrim(double amount) {
-    m_shooterSubsystem.setTrim(amount);
-  }
+  // public void setTrim(double amount) {
+  //   m_shooterSubsystem.setTrim(amount);
+  // }
 
   public void setLightsBackCamera(boolean lights) {
     m_backCamera.toggleLights(lights);

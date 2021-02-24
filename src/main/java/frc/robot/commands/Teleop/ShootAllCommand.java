@@ -10,7 +10,6 @@ package frc.robot.commands.Teleop;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -23,7 +22,7 @@ public class ShootAllCommand extends SequentialCommandGroup {
   /**
    * Creates a new ShootAllCommand.
    */
-  public ShootAllCommand(ThroatSubsystem throatSubsystem, ShooterSubsystem shooterSubsystem, SerializerSubsystem serializerSubsystem, IndexerSubsystem indexerSubsystem, IntakeSubsystem intakeSubsystem,DoubleSupplier getThrottle) {
+  public ShootAllCommand(ThroatSubsystem throatSubsystem, ShooterSubsystem shooterSubsystem, SerializerSubsystem serializerSubsystem, IntakeSubsystem intakeSubsystem,DoubleSupplier getThrottle) {
     // addCommands(new ParallelDeadlineGroup(new IndexCommand(indexerSubsystem, 0.75), new ThroatPowerCommand(throatSubsystem, 0.5), new SerializeCommand(serializerSubsystem, 0.25, () -> throatSubsystem.GetTopBreak()), new PowerCommand(shooterSubsystem, getThrottle), new IntakeCommand(intakeSubsystem, 0.5)));
   }
 }

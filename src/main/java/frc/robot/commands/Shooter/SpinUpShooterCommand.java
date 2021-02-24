@@ -5,23 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Climber;
+package frc.robot.commands.Shooter;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class MoveClimberCommand extends CommandBase {
-  ClimberSubsystem m_subsystem;
-  DoubleSupplier m_getY;
+public class SpinUpShooterCommand extends CommandBase {
+  /**
+   * Creates a new SpinUpShooterCommand.
+   */
 
-  double k_deadZone = .1;
+   ShooterSubsystem m_subsystem;
+   double m_shooterPower;
+   double m_backWheelPower;
+   Joystick m_stick;
 
-  public MoveClimberCommand(ClimberSubsystem subsystem, DoubleSupplier getY) {
+
+  public SpinUpShooterCommand(ShooterSubsystem subsystem, double shooterPower, double backWheelPower, Joystick stick) {
+    // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsystem;
-    m_getY = getY;
+    m_shooterPower = shooterPower;
+    m_backWheelPower = backWheelPower;
+    m_stick = stick;
 
     addRequirements(m_subsystem);
   }
@@ -29,18 +35,16 @@ public class MoveClimberCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double y = m_getY.getAsDouble();
-
-    if(Math.abs(y) < k_deadZone || DriverStation.getInstance().getMatchTime() > 30){
-      m_subsystem.stop();
-    }else{
-      m_subsystem.setPower(y);
-    }
+    m_shooterPower = (m_stick.getThrottle() + 1)/2;
+    m_backWheelPower = (m_stick.getThrottle() + 1)/2;
+    m_subsystem.setShooterPower(m_shooterPower);
+    m_subsystem.setBackWheelPower(m_backWheelPower);
   }
 
   // Called once the command ends or is interrupted.
@@ -52,6 +56,7 @@ public class MoveClimberCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
     return false;
   }
 }

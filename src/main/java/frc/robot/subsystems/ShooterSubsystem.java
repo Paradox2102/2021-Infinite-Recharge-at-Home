@@ -7,8 +7,10 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,121 +20,55 @@ public class ShooterSubsystem extends SubsystemBase {
   /**
    * Creates a new ShooterSubsystem.
    */
-  TalonSRX m_shooter = new TalonSRX(Constants.k_shooter);
-  TalonSRX m_shooterFollower = new TalonSRX(Constants.k_shooterFollower); //36000
+  // ID 2 and 14 run the shooter
+  // ID 12 runs the backwheels
 
-  double k_f = Constants.m_robotConstants.k_shooterF;
-  double k_p = Constants.m_robotConstants.k_shooterP;
-  double k_i = Constants.m_robotConstants.k_shooterI;
+  CANSparkMax m_shooter = new CANSparkMax(Constants.k_shooter, MotorType.kBrushless);
+  CANSparkMax m_shooterFollower = new CANSparkMax(Constants.k_shooterFollower, MotorType.kBrushless);
+  CANSparkMax m_backWheels = new CANSparkMax(Constants.k_backWheels, MotorType.kBrushless);
 
-  int k_iRange = Constants.m_robotConstants.k_shooterIRange;
-  int k_slot = 0;
-
-  double m_curSpeed = 0;
-  boolean m_revved = false;
-
-  double m_trim = 0;
+  CANEncoder m_shooterEncoder;
+  CANEncoder m_backWheelEncoder;
   
+
+
   public ShooterSubsystem() {
-    m_shooter.setInverted(true);
-    m_shooterFollower.follow(m_shooter);
-    m_shooterFollower.setInverted(false);
+    m_shooter.restoreFactoryDefaults();
 
-    m_shooter.config_kF(k_slot, k_f);
-    m_shooter.config_kP(k_slot, k_p);
-    m_shooter.config_kI(k_slot, k_i);
-    m_shooter.config_kD(k_slot, 0);
-    m_shooter.config_IntegralZone(k_slot, k_iRange);
+    m_shooterEncoder = m_shooter.getEncoder();
+    m_backWheelEncoder = m_backWheels.getEncoder();
 
-    SmartDashboard.setDefaultNumber("shooter P", k_p);
-    SmartDashboard.setDefaultNumber("shooter I", k_i);
-    SmartDashboard.setDefaultNumber("Shooter F", k_f);
-    SmartDashboard.setDefaultNumber("Shooter Izone", k_iRange);
+    // m_shooter.setInverted(false);
+    //m_shooterFollower.follow(m_shooter);
+    m_shooterFollower.follow(m_shooter, true);
+    m_shooter.setIdleMode(IdleMode.kCoast);
+    m_shooterFollower.setIdleMode(IdleMode.kCoast);
 
-    m_shooter.configOpenloopRamp(2);
-    m_shooter.configClosedloopRamp(2);
+    m_backWheels.restoreFactoryDefaults();
+    m_backWheels.setIdleMode(IdleMode.kCoast);
 
-    m_shooter.setSelectedSensorPosition(0);
-    m_shooter.setSensorPhase(true);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shooter Speed", getSpeed());
-    SmartDashboard.putNumber("Shooter Pos", getPos());
-    SmartDashboard.putBoolean("Shooter Revved", isRevved());  
+    // SmartDashboard.putNumber("Shooter Encoder Position", m_shooterEncoder.getPosition());
+    // SmartDashboard.putNumber("Backwheel Encoder Postion", m_backWheelEncoder.getPosition());
+
+    SmartDashboard.putNumber("Shooter Speed", m_shooterEncoder.getVelocity());
+    SmartDashboard.putNumber("Backwheel Speed", m_backWheelEncoder.getVelocity());
   }
 
-  public void configPID(){
-    k_p = SmartDashboard.getNumber("shooter P", k_p);
-    k_i = SmartDashboard.getNumber("shooter I", k_i);
-    k_f = SmartDashboard.getNumber("Shooter F", k_f);
-    k_iRange = (int)(SmartDashboard.getNumber("Shooter Izone", k_iRange));
-    
-    m_shooter.config_kF(k_slot, k_f);
-    m_shooter.config_kP(k_slot, k_p);
-    m_shooter.config_kI(k_slot, k_i);
-    m_shooter.config_kD(k_slot, 0);
-    m_shooter.config_IntegralZone(k_slot, k_iRange);
+  public void setShooterPower(double power) {
+    m_shooter.set(power);
   }
 
-  public void setPower(double power){
-    m_shooter.set(ControlMode.PercentOutput, power);
+  public void setBackWheelPower(double power) {
+    m_backWheels.set(power);
   }
 
-  public void setSpeed(double speed){
-    speed += m_trim;
-   
-    m_curSpeed = speed;
-    m_shooter.set(ControlMode.Velocity, speed);
-    m_revved = true;
-  }
-
-  public double getSpeed(){
-    return m_shooter.getSelectedSensorVelocity();
-  }
-
-  public double getPos(){
-    return m_shooter.getSelectedSensorPosition();
-  }
-
-  public void stop(){
-    m_curSpeed = 0;
-    m_revved = false;
-    m_shooter.set(ControlMode.PercentOutput, 0);
-  }
-
-  public double getSetpoint(){
-    return m_curSpeed;
-  }
-
-  public double calculatedSpeed(double height){
-    double speed = (Constants.m_robotConstants.k_squareConst *height*height) - (Constants.m_robotConstants.k_linearConst * height) + (Constants.m_robotConstants.k_const);
-
-    System.out.println(speed);
-    if(speed > 40000){
-      return 40000;
-    }else if(speed < 30000){
-      return 30000;
-    }
-    
-    return speed;
-  }
-
-  public boolean isRevved(){
-    return m_revved;
-  }
-
-  public void incrementTrim(double amount){
-    m_trim += amount;
-  }
-
-  public void setTrim(double trim){
-    m_trim = trim;
-  }
-
-  public double getTrim(){
-    return m_trim;
+  public void stop() {
+    m_shooter.set(0);
+    m_backWheels.set(0);
   }
 }

@@ -9,15 +9,16 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   TalonSRX m_intake = new TalonSRX(Constants.k_intake);
 
-  Solenoid m_intakeDeploy = new Solenoid(Constants.k_intakeDeploy);
+  CANSparkMax m_intakeDeploy = new CANSparkMax(Constants.k_intakeDeploy, MotorType.kBrushless);
   
   public IntakeSubsystem() {
 
@@ -43,6 +44,10 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setDeploy(boolean deploy){
-    m_intakeDeploy.set(deploy);
+    if(deploy) {
+      m_intakeDeploy.set(0.2);
+    } else {
+      m_intakeDeploy.set(-0.2);
+    }
   }
 }

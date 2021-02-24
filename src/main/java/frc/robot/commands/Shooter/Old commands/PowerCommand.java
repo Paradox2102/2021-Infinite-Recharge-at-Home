@@ -5,44 +5,49 @@
 // /* the project.                                                               */
 // /*----------------------------------------------------------------------------*/
 
-// package frc.robot.commands.Auto;
+// package frc.robot.commands.Shooter;
+
+// import java.util.function.DoubleSupplier;
 
 // import edu.wpi.first.wpilibj2.command.CommandBase;
-// import frc.lib.Logger;
 // import frc.robot.subsystems.ShooterSubsystem;
 
-// public class WaitForShooterSpeedCommand extends CommandBase {
+// public class PowerCommand extends CommandBase {
 //   /**
-//    * Creates a new WaitForShooterSpeedCommand.
+//    * Creates a new PowerCommand.
 //    */
 //   ShooterSubsystem m_subsystem;
-//   final static int k_tolerance = 500;
-//   public WaitForShooterSpeedCommand(ShooterSubsystem subsystem) {
+//   DoubleSupplier m_getThrottle;
+//   public PowerCommand(ShooterSubsystem subsystem, DoubleSupplier getThrottle) {
+//     // Use addRequirements() here to declare subsystem dependencies.
 //     m_subsystem = subsystem;
+//     m_getThrottle = getThrottle;
+
+//     addRequirements(m_subsystem);
 //   }
 
 //   // Called when the command is initially scheduled.
 //   @Override
 //   public void initialize() {
-//     Logger.Log("WaitForShooterSpeedCommand", 1 , "initialize");
 //   }
 
 //   // Called every time the scheduler runs while the command is scheduled.
 //   @Override
 //   public void execute() {
-//     Logger.Log("WaitForShooterSpeedCommand", -1 , "execute");
+//     m_subsystem.setPower(m_getThrottle.getAsDouble());
+
+
 //   }
 
 //   // Called once the command ends or is interrupted.
 //   @Override
 //   public void end(boolean interrupted) {
-//     Logger.Log("WaitForShooterSpeedCommand", 1 , "end");
+//     m_subsystem.stop();
 //   }
 
 //   // Returns true when the command should end.
 //   @Override
 //   public boolean isFinished() {
-//     Logger.Log("WaitForShooterSpeedCommand", -1 , "isFinished");
-//     return m_subsystem.getSpeed() >= m_subsystem.getSetpoint() - k_tolerance;
+//     return false;
 //   }
 // }

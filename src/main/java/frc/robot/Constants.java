@@ -24,22 +24,18 @@ public final class Constants {
     public static int k_leftFollower = 2;
     public static int k_rightDrive = 3;
     public static int k_rightFollower = 4;
-    public static int k_intake = 5;
+    public static int k_intakeDeploy = 5;
     public static int k_serializer = 6;
     public static int k_throat = 7;
     public static int k_turret = 8;
-    public static int k_indexer = 9;
+    public static int k_intake = 9;
     public static int k_shooter = 10;
     public static int k_shooterFollower = 11;
-    public static int k_snoot = 12;
-    public static int k_climb = 14;
-    public static int k_climbFollower = 13;
+    public static int k_backWheels = 12;
+    public static int k_serializerFollower = 13;
 
-    public static int k_brake = 6;
-    public static int k_intakeDeploy = 7;
-
-    public static final int k_dioTop = 2;
-    public static final int k_dioBottom = 3;
+    public static final int k_dioTop = 0;
+    public static final int k_dioBottom = 1;
 
     // Power for Galactic Search
     public static double k_searchPower = 0.5;

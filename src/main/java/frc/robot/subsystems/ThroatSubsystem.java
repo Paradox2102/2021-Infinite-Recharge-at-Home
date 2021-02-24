@@ -23,7 +23,7 @@ public class ThroatSubsystem extends SubsystemBase {
   private DigitalInput m_dioTop = new DigitalInput(Constants.k_dioTop);
   private DigitalInput m_dioBottom = new DigitalInput(Constants.k_dioBottom);
 
-  private DigitalInput m_test = new DigitalInput(4);
+  // private DigitalInput m_test = new DigitalInput(4);
 
   public ThroatSubsystem() {
     m_throatMotor.setInverted(true);
@@ -60,6 +60,6 @@ public class ThroatSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Linebreak Top Sensor Return State", m_dioTop.get());
     SmartDashboard.putBoolean("Linebreak Bottom Sensor Return State", m_dioBottom.get());
-    SmartDashboard.putBoolean("Line break test", m_test.get());
+    // SmartDashboard.putBoolean("Line break test", m_test.get());
   }
 }
