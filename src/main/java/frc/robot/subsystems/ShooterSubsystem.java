@@ -38,9 +38,9 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterEncoder = m_shooter.getEncoder();
     m_backWheelEncoder = m_backWheels.getEncoder();
 
-    // m_shooter.setInverted(false);
+    m_shooter.setInverted(true);
     //m_shooterFollower.follow(m_shooter);
-    m_shooterFollower.follow(m_shooter, true);
+    m_shooterFollower.follow(m_shooter, false);
     m_shooter.setIdleMode(IdleMode.kCoast);
     m_shooterFollower.setIdleMode(IdleMode.kCoast);
 
@@ -65,6 +65,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setBackWheelPower(double power) {
     m_backWheels.set(power);
+  }
+
+  public double getSetpoint() {
+    return 0;
+  }
+
+  public double getSpeed() {
+    return 0;
   }
 
   public void stop() {

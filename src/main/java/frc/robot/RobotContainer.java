@@ -34,6 +34,7 @@ import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Serializer.SerializeCommand;
 import frc.robot.commands.Shooter.SetAngleCommand;
 import frc.robot.commands.Shooter.SpinUpShooterCommand;
+import frc.robot.commands.Teleop.FireCommand;
 import frc.robot.commands.Teleop.UnJumbleCommand;
 import frc.robot.commands.Throat.ThroatAtSpeedCommand;
 import frc.robot.commands.Throat.ThroatMoveCommand;
@@ -224,7 +225,7 @@ public class RobotContainer {
     // m_spinUpClimb.toggleWhenPressed(
     //     new SpinUpCommand(m_turretSubsystem, m_turretCamera, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed));
     // m_spinUpTrackClimb.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
-    // m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem, m_intakeSubsystem));
     m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.35));
     m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.35));
 

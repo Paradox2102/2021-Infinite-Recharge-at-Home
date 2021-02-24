@@ -21,7 +21,6 @@ public class IntakeSubsystem extends SubsystemBase {
   CANSparkMax m_intakeDeploy = new CANSparkMax(Constants.k_intakeDeploy, MotorType.kBrushless);
   
   public IntakeSubsystem() {
-
   }
 
   @Override
@@ -44,10 +43,10 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setDeploy(boolean deploy){
-    if(deploy) {
-      m_intakeDeploy.set(0.2);
-    } else {
-      m_intakeDeploy.set(-0.2);
-    }
+    // if(deploy) {
+    //   m_intakeDeploy.set(0.2);
+    // } else {
+    //   m_intakeDeploy.set(-0.2);
+    // }
   }
 }

@@ -26,7 +26,7 @@ public class ThroatSubsystem extends SubsystemBase {
   // private DigitalInput m_test = new DigitalInput(4);
 
   public ThroatSubsystem() {
-    m_throatMotor.setInverted(true);
+    m_throatMotor.setInverted(false);
     m_throatMotor.setNeutralMode(NeutralMode.Brake);
 
     m_throatMotor.configContinuousCurrentLimit(30);

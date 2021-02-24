@@ -64,26 +64,29 @@ public class ThroatPowerCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_getVel.getAsDouble() - k_deadZoneSpeed > (m_burst ? 0 : m_rpmSpeed.getAsDouble()) && m_rpmSpeed.getAsDouble() > 0) {
-      // turret position
-      if (k_deadZoneX != 0) {
-        CameraData data = m_turretCamera.createData();
 
-        if (data.canSee()) {
-          if (data.centerDiff(data.centerLine(), m_offset.getAsDouble()) < k_deadZoneX) {
-            m_subsystem.setThroatPower(m_power);
-          } else {
-            // System.out.println("Turret not aligned");
-            m_subsystem.stopThroatPower();
-          }
-        }
-      } else {
-        m_subsystem.setThroatPower(m_power);
-      }
-    } else {
-      // System.out.println("Speed not Met");
-      m_subsystem.stopThroatPower();
-    }
+    m_subsystem.setThroatPower(m_power);
+
+    // if (m_getVel.getAsDouble() - k_deadZoneSpeed > (m_burst ? 0 : m_rpmSpeed.getAsDouble()) && m_rpmSpeed.getAsDouble() > 0) {
+    //   // turret position
+    //   if (k_deadZoneX != 0) {
+    //     CameraData data = m_turretCamera.createData();
+
+    //     if (data.canSee()) {
+    //       if (data.centerDiff(data.centerLine(), m_offset.getAsDouble()) < k_deadZoneX) {
+    //         m_subsystem.setThroatPower(m_power);
+    //       } else {
+    //         // System.out.println("Turret not aligned");
+    //         m_subsystem.stopThroatPower();
+    //       }
+    //     }
+    //   } else {
+    //     m_subsystem.setThroatPower(m_power);
+    //   }
+    // } else {
+    //   // System.out.println("Speed not Met");
+    //   m_subsystem.stopThroatPower();
+    // }
   }
 
   // Called once the command ends or is interrupted.
