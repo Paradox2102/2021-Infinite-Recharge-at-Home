@@ -38,9 +38,9 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterEncoder = m_shooter.getEncoder();
     m_backWheelEncoder = m_backWheels.getEncoder();
 
+    m_shooterFollower.follow(m_shooter, true);
     m_shooter.setInverted(true);
-    //m_shooterFollower.follow(m_shooter);
-    m_shooterFollower.follow(m_shooter, false);
+    
     m_shooter.setIdleMode(IdleMode.kCoast);
     m_shooterFollower.setIdleMode(IdleMode.kCoast);
 
