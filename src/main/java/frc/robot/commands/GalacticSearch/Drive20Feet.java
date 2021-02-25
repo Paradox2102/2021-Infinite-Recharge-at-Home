@@ -17,7 +17,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class BarrelPath extends ParallelCommandGroup {
+public class Drive20Feet extends ParallelCommandGroup {
   /**
    * Creates a new pathAuto.
    */
@@ -35,33 +35,23 @@ public class BarrelPath extends ParallelCommandGroup {
 //0,3.5,-90
 //changed
 
-  static final Waypoint[] k_loopDrive = { 
-      new Waypoint(0, 3.5, Math.toRadians(90), 0, 0, 8),
-      new Waypoint(0, 13, Math.toRadians(70)), 
-      new Waypoint(5, 12.6, Math.toRadians(-90), 3, 3, 0), 
-      new Waypoint(0, 13, Math.toRadians(90), 0, 0, 8),
-      new Waypoint(.5, 20, Math.toRadians(100)), 
-      new Waypoint(-5, 20, Math.toRadians(-90), 2, 2, 0),
-      new Waypoint(-.75, 19, Math.toRadians(55), 1, 1, 8),
-      new Waypoint(5.5, 25, Math.toRadians(90), 2, 2, 0), 
-      new Waypoint(1, 25, Math.toRadians(-90), 2, 2, 0),
-      new Waypoint(1, 20, Math.toRadians(-95), 1, 1, 15),
-      new Waypoint(-1.5, 2.5, Math.toRadians(-90))
-     };
-      
+ 
+     static final Waypoint[] k_drive20ft = {
+         new Waypoint(5, 0, Math.toRadians(90),0,0,0),
+         new Waypoint(5, 20, Math.toRadians(90))
+       };
   DriveSubsystem m_driveSubsystem;
 
-  public BarrelPath(DriveSubsystem driveSubsystem) {
+  public Drive20Feet(DriveSubsystem driveSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     m_driveSubsystem = driveSubsystem;
-    addCommands(new SequentialCommandGroup(new CreatePathCommand(driveSubsystem, k_loopDrive, PathConfigs.fastAccel)));
+    addCommands(new SequentialCommandGroup(new CreatePathCommand(driveSubsystem, k_drive20ft, PathConfigs.fastAccel)));
   }
 
   @Override
   public void initialize() {
     super.initialize();
-    m_driveSubsystem.setPos(0, 3.5);
     m_driveSubsystem.resetAngle(90);
   }
 }

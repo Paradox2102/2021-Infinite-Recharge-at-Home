@@ -1,9 +1,11 @@
 package frc.robot.commands.Auto;
 
+import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.PurePursuit.PathConfig;
 import frc.robot.PurePursuit.PathConfigs;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Logger;
 import frc.pathfinder.Pathfinder;
@@ -90,6 +92,11 @@ public class CreatePathCommand extends CommandBase {
         }
         // writer.finish();
         // System.out.println("End Create Path");
-        Logger.Log("CreatePathCommand", 3, "End");
+        PositionContainer pos = m_subsystem.getPos();
+        Logger.Log("CreatePathCommand", 2, "End Position Equals "+ pos.x +","+ pos.y);
+
+        SmartDashboard.putNumber("Path End X", pos.x);
+        SmartDashboard.putNumber("Path End Y", pos.y);
+
     }
 }

@@ -30,6 +30,7 @@ import frc.robot.commands.GalacticSearch.PathChooserCommandGroupA;
 import frc.robot.commands.GalacticSearch.SlalomPath;
 import frc.robot.commands.GalacticSearch.BarrelPath;
 import frc.robot.commands.GalacticSearch.BouncePath;
+import frc.robot.commands.GalacticSearch.Drive20Feet;
 import frc.robot.commands.Camera.BallDriveCommand;
 import frc.robot.commands.Climber.MoveClimberCommand;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
@@ -73,6 +74,7 @@ import frc.robot.subsystems.TurretSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   DriveSubsystem m_driveSubsystem = (DriveSubsystem) new DriveSubsystemSPARKMAX();
+ // DriverStation.getInstance().silenceJoystickConnectionWarning(true);
   TurretSubsystem m_turretSubsystem = new TurretSubsystem();
   ThroatSubsystem m_throatSubsystem = new ThroatSubsystem();
   ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -142,6 +144,7 @@ public class RobotContainer {
   // JoystickButton m_galacticSearchB = new JoystickButton(m_stick, 12);
   //JoystickButton m_bouncePath = new JoystickButton(m_stick, 12);
   JoystickButton m_barrelPath = new JoystickButton(m_stick, 12);
+  //JoystickButton m_drive20Feet = new JoystickButton(m_stick, 12);
   //JoystickButton m_SlalomPath = new JoystickButton(m_stick, 12);
   JoystickButton m_calibratePowerCommand = new JoystickButton(m_stick, 11);
 
@@ -277,6 +280,7 @@ public class RobotContainer {
     // Constants.k_searchPower, Constants.k_turnPower));
     // m_bouncePath.toggleWhenPressed(new BouncePath(m_driveSubsystem));
      m_barrelPath.toggleWhenPressed(new BarrelPath(m_driveSubsystem));
+     //m_drive20Feet.toggleWhenPressed(new Drive20Feet(m_driveSubsystem));
     //m_slalomPath.toggleWhenPressed(new SlalomPath(m_driveSubsystem));
     m_calibratePowerCommand.toggleWhenPressed(new CalibrateSpeedCommand(m_driveSubsystem, 2200));
   }
