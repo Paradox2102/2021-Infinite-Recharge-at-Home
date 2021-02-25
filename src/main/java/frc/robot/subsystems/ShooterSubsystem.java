@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -24,8 +25,16 @@ public class ShooterSubsystem extends SubsystemBase {
   // ID 12 runs the backwheels
 
   CANSparkMax m_shooter = new CANSparkMax(Constants.k_shooter, MotorType.kBrushless);
+  CANPIDController m_shooterController;
   CANSparkMax m_shooterFollower = new CANSparkMax(Constants.k_shooterFollower, MotorType.kBrushless);
   CANSparkMax m_backWheels = new CANSparkMax(Constants.k_backWheels, MotorType.kBrushless);
+
+  double k_f = Constants.m_robotConstants.k_shooterF;
+  double k_p = Constants.m_robotConstants.k_shooterP;
+  double k_i = Constants.m_robotConstants.k_shooterI;
+
+  int k_iRange = Constants.m_robotConstants.k_shooterIRange;
+  int k_slot = 0;
 
   CANEncoder m_shooterEncoder;
   CANEncoder m_backWheelEncoder;
@@ -47,6 +56,20 @@ public class ShooterSubsystem extends SubsystemBase {
     m_backWheels.restoreFactoryDefaults();
     m_backWheels.setIdleMode(IdleMode.kCoast);
 
+    m_shooterController = m_shooter.getPIDController();
+
+    m_shooterController.setFF(k_f);
+    m_shooterController.setP(k_p);
+    m_shooterController.setI(k_i);
+    m_shooterController.setD(0);
+    m_shooterController.setIZone(k_iRange);
+
+
+    SmartDashboard.setDefaultNumber("shooter P", k_p);
+    SmartDashboard.setDefaultNumber("shooter I", k_i);
+    SmartDashboard.setDefaultNumber("Shooter F", k_f);
+    SmartDashboard.setDefaultNumber("Shooter Izone", k_iRange);
+
   }
 
   @Override
@@ -59,6 +82,19 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Backwheel Speed", m_backWheelEncoder.getVelocity());
   }
 
+  public void configPID(){
+    k_p = SmartDashboard.getNumber("shooter P", k_p);
+    k_i = SmartDashboard.getNumber("shooter I", k_i);
+    k_f = SmartDashboard.getNumber("Shooter F", k_f);
+    k_iRange = (int)(SmartDashboard.getNumber("Shooter Izone", k_iRange));
+
+    m_shooterController.setFF(k_f);
+    m_shooterController.setP(k_p);
+    m_shooterController.setI(k_i);
+    m_shooterController.setD(0);
+    m_shooterController.setIZone(k_iRange);
+  }
+
   public void setShooterPower(double power) {
     m_shooter.set(power);
   }
@@ -69,6 +105,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getSetpoint() {
     return 0;
+  }
+
+  public void setSpeed(double speed) {
+    
   }
 
   public double getSpeed() {

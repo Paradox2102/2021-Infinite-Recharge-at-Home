@@ -26,7 +26,7 @@ public class ActuateIntakeCommand extends CommandBase {
   @Override
   public void initialize() {
     Logger.Log("AcutauteIntakeCommand", 1 , "initialize");
-    m_subsystem.setDeploy(true);
+    m_subsystem.deploy();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +39,6 @@ public class ActuateIntakeCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Logger.Log("AcutauteIntakeCommand", 1 , "end");
-    m_subsystem.setDeploy(false);
   }
 
   // Returns true when the command should end.

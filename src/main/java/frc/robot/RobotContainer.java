@@ -146,11 +146,12 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    DriverStation.getInstance().silenceJoystickConnectionWarning(true);
     // Configure the button bindings
     m_turretCamera.connect(Constants.m_robotConstants.k_ipAddress);
     m_backCamera.connect(Constants.m_robotConstants.k_ipAddressBack);
 
-    m_shooterAngleSubsystem.setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, m_climbStick));
+    m_shooterAngleSubsystem.setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, m_calibStick));
 
     configureButtonBindings();
 
@@ -215,11 +216,11 @@ public class RobotContainer {
     // m_shoot.toggleWhenPressed(new ShootAllCommand(m_throatSubsystem,
     // m_shooterSubsystem, m_serializerSubsystem, m_indexerSubsystem,
     // m_intakeSubsystem, () -> getThrottle()));
-    m_intake.toggleWhenPressed(new IntakeCommand(m_intakeSubsystem, 0.9));
-    m_intakeClimb.whileHeld(new IntakeCommand(m_intakeSubsystem, 0.9));
+    m_intake.toggleWhenPressed(new IntakeCommand(m_intakeSubsystem, 0.6));
+    //m_intakeClimb.whileHeld(new IntakeCommand(m_intakeSubsystem, 0.9));
     m_outtake.toggleWhenPressed(new IntakeCommand(m_intakeSubsystem, -0.75));
     m_outtakeClimb.whileHeld(new IntakeCommand(m_intakeSubsystem, -0.75));
-   m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterPower, m_backWheelPower, m_stick));
+    m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterPower, m_backWheelPower, m_stick));
     // m_spinUpTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem,
     // m_turretCamera));
     // m_spinUpClimb.toggleWhenPressed(

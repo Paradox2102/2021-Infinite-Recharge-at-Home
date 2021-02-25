@@ -17,8 +17,9 @@ public class SerializerSubsystem extends SubsystemBase {
   TalonSRX m_serializer = new TalonSRX(Constants.k_serializer);
   TalonSRX m_serializerFollower = new TalonSRX(Constants.k_serializerFollower);
   public SerializerSubsystem() {
-    m_serializer.setInverted(true);
     m_serializerFollower.follow(m_serializer);
+    m_serializerFollower.setInverted(true);
+    m_serializer.setInverted(true);
   }
 
   @Override

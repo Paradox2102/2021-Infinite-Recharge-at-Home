@@ -5,13 +5,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.PiCamera.Logger;
+import frc.robot.Constants;
 import frc.robot.commands.Shooter.SetAngleCommand;
 
 public class ShooterAngleSubsystem extends SubsystemBase {
   /** Creates a new ShooterAngleSubsystem. */
 
-  Servo m_angleServo = new Servo(9);
+  Servo m_angleServo = new Servo(Constants.k_shooterAngle);
 
   public ShooterAngleSubsystem() {
   }
@@ -22,6 +25,8 @@ public class ShooterAngleSubsystem extends SubsystemBase {
   }
 
   public void setAngle(double angle) {
+    //Logger.Log("Shooter angle", 1, angle+"");
+    SmartDashboard.putNumber("Servo Angle", angle);
     m_angleServo.set(angle);
   }
 }

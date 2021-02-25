@@ -38,11 +38,11 @@ public class SerializeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if(!m_stop.getAsBoolean()){
-    // m_subsystem.setPower(m_power);
-    // }else{
-    // m_subsystem.stop();
-    // }
+    if(!m_stop.getAsBoolean()){
+    m_subsystem.setPower(m_power);
+    }else{
+    m_subsystem.stop();
+    }
     if (m_throttle.getAsDouble() > 0.5 && m_topLimit.getAsBoolean()) {
       m_subsystem.setPower(m_power);
     } else {
