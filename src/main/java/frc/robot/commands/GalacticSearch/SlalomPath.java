@@ -42,10 +42,10 @@ public class SlalomPath extends ParallelCommandGroup {
       new Waypoint(4.7, 12, Math.toRadians(-90), 5, 6, 0),
       new Waypoint(-0.7, 2, Math.toRadians(-90)) };
 
-  // static final Waypoint[] k_drive20ft = {
-  //   new Waypoint(5, 0, Math.toRadians(90)),
-  //   new Waypoint(5, 20, Math.toRadians(90))
-  // };
+  static final Waypoint[] k_drive20ft = {
+    new Waypoint(5, 0, Math.toRadians(90)),
+    new Waypoint(5, 20, Math.toRadians(90))
+  };
       
   DriveSubsystem m_driveSubsystem;
 

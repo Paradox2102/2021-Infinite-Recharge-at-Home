@@ -23,6 +23,7 @@ import frc.robot.Triggers.IncreaseTrimTrigger;
 import frc.robot.commands.Auto.DoNothingCommand;
 import frc.robot.commands.GalacticSearch.PathChooserCommandGroupA;
 import frc.robot.commands.GalacticSearch.SlalomPath;
+import frc.robot.commands.GalacticSearch.BarrelPath;
 import frc.robot.commands.GalacticSearch.BouncePath;
 import frc.robot.commands.Camera.BallDriveCommand;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
@@ -128,8 +129,9 @@ public class RobotContainer {
 
   // JoystickButton m_galacticSearchA = new JoystickButton(m_stick, 11);
   // JoystickButton m_galacticSearchB = new JoystickButton(m_stick, 12);
-  // JoystickButton m_bouncePath = new JoystickButton(m_stick, 12);
-  JoystickButton m_slalomPath = new JoystickButton(m_stick, 12);
+  //JoystickButton m_bouncePath = new JoystickButton(m_stick, 12);
+  JoystickButton m_barrelPath = new JoystickButton(m_stick, 12);
+  // JoystickButton m_slalomPath = new JoystickButton(m_stick, 12);
   JoystickButton m_calibratePowerCommand = new JoystickButton(m_stick, 11);
 
   IncreaseTrimTrigger m_increaseTrim = new IncreaseTrimTrigger(m_climbStick);
@@ -227,8 +229,8 @@ public class RobotContainer {
     //     new SpinUpCommand(m_turretSubsystem, m_turretCamera, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed));
     // m_spinUpTrackClimb.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem, m_intakeSubsystem));
-    m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.35));
-    m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.35));
+    m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.6));
+    m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.6));
 
     m_offsetLeft.whenPressed(new IncrementOffsetCommand(m_turretSubsystem, -5));
     m_offsetRight.whenPressed(new IncrementOffsetCommand(m_turretSubsystem, 5));
@@ -266,8 +268,9 @@ public class RobotContainer {
     // m_galacticSearchB.toggleWhenPressed(new
     // PathChooserCommandGroupB(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
     // Constants.k_searchPower, Constants.k_turnPower));
-    // m_bouncePath.toggleWhenPressed(new BouncePath(m_driveSubsystem));
-    m_slalomPath.toggleWhenPressed(new SlalomPath(m_driveSubsystem));
+    //m_bouncePath.toggleWhenPressed(new BouncePath(m_driveSubsystem));
+    m_barrelPath.toggleWhenPressed(new BarrelPath(m_driveSubsystem));
+    //m_slalomPath.toggleWhenPressed(new SlalomPath(m_driveSubsystem));
     m_calibratePowerCommand.toggleWhenPressed(new CalibrateSpeedCommand(m_driveSubsystem, 2200));
   }
 

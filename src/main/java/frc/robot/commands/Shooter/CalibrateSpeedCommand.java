@@ -6,6 +6,7 @@ package frc.robot.commands.Shooter;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -14,11 +15,12 @@ public class CalibrateSpeedCommand extends CommandBase {
 
   ShooterSubsystem m_subsystem;
   DoubleSupplier m_speed;
+  Joystick m_stick;
 
-  public CalibrateSpeedCommand(ShooterSubsystem subsytem, DoubleSupplier speed) {
+  public CalibrateSpeedCommand(ShooterSubsystem subsytem, Joystick stick) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsytem;
-    m_speed = speed;
+    m_stick = stick;
 
     addRequirements(m_subsystem);
   }
@@ -32,18 +34,14 @@ public class CalibrateSpeedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = m_speed.getAsDouble();
-
-    if(speed < m_subsystem.getSpeed()) {
-      m_subsystem.stop();
-    } else {
-      
-    }
+    m_subsystem.setSpeed(500*(m_stick.getThrottle()) + 2600);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_subsystem.stop();
+  }
 
   // Returns true when the command should end.
   @Override

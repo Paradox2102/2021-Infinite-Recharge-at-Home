@@ -30,16 +30,16 @@ public class BouncePath extends ParallelCommandGroup {
      static final Waypoint[] k_legTwo = { 
       new Waypoint(-3.5, 7.5, Math.toRadians(0), 1, 1, 0),
       new Waypoint(5, 12.5, Math.toRadians(90), 2, 6, 0),
-      new Waypoint(-3.5, 15, Math.toRadians(180)),
+      new Waypoint(-3.6, 14.75, Math.toRadians(180)),
      };
      static final Waypoint[] k_legThree = { 
-      new Waypoint(-3.5, 15, Math.toRadians(0)),
-      new Waypoint(4.5, 18.25, Math.toRadians(90)),
-      new Waypoint(-3.5, 22.5, Math.toRadians(180)),
+      new Waypoint(-3.6, 14.75, Math.toRadians(0)),
+      new Waypoint(5, 18, Math.toRadians(90)),
+      new Waypoint(-3.6, 22, Math.toRadians(180)),
      };
      static final Waypoint[] k_legFour = { 
-      new Waypoint(-3.5, 22.5, Math.toRadians(0)),
-      new Waypoint(0, 27.5, Math.toRadians(90)),
+      new Waypoint(-3.6, 22, Math.toRadians(0)),
+      new Waypoint(0.5, 27.5, Math.toRadians(90)),
      };
   DriveSubsystem m_driveSubsystem;
 

@@ -35,10 +35,9 @@ public class Sensor implements SensorData{
 	}
 	
 	public double getAngle() {
-		// double[] data = new double[3];
-		// m_gyro.getYawPitchRoll(data);
-		// return data[0];
-		return 0;
+		double[] data = new double[3];
+		m_gyro.getYawPitchRoll(data);
+		return data[0];
 	}
 		
 	private double ticksToFeet(double ticks) {

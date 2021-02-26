@@ -54,7 +54,7 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
 
   // Creating gyro
   // chaned gyro getAngle and resetAngle in sensor class and drive subsystem
-  PigeonIMU m_gyro = null;//new PigeonIMU(0);
+  PigeonIMU m_gyro = new PigeonIMU(0);
 
   // setting PID terms for 4500
   double k_fLeft = Constants.m_robotConstants.k_driveLeftF;
@@ -186,6 +186,7 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("gyro", getAngle());
   }
 
   // used for tuning PID on Smartdashboard
@@ -308,15 +309,14 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
   
 
   public void resetAngle(double angle) {
-    // m_gyro.setYaw(angle);
-    // m_posTracker.setAngle(angle);
+    m_gyro.setYaw(angle);
+    m_posTracker.setAngle(angle);
   }
 
   public double getAngle() {
-    // double[] ypr = new double[3];
-    // m_gyro.getYawPitchRoll(ypr);
-    // return ypr[0];
-    return 0;
+    double[] ypr = new double[3];
+    m_gyro.getYawPitchRoll(ypr);
+    return ypr[0];
   }
 
   public PathConfig getPathConfig(PathConfigs config) {

@@ -45,8 +45,8 @@ public class TurretSubsystem extends SubsystemBase {
 
     m_encoder = m_turret.getEncoder();
 
-    m_softStopFwd.enableLimitSwitch(true);
-    m_softStopBack.enableLimitSwitch(true);
+    m_softStopFwd.enableLimitSwitch(false);
+    m_softStopBack.enableLimitSwitch(false);
     // m_turret.setSmartCurrentLimit(10);
   }
 
