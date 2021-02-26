@@ -40,6 +40,6 @@ public final class Constants {
     public static final int k_shooterAngle = 9; //servo
 
     // Power for Galactic Search
-    public static double k_searchPower = 0.5;
-    public static double k_turnPower = 0.5;
+    public static double k_searchPower = 0.3;
+    public static double k_turnPower = 0.3;
 }

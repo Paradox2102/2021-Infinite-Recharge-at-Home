@@ -13,8 +13,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -31,14 +33,19 @@ public class ShooterSubsystem extends SubsystemBase {
   CANSparkMax m_shooterFollower = new CANSparkMax(Constants.k_shooterFollower, MotorType.kBrushless);
   CANSparkMax m_backWheels = new CANSparkMax(Constants.k_backWheels, MotorType.kBrushless);
 
-  ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter Tuning");
-
   double k_f = Constants.m_robotConstants.k_shooterF;
   double k_p = Constants.m_robotConstants.k_shooterP;
   double k_i = Constants.m_robotConstants.k_shooterI;
 
   int k_iRange = Constants.m_robotConstants.k_shooterIRange;
   int k_slot = 0;
+
+  ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter Tuning");
+  NetworkTableEntry m_f;
+  NetworkTableEntry m_p;
+  NetworkTableEntry m_i;
+  NetworkTableEntry m_iRange;
+  NetworkTableEntry m_shooterSpeed;
 
   CANEncoder m_shooterEncoder;
   CANEncoder m_backWheelEncoder;
@@ -68,12 +75,17 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterController.setD(0);
     m_shooterController.setIZone(k_iRange);
 
+    // m_f = shooterTab.add("shooter F", k_f).getEntry();
+    // m_p = shooterTab.add("shooter P", k_p).getEntry();
+    // m_i = shooterTab.add("shooter F", k_i).getEntry();
+    // m_iRange = shooterTab.add("shooter I Range", k_f).getEntry();
+    // m_shooterSpeed = shooterTab.add("shooter speed", m_shooterEncoder.getVelocity()).getEntry();
+
 
     SmartDashboard.setDefaultNumber("shooter P", k_p);
     SmartDashboard.setDefaultNumber("shooter I", k_i);
     SmartDashboard.setDefaultNumber("Shooter F", k_f);
     SmartDashboard.setDefaultNumber("Shooter Izone", k_iRange);
-
   }
 
   @Override

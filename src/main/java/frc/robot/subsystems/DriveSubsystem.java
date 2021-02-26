@@ -51,5 +51,7 @@ public interface DriveSubsystem extends Subsystem {
 	public double getRightVel();
 
 	public void configPID();
+
+	public void setSpeedFeet(double m_speed, double m_speed2);
 }
 

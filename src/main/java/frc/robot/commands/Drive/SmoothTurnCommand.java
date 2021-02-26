@@ -9,10 +9,10 @@ package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Logger;
-import frc.robot.subsystems.DriveSubsystemOriginal;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class SmoothTurnCommand extends CommandBase {
-  DriveSubsystemOriginal m_subsystem;
+  DriveSubsystem m_subsystem;
   double m_angle;
   double m_power;
   double k_deadzone = 10;
@@ -23,7 +23,7 @@ public class SmoothTurnCommand extends CommandBase {
   /**
    * Creates a new SmoothTurnCommand.
    */
-  public SmoothTurnCommand(DriveSubsystemOriginal driveSubsystem, double angle, double turnPower, double turnFactor) {
+  public SmoothTurnCommand(DriveSubsystem driveSubsystem, double angle, double turnPower, double turnFactor) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = driveSubsystem;
     m_angle = angle;

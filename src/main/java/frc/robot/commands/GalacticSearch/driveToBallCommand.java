@@ -14,23 +14,23 @@ import frc.PiCamera.PiCamera.PiCameraRegion;
 import frc.lib.Camera;
 import frc.lib.Logger;
 import frc.lib.Camera.CameraData;
-import frc.robot.subsystems.DriveSubsystemOriginal;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class driveToBallCommand extends CommandBase {
 
   Camera m_camera;
-  DriveSubsystemOriginal m_subsystem;
+  DriveSubsystem m_subsystem;
 
   double k_turningFactor = 0.0004;
   double m_power;
-  int lowerBound = 450;
+  int lowerBound = 315;
 
   boolean finished;
 
   /**
    * Creates a new driveToBallCommand.
    */
-  public driveToBallCommand(Camera camera, DriveSubsystemOriginal subsystem, double power) {
+  public driveToBallCommand(Camera camera, DriveSubsystem subsystem, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_camera = camera;
     m_subsystem = subsystem;
@@ -59,7 +59,7 @@ public class driveToBallCommand extends CommandBase {
 
         m_subsystem.setPower(m_power - (k_turningFactor * centerDiff), m_power + (k_turningFactor * centerDiff));
 
-        if (region.m_bounds.m_bottom >= lowerBound) {
+        if (region.m_bounds.m_top >= lowerBound) {
           finished = true;
           Logger.Log("finish", 1, "" + finished);
         }

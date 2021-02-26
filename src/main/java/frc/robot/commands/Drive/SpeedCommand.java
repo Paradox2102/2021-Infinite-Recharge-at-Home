@@ -9,12 +9,12 @@ package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystemOriginal;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class SpeedCommand extends CommandBase {
-  DriveSubsystemOriginal m_subsystem;
+  DriveSubsystem m_subsystem;
   double m_speed;
-  public SpeedCommand(DriveSubsystemOriginal subsystem, double speedFeet) {
+  public SpeedCommand(DriveSubsystem subsystem, double speedFeet) {
     m_subsystem = subsystem;
     m_speed = speedFeet;
 

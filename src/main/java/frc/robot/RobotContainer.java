@@ -127,10 +127,10 @@ public class RobotContainer {
   JoystickButton m_trackBalls = new JoystickButton(m_calibStick, 6);
   JoystickButton m_toggleIntake = new JoystickButton(m_calibStick, 8);
 
-  // JoystickButton m_galacticSearchA = new JoystickButton(m_stick, 11);
+  JoystickButton m_galacticSearchA = new JoystickButton(m_stick, 12);
   // JoystickButton m_galacticSearchB = new JoystickButton(m_stick, 12);
   //JoystickButton m_bouncePath = new JoystickButton(m_stick, 12);
-  JoystickButton m_barrelPath = new JoystickButton(m_stick, 12);
+  // JoystickButton m_barrelPath = new JoystickButton(m_stick, 12);
   // JoystickButton m_slalomPath = new JoystickButton(m_stick, 12);
   JoystickButton m_calibratePowerCommand = new JoystickButton(m_stick, 11);
 
@@ -262,14 +262,14 @@ public class RobotContainer {
 
     m_turretTrackCalib.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
 
-    // m_galacticSearchA.toggleWhenPressed(new PathChooserCommandGroupA(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
-    //     Constants.k_searchPower, Constants.k_turnPower));
+    m_galacticSearchA.toggleWhenPressed(new PathChooserCommandGroupA(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
+        Constants.k_searchPower, Constants.k_turnPower));
 
     // m_galacticSearchB.toggleWhenPressed(new
     // PathChooserCommandGroupB(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
     // Constants.k_searchPower, Constants.k_turnPower));
     //m_bouncePath.toggleWhenPressed(new BouncePath(m_driveSubsystem));
-    m_barrelPath.toggleWhenPressed(new BarrelPath(m_driveSubsystem));
+    // m_barrelPath.toggleWhenPressed(new BarrelPath(m_driveSubsystem));
     //m_slalomPath.toggleWhenPressed(new SlalomPath(m_driveSubsystem));
     m_calibratePowerCommand.toggleWhenPressed(new CalibrateSpeedCommand(m_driveSubsystem, 2200));
   }

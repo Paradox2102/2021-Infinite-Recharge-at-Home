@@ -9,15 +9,15 @@ package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Logger;
-import frc.robot.subsystems.DriveSubsystemOriginal;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class TurnByAngleCommand extends CommandBase {
-  DriveSubsystemOriginal m_subsystem;
+  DriveSubsystem m_subsystem;
   double m_angle;
   double m_power;
   double k_deadzone = 10;
 
-  public TurnByAngleCommand(DriveSubsystemOriginal driveSubsystem, double angle, double power) {
+  public TurnByAngleCommand(DriveSubsystem driveSubsystem, double angle, double power) {
     m_subsystem = driveSubsystem;
     m_angle = angle;
     m_power = power;

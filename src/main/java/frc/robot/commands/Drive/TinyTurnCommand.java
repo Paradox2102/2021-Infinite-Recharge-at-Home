@@ -9,18 +9,18 @@ package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.PiCamera.Logger;
-import frc.robot.subsystems.DriveSubsystemOriginal;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class TinyTurnCommand extends CommandBase {
   /**
    * Creates a new TinyTurnCommand.
    */
-  DriveSubsystemOriginal m_subsystem;
+  DriveSubsystem m_subsystem;
   long timer;
   double k_power = 0.4;
   int k_timeOut = 500;
 
-  public TinyTurnCommand(DriveSubsystemOriginal subsystem) {
+  public TinyTurnCommand(DriveSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsystem;
     Logger.Log("TinyTurnCommand", 2, "Constructed");

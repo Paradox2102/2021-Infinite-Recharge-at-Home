@@ -11,20 +11,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.PiCamera.Logger;
 import frc.lib.Camera;
 import frc.lib.Camera.CameraData;
-import frc.robot.subsystems.DriveSubsystemOriginal;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class TurnToCenterBallsCommand extends CommandBase {
   /**
    * Creates a new AlignWithVisionCommand.
    */
-  DriveSubsystemOriginal m_subsystem;
+  DriveSubsystem m_subsystem;
   Camera m_camera;
   double m_power;
   int k_deadZone = 200;
   long m_timer;
   int k_timeOut = 500;
 
-  public TurnToCenterBallsCommand(DriveSubsystemOriginal subsystem, Camera camera, double power) {
+  public TurnToCenterBallsCommand(DriveSubsystem subsystem, Camera camera, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsystem;
     m_camera = camera;

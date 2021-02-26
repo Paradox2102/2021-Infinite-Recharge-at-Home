@@ -14,11 +14,11 @@ import frc.PiCamera.PiCamera.PiCameraRegion;
 import frc.lib.Camera;
 import frc.lib.Logger;
 import frc.lib.Camera.CameraData;
-import frc.robot.subsystems.DriveSubsystemOriginal;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class TurnUntilSeeCommand extends CommandBase {
   Camera m_camera;
-  DriveSubsystemOriginal m_subsystem;
+  DriveSubsystem m_subsystem;
   double m_power;
   Direction k_dir;
 
@@ -31,7 +31,7 @@ public class TurnUntilSeeCommand extends CommandBase {
     LEFT, RIGHT
   }
 
-  public TurnUntilSeeCommand(Camera camera, DriveSubsystemOriginal subsystem, Direction direction, double power) {
+  public TurnUntilSeeCommand(Camera camera, DriveSubsystem subsystem, Direction direction, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_camera = camera;
     m_subsystem = subsystem;
