@@ -54,11 +54,12 @@ public class TurretSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Turret Vel", getVel());
-    SmartDashboard.putBoolean("Turret Limit", m_softStopFwd.get());
+    SmartDashboard.putBoolean("TurretReverseLimit", isReverseLimitEnabled());
+    SmartDashboard.putBoolean("TurretForwardLimit", isForwardLimitEnabled());
     SmartDashboard.putNumber("Turret Last Power", m_lastPower);
     SmartDashboard.putNumber("Turret Current", m_turret.getOutputCurrent());
 
-    checkStops();
+    // checkStops();
 
     if (m_rightStopped && m_lastPower > 0) {
       stop();
@@ -76,18 +77,18 @@ public class TurretSubsystem extends SubsystemBase {
     }
   }
 
-  public void checkStops() {
-    if (m_softStopFwd.get()) {
-      if (m_lastPower > 0 && !m_leftStopped) {
-        m_rightStopped = false;
-      } else if (m_lastPower < 0 && !m_rightStopped) {
-        m_leftStopped = false;
-      }
-    }
-  }
+  // public void checkStops() {
+  //   if (m_softStopFwd.get()) {
+  //     if (m_lastPower > 0 && !m_leftStopped) {
+  //       m_rightStopped = false;
+  //     } else if (m_lastPower < 0 && !m_rightStopped) {
+  //       m_leftStopped = false;
+  //     }
+  //   }
+  // }
 
   public void setPower(double power) {
-    checkStops();
+    // checkStops();
 
     if (m_rightStopped && power > 0) {
       stop();
@@ -97,6 +98,13 @@ public class TurretSubsystem extends SubsystemBase {
       m_lastPower = power;
       m_turret.set(power);
     }
+  }
+
+  public boolean isForwardLimitEnabled() {
+    return m_turret.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get();
+  }
+  public boolean isReverseLimitEnabled() {
+    return m_turret.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get();
   }
 
   public void stop() {

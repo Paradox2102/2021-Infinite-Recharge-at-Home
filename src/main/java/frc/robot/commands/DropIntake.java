@@ -12,10 +12,12 @@ public class DropIntake extends CommandBase {
 
   IntakeSubsystem m_subsystem;
   boolean finished = false;
+  double m_power;
 
-  public DropIntake(IntakeSubsystem subsystem) {
+  public DropIntake(IntakeSubsystem subsystem, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsystem;
+    m_power = power;
 
     addRequirements(m_subsystem);
   }
@@ -23,7 +25,7 @@ public class DropIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.deploy();
+    m_subsystem.deploy(m_power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,10 +42,10 @@ public class DropIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_subsystem.getEncoder() >= 1055) {
-      return true;
+    if(m_power > 0) {
+      return m_subsystem.isForwardLimitEnabled();
     } else {
-      return false;
+      return m_subsystem.isReverseLimitEnabled();
     }
   }
 }

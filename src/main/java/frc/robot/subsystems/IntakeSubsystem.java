@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,11 +37,21 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("ForwardLimitIntake", isForwardLimitEnabled());
+    SmartDashboard.putBoolean("ReverseLimitIntake", isReverseLimitEnabled());
 
   }
 
   public double getEncoder() {
     return m_intakeDeployEncoder.getPosition();
+  }
+
+  public boolean isForwardLimitEnabled() {
+    return m_intakeDeploy.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get();
+  }
+
+  public boolean isReverseLimitEnabled() {
+    return m_intakeDeploy.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get();
   }
 
   public void setPower(double power){
@@ -54,8 +66,16 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intake.set(ControlMode.PercentOutput, 0);
   }
 
-  public void deploy(){
-    m_intakeDeploy.set(0.2);
+  public void setBrakeMode() {
+    m_intakeDeploy.setIdleMode(IdleMode.kBrake);
+  }
+
+  public void setCoastMode() {
+    m_intakeDeploy.setIdleMode(IdleMode.kCoast);
+  }
+
+  public void deploy(double power){
+    m_intakeDeploy.set(power);
   }
   public void stopDeploy() {
     m_intakeDeploy.set(0);

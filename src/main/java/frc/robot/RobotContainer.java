@@ -20,6 +20,7 @@ import frc.lib.Camera.BallSide;
 import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
+import frc.robot.commands.DropIntake;
 import frc.robot.commands.Auto.DoNothingCommand;
 import frc.robot.commands.GalacticSearch.PathChooserCommandGroupA;
 import frc.robot.commands.GalacticSearch.SlalomPath;
@@ -91,6 +92,7 @@ public class RobotContainer {
   JoystickButton m_fire = new JoystickButton(m_stick, 1);
 
   JoystickButton m_intake = new JoystickButton(m_stick, 3);
+  // JoystickButton m_raiseIntake = new JoystickButton(m_stick, 4);
   JoystickButton m_feederIntake = new JoystickButton(m_stick, 6);
 
   JoystickButton m_moveTurrentL = new JoystickButton(m_stick, 7);
@@ -101,15 +103,15 @@ public class RobotContainer {
   JoystickButton m_spinUpClimb = new JoystickButton(m_climbStick, 2);
   JoystickButton m_spinUpTrackClimb = new JoystickButton(m_climbStick, 2);
 
-  JoystickButton m_manualControlPanel = new JoystickButton(m_climbStick, 5);
+  // JoystickButton m_manualControlPanel = new JoystickButton(m_climbStick, 5);
 
   JoystickButton m_outtake = new JoystickButton(m_stick, 5);
-  JoystickButton m_controlPanel = new JoystickButton(m_climbStick, 6);
+  // JoystickButton m_controlPanel = new JoystickButton(m_climbStick, 6);
 
   JoystickButton m_outtakeClimb = new JoystickButton(m_climbStick, 3);
   JoystickButton m_intakeClimb = new JoystickButton(m_climbStick, 4);
 
-  JoystickButton m_climb = new JoystickButton(m_climbStick, 7);
+  // JoystickButton m_climb = new JoystickButton(m_climbStick, 7);
 
   JoystickButton m_unJumble = new JoystickButton(m_climbStick, 6);
   JoystickButton m_feederIntakeClimb = new JoystickButton(m_climbStick, 8);
@@ -218,7 +220,9 @@ public class RobotContainer {
     // m_shoot.toggleWhenPressed(new ShootAllCommand(m_throatSubsystem,
     // m_shooterSubsystem, m_serializerSubsystem, m_indexerSubsystem,
     // m_intakeSubsystem, () -> getThrottle()));
-    m_intake.toggleWhenPressed(new IntakeCommand(m_intakeSubsystem, 0.6));
+    // m_intake.toggleWhenPressed(new IntakeCommand(m_intakeSubsystem, 0.6));
+    m_intake.toggleWhenPressed(new DropIntake(m_intakeSubsystem, 0.5));
+    // m_raiseIntake.toggleWhenPressed(new DropIntake(m_intakeSubsystem, -0.5));
     //m_intakeClimb.whileHeld(new IntakeCommand(m_intakeSubsystem, 0.9));
     m_outtake.toggleWhenPressed(new IntakeCommand(m_intakeSubsystem, -0.75));
     m_outtakeClimb.whileHeld(new IntakeCommand(m_intakeSubsystem, -0.75));

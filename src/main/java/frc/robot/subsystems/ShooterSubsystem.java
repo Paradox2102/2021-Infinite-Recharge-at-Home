@@ -96,6 +96,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Shooter Speed", m_shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Backwheel Speed", m_backWheelEncoder.getVelocity());
+
+
   }
 
   public void configPID(){
@@ -118,6 +120,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setBackWheelPower(double power) {
     m_backWheels.set(power);
   }
+  
 
   public double getSetpoint() {
     return 0;

@@ -26,7 +26,7 @@ public class ActuateIntakeCommand extends CommandBase {
   @Override
   public void initialize() {
     Logger.Log("AcutauteIntakeCommand", 1 , "initialize");
-    m_subsystem.deploy();
+    m_subsystem.deploy(0.2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
