@@ -4,6 +4,8 @@
 
 package frc.robot.commands.Shooter;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterAngleSubsystem;
@@ -13,14 +15,14 @@ public class SetAngleCommand extends CommandBase {
   /** Creates a new SetAngleCommand. */
 
   double m_angle;
-  Joystick m_stick2;
+  DoubleSupplier m_throttle;
   ShooterAngleSubsystem m_subsytem;
 
 
-  public SetAngleCommand(ShooterAngleSubsystem subsystem, Joystick stick2) {
+  public SetAngleCommand(ShooterAngleSubsystem subsystem, DoubleSupplier throttle) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsytem = subsystem;
-    m_stick2 = stick2;
+    m_throttle = throttle;
     m_angle = 0;
 
     addRequirements(m_subsytem);
@@ -33,7 +35,7 @@ public class SetAngleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsytem.setAngle((m_stick2.getThrottle() + 1)/2);
+    m_subsytem.setAngle((m_throttle.getAsDouble() + 1)/2);
   }
 
   // Called once the command ends or is interrupted.
