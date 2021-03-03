@@ -41,6 +41,7 @@ public class farPathAutoGroupA extends ParallelCommandGroup {
         new SmoothTurnCommand(driveSubsystem, 75, -turnPower, 0.28),
         new driveToBallCommand(camera, driveSubsystem, searchPower),
         new WaitCommand(0.5),
+        new SmoothTurnCommand(driveSubsystem, -45, -turnPower, 0.28),
         new driveToBallCommand(camera, driveSubsystem, searchPower)));
   }
 }

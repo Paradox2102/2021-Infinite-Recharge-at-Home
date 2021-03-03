@@ -147,6 +147,36 @@ public class Camera {
             return lowestRegion;
         }
 
+        public double regionLineLength (PiCameraRegion region){
+            double centerX = (region.m_bounds.m_left + region.m_bounds.m_right) / 2.0;
+            double centerY = (region.m_bounds.m_top + region.m_bounds.m_bottom) / 2.0;
+
+            double originX = m_regions.m_width/2.0;
+            double originY = m_regions.m_height;
+
+            double lineLength = Math.sqrt(((centerX-originX) *(centerX-originX))+((centerY-originY)*(centerY-originY)));
+
+            return lineLength;
+
+        }
+
+        public PiCameraRegion findShortestLine() { 
+            List<PiCameraRegion> regions = m_regions.m_regions; 
+            PiCameraRegion shortestLine = regions.get(0);
+            double shortestLineLength = regionLineLength(shortestLine);
+            
+            for (int i = 1; i < regions.size(); i++) {
+                PiCameraRegion currentRegion = regions.get(i);
+                double currentLength = regionLineLength(currentRegion);
+                if (currentLength < shortestLineLength) {
+                    shortestLine = currentRegion;
+                    shortestLineLength = currentLength;
+                }
+
+            }
+            return shortestLine;
+        }
+
         public List<PiCameraRegion> sortRegions() {
             List<PiCameraRegion> regions = m_regions.m_regions;
             regions = ballFilter();

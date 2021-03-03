@@ -54,7 +54,7 @@ public class driveToBallCommand extends CommandBase {
       ArrayList<PiCameraRegion> regions = cameraData.ballFilter();
       if (!regions.isEmpty()) {
         // PiCameraRegion region = regions.get(0);
-        PiCameraRegion region = cameraData.findClosestRegion();
+        PiCameraRegion region = cameraData.findShortestLine();
         double centerDiff = cameraData.centerDiff(cameraData.centerLine(), 0.0, region);
 
         m_subsystem.setPower(m_power - (k_turningFactor * centerDiff), m_power + (k_turningFactor * centerDiff));
