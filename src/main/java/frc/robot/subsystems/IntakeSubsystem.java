@@ -31,6 +31,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     m_intake.setInverted(false);
 
+    m_intakeDeploy.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen).enableLimitSwitch(true);
+    m_intakeDeploy.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen).enableLimitSwitch(true);
+
     systime = 0;
   }
 

@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -19,23 +20,27 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.PiCamera.Logger;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
   /**
    * Creates a new ShooterSubsystem.
    */
-  // ID 2 and 14 run the shooter
-  // ID 12 runs the backwheels
 
   CANSparkMax m_shooter = new CANSparkMax(Constants.k_shooter, MotorType.kBrushless);
   CANPIDController m_shooterController;
+  CANPIDController m_backWheelController;
   CANSparkMax m_shooterFollower = new CANSparkMax(Constants.k_shooterFollower, MotorType.kBrushless);
   CANSparkMax m_backWheels = new CANSparkMax(Constants.k_backWheels, MotorType.kBrushless);
 
   double k_f = Constants.m_robotConstants.k_shooterF;
   double k_p = Constants.m_robotConstants.k_shooterP;
   double k_i = Constants.m_robotConstants.k_shooterI;
+
+  double k_bf = Constants.m_robotConstants.k_backWheelF;
+  double k_bp = Constants.m_robotConstants.k_backWheelP;
+  double k_bi = Constants.m_robotConstants.k_backWheelI;
 
   int k_iRange = Constants.m_robotConstants.k_shooterIRange;
   int k_slot = 0;
@@ -53,13 +58,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
   public ShooterSubsystem() {
-    m_shooter.restoreFactoryDefaults();
-
     m_shooterEncoder = m_shooter.getEncoder();
     m_backWheelEncoder = m_backWheels.getEncoder();
 
     m_shooterFollower.follow(m_shooter, true);
-    m_shooter.setInverted(true);
+    m_shooter.setInverted(false);
     
     m_shooter.setIdleMode(IdleMode.kCoast);
     m_shooterFollower.setIdleMode(IdleMode.kCoast);
@@ -68,6 +71,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_backWheels.setIdleMode(IdleMode.kCoast);
 
     m_shooterController = m_shooter.getPIDController();
+    m_backWheelController = m_backWheels.getPIDController();
 
     m_shooterController.setFF(k_f);
     m_shooterController.setP(k_p);
@@ -86,6 +90,10 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.setDefaultNumber("shooter I", k_i);
     SmartDashboard.setDefaultNumber("Shooter F", k_f);
     SmartDashboard.setDefaultNumber("Shooter Izone", k_iRange);
+
+    SmartDashboard.setDefaultNumber("back P", k_bp);
+    SmartDashboard.setDefaultNumber("back I", k_bi);
+    SmartDashboard.setDefaultNumber("back F", k_bf);
   }
 
   @Override
@@ -106,6 +114,17 @@ public class ShooterSubsystem extends SubsystemBase {
     k_f = SmartDashboard.getNumber("Shooter F", k_f);
     k_iRange = (int)(SmartDashboard.getNumber("Shooter Izone", k_iRange));
 
+    // k_bp = SmartDashboard.getNumber("back P", k_bp);
+    // k_bi = SmartDashboard.getNumber("back I", k_bi);
+    // k_bf = SmartDashboard.getNumber("back F", k_bf);
+
+    Logger.Log("back wheel i term", 1, String.format("%.8f", k_bi));
+    m_backWheelController.setFF(k_bf);
+    m_backWheelController.setP(k_bp);
+    m_backWheelController.setI(k_bi);
+    m_backWheelController.setD(0);
+    m_backWheelController.setIZone(k_iRange);
+
     m_shooterController.setFF(k_f);
     m_shooterController.setP(k_p);
     m_shooterController.setI(k_i);
@@ -114,11 +133,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterPower(double power) {
-    m_shooter.set(power);
+    m_shooterController.setReference(power, ControlType.kDutyCycle);
   }
 
   public void setBackWheelPower(double power) {
-    m_backWheels.set(power);
+    m_backWheelController.setReference(power, ControlType.kDutyCycle);
   }
   
 
@@ -126,7 +145,9 @@ public class ShooterSubsystem extends SubsystemBase {
     return 0;
   }
 
-  public void setSpeed(double speed) {
+  public void setSpeed(double frontSpeed, double backSpeed) {
+    m_shooterController.setReference(frontSpeed, ControlType.kVelocity);
+    m_backWheelController.setReference(backSpeed, ControlType.kVelocity);
     
   }
 

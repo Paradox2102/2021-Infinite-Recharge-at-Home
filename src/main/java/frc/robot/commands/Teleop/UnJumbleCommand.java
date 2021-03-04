@@ -24,9 +24,9 @@ public class UnJumbleCommand extends ParallelCommandGroup {
    */
   public UnJumbleCommand(IntakeSubsystem intakeSubsystem, ThroatSubsystem throatSubsystem, SerializerSubsystem serializerSubsystem) {
     addCommands(
-      new IntakeCommand(intakeSubsystem, -0.5), 
-      new ThroatMoveCommand(throatSubsystem, -0.8), 
-      new PowerSerializeCommand(serializerSubsystem, -0.5)
+      new IntakeCommand(intakeSubsystem, -0.25), 
+      new ThroatMoveCommand(throatSubsystem, -0.5), 
+      new PowerSerializeCommand(serializerSubsystem, -0.25)
     );
   }
 }

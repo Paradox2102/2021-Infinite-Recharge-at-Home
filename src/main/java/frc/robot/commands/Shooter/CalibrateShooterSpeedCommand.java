@@ -8,19 +8,19 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.PiCamera.Logger;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class CalibrateSpeedCommand extends CommandBase {
+public class CalibrateShooterSpeedCommand extends CommandBase {
   /** Creates a new CalibrateSpeedCommand. */
 
   ShooterSubsystem m_subsystem;
-  DoubleSupplier m_speed;
-  Joystick m_stick;
+  double m_speed;
 
-  public CalibrateSpeedCommand(ShooterSubsystem subsytem, Joystick stick) {
+  public CalibrateShooterSpeedCommand(ShooterSubsystem subsytem, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsytem;
-    m_stick = stick;
+    m_speed = speed;
 
     addRequirements(m_subsystem);
   }
@@ -28,18 +28,22 @@ public class CalibrateSpeedCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.Log("CalibrateShooterCommand", 1, "Initialized");
     m_subsystem.configPID();
+    m_subsystem.setSpeed(0, m_speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setSpeed(500*(m_stick.getThrottle()) + 2600);
+    // m_subsystem.setSpeed(500*(m_stick.getThrottle()) + 2600);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Logger.Log("CalibrateShooterCommand", 1, "Finished");
     m_subsystem.stop();
   }
 

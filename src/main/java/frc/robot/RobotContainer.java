@@ -29,7 +29,9 @@ import frc.robot.commands.Intake.ActuateIntakeCommand;
 import frc.robot.commands.Intake.AmbientIntakePowerCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Serializer.PowerSerializeCommand;
+import frc.robot.commands.Shooter.CalibrateShooterSpeedCommand;
 import frc.robot.commands.Shooter.SetAngleCommand;
+import frc.robot.commands.Shooter.SpeedByThrottleCommand;
 import frc.robot.commands.Shooter.SpinUpShooterCommand;
 import frc.robot.commands.Teleop.FireCommand;
 import frc.robot.commands.Teleop.UnJumbleCommand;
@@ -86,11 +88,12 @@ public class RobotContainer {
   JoystickButton m_unJumble = new JoystickButton(m_climbStick, 8); // Toggle command to run intake, vbelt, and throat in reverse
   JoystickButton m_serialize = new JoystickButton(m_climbStick, 7); // Toggle command to run serializer (V-Belt)
   //Controls shooter hood with throttle
+
+  // Calibration buttons
+  JoystickButton m_calibrateShooter = new JoystickButton(m_calibStick, 2);
   
   // JoystickButton m_raiseIntake = new JoystickButton(m_stick, 4);
   // JoystickButton m_feederIntake = new JoystickButton(m_stick, 6);
-
-  
 
   
 
@@ -172,7 +175,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Driver 1 bindings
-    m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.5, 0.4));
+    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.5, 0.4)); //currently not working (gearbox issue)
 
     // Driver 2 bindings
     m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterPower, m_backWheelPower, m_stick));
@@ -181,7 +184,11 @@ public class RobotContainer {
     m_moveTurrentL.toggleWhenPressed(new TurretMoveCommand(m_turretSubsystem, -0.6));
     m_moveTurrentR.toggleWhenPressed(new TurretMoveCommand(m_turretSubsystem, 0.6));
     m_unJumble.toggleWhenPressed(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
-    m_serialize.toggleWhenPressed(new PowerSerializeCommand(m_serializerSubsystem, 0.3));
+    m_serialize.toggleWhenPressed(new PowerSerializeCommand(m_serializerSubsystem, -0.3));
+
+    // Calibration bindings
+    // m_calibrateShooter.toggleWhenPressed(new CalibrateShooterSpeedCommand(m_shooterSubsystem, 1500.0));
+    m_calibrateShooter.toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
 
     // m_calibrateBtn.whileHeld(new SpeedCommand(m_driveSubsystem, 11.94));
     // m_trackBalls.toggleWhenPressed(new BallDriveCommand(m_driveSubsystem,

@@ -29,8 +29,8 @@ public final class Constants {
     public static int k_throat = 7;
     public static int k_turret = 8;
     public static int k_intake = 9;
-    public static int k_shooter = 10;
-    public static int k_shooterFollower = 11;
+    public static int k_shooter = 11;
+    public static int k_shooterFollower = 10;
     public static int k_backWheels = 12;
     public static int k_serializerFollower = 13;
 
