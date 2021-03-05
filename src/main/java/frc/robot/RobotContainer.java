@@ -72,22 +72,33 @@ public class RobotContainer {
   Camera m_turretCamera = new Camera();
   Camera m_backCamera = new Camera();
 
+  Joystick m_showStick = new Joystick(0);
   Joystick m_stick = new Joystick(1);
   Joystick m_climbStick = new Joystick(2);
   Joystick m_calibStick = new Joystick(3);
 
+  //show stick
+  JoystickButton m_intake = new JoystickButton(m_showStick, 3); //While hold move down and spin. move up on release
+  JoystickButton m_spinUp = new JoystickButton(m_showStick, 2); // Toggle command to rev up the shooter to specified speed.
+  JoystickButton m_turretTrack = new JoystickButton(m_showStick, 2); // Toggle command to start turret tracking with front camera.
+  JoystickButton m_fire = new JoystickButton(m_showStick, 1); // Hold command to run the throat only when shooter is revved
+  JoystickButton m_moveTurrentL = new JoystickButton(m_showStick, 7); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
+  JoystickButton m_moveTurrentR = new JoystickButton(m_showStick, 8); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
+  // JoystickButton m_unJumble = new JoystickButton(m_showStick, 8); // Toggle command to run intake, vbelt, and throat in reverse
+  JoystickButton m_serialize = new JoystickButton(m_showStick, 5); // Toggle command to run serializer (V-Belt)
+
 
   // Driver 1 Buttons
-  JoystickButton m_intake = new JoystickButton(m_stick, 3); //While hold move down and spin. move up on release
+  // JoystickButton m_intake = new JoystickButton(m_stick, 3); //While hold move down and spin. move up on release
 
-  // Driver 2 Buttons
-  JoystickButton m_spinUp = new JoystickButton(m_climbStick, 2); // Toggle command to rev up the shooter to specified speed.
-  JoystickButton m_turretTrack = new JoystickButton(m_climbStick, 2); // Toggle command to start turret tracking with front camera.
-  JoystickButton m_fire = new JoystickButton(m_climbStick, 1); // Hold command to run the throat only when shooter is revved
-  JoystickButton m_moveTurrentL = new JoystickButton(m_climbStick, 3); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
-  JoystickButton m_moveTurrentR = new JoystickButton(m_climbStick, 4); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
-  JoystickButton m_unJumble = new JoystickButton(m_climbStick, 8); // Toggle command to run intake, vbelt, and throat in reverse
-  JoystickButton m_serialize = new JoystickButton(m_climbStick, 7); // Toggle command to run serializer (V-Belt)
+  // // Driver 2 Buttons
+  // JoystickButton m_spinUp = new JoystickButton(m_climbStick, 2); // Toggle command to rev up the shooter to specified speed.
+  // JoystickButton m_turretTrack = new JoystickButton(m_climbStick, 2); // Toggle command to start turret tracking with front camera.
+  // JoystickButton m_fire = new JoystickButton(m_climbStick, 1); // Hold command to run the throat only when shooter is revved
+  // JoystickButton m_moveTurrentL = new JoystickButton(m_climbStick, 3); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
+  // JoystickButton m_moveTurrentR = new JoystickButton(m_climbStick, 4); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
+  // JoystickButton m_unJumble = new JoystickButton(m_climbStick, 8); // Toggle command to run intake, vbelt, and throat in reverse
+  // JoystickButton m_serialize = new JoystickButton(m_climbStick, 7); // Toggle command to run serializer (V-Belt)
   //Controls shooter hood with throttle
 
   // Calibration buttons
@@ -155,7 +166,7 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    m_shooterAngleSubsystem.setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
+    m_shooterAngleSubsystem.setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_showStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
         () -> -m_stick.getY(), () -> m_stick.getThrottle()));
     // m_serializerSubsystem.setDefaultCommand(new SerializeCommand(m_serializerSubsystem, 0.3,
@@ -185,7 +196,7 @@ public class RobotContainer {
     m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.6));
     m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.6));
-    m_unJumble.toggleWhenPressed(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
+    // m_unJumble.toggleWhenPressed(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
     m_serialize.toggleWhenPressed(new PowerSerializeCommand(m_serializerSubsystem, -0.3));
 
     // Calibration bindings
