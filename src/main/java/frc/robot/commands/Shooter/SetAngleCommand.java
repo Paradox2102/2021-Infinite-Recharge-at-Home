@@ -35,7 +35,7 @@ public class SetAngleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsytem.setAngle((m_throttle.getAsDouble() + 1)/2);
+    m_subsytem.setAngle(0.385*m_throttle.getAsDouble() + 0.615);
   }
 
   // Called once the command ends or is interrupted.

@@ -28,7 +28,6 @@ public class DropIntake extends CommandBase {
   public void initialize() {
     m_subsystem.deploy(m_deployPower);
     m_subsystem.setPower(m_spinPower);
-    m_subsystem.setCoastMode();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,7 +40,6 @@ public class DropIntake extends CommandBase {
   public void end(boolean interrupted) {
     m_subsystem.stopDeploy();
     m_subsystem.stop();
-    new RaiseIntake(m_subsystem, m_deployPower).schedule();
   }
 
   // Returns true when the command should end.

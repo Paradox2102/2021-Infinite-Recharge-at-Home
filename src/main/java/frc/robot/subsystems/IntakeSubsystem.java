@@ -28,6 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
   
   public IntakeSubsystem() {
     m_intakeDeployEncoder = m_intakeDeploy.getEncoder();
+    m_intakeDeploy.setIdleMode(IdleMode.kBrake);
 
     m_intake.setInverted(false);
 
@@ -42,6 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("ForwardLimitIntake", isForwardLimitEnabled());
     SmartDashboard.putBoolean("ReverseLimitIntake", isReverseLimitEnabled());
+    
 
   }
 

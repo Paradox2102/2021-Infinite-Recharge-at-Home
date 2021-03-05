@@ -14,6 +14,8 @@ import frc.robot.commands.Shooter.SetAngleCommand;
 public class ShooterAngleSubsystem extends SubsystemBase {
   /** Creates a new ShooterAngleSubsystem. */
 
+  //maximum is 0.230469
+
   Servo m_angleServo = new Servo(Constants.k_shooterAngle);
 
   public ShooterAngleSubsystem() {

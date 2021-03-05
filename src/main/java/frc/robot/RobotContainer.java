@@ -28,6 +28,7 @@ import frc.robot.commands.Drive.CalibrateSpeedCommand;
 import frc.robot.commands.Intake.ActuateIntakeCommand;
 import frc.robot.commands.Intake.AmbientIntakePowerCommand;
 import frc.robot.commands.Intake.IntakeCommand;
+import frc.robot.commands.Intake.RaiseIntake;
 import frc.robot.commands.Serializer.PowerSerializeCommand;
 import frc.robot.commands.Shooter.CalibrateShooterSpeedCommand;
 import frc.robot.commands.Shooter.SetAngleCommand;
@@ -175,14 +176,15 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Driver 1 bindings
-    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.5, 0.4)); //currently not working (gearbox issue)
+    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.4)); //currently not working (gearbox issue)
+    // m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.5));
 
     // Driver 2 bindings
     m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterPower, m_backWheelPower, m_stick));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
     m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
-    m_moveTurrentL.toggleWhenPressed(new TurretMoveCommand(m_turretSubsystem, -0.6));
-    m_moveTurrentR.toggleWhenPressed(new TurretMoveCommand(m_turretSubsystem, 0.6));
+    m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.6));
+    m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.6));
     m_unJumble.toggleWhenPressed(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
     m_serialize.toggleWhenPressed(new PowerSerializeCommand(m_serializerSubsystem, -0.3));
 
