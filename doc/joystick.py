@@ -97,7 +97,7 @@ def md_joysticks(data):
                     a = b['actions'][0]
                     print("\n* __Button %s__: %s: _%s_: %s" % (num, clean_name(b['name']), a['method'], wrap_code(a['command'])), file=output)
                 else:     
-                    print("\n* __Button %s__: %s:" % (num, clean_name(b['name'])), file=output)
+                    print("\n* __Button %s__: %s: No actions configured" % (num, clean_name(b['name'])), file=output)
     last_commit = get_file_last_commit(FILE)
     print("\n```" + last_commit + "```", file=output)
                     

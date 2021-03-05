@@ -4,7 +4,7 @@
 
 ## Joystick 1: stick
 
-* __Button 3__: intake:
+* __Button 3__: intake: No actions configured
 
 ## Joystick 2: climbStick
 
@@ -24,9 +24,9 @@
 
 * __Button 8__: unJumble: _toggleWhenPressed_: ```new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem)```
 
-* __Button POV DOWN__: decreaseTrim:
+* __Button POV DOWN__: decreaseTrim: No actions configured
 
-* __Button POV UP__: increaseTrim:
+* __Button POV UP__: increaseTrim: No actions configured
 
 ## Joystick 3: calibStick
 
