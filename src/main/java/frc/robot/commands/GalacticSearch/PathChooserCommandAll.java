@@ -15,7 +15,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class PathChooserCommandGroupA extends InstantCommand {
+public class PathChooserCommandAll extends InstantCommand {
   /**
    * Creates a new PathChooserCommand.
    */
@@ -25,7 +25,7 @@ public class PathChooserCommandGroupA extends InstantCommand {
   double m_searchPower;
   double m_turnPower;
 
-  public PathChooserCommandGroupA(Camera camera, DriveSubsystem subsystem, IntakeSubsystem intakeSubsystem,
+  public PathChooserCommandAll(Camera camera, DriveSubsystem subsystem, IntakeSubsystem intakeSubsystem,
       double searchPower, double turnPower) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_camera = camera;
@@ -45,11 +45,11 @@ public class PathChooserCommandGroupA extends InstantCommand {
       int positionY = cameraData.m_regions.GetRegion(0).m_bounds.m_top;
       Logger.Log("PositionY:", 1, "" + positionY);
       if (positionY > 120) {
-        Logger.Log("Path Chooser A", 1, "Choosing close path");
-        new closePathAutoGroupA(m_camera, m_subsystem, m_intakeSubsystem, m_searchPower, m_turnPower).schedule();
+        Logger.Log("Path Chooser", 1, "Choosing close path");
+        new ClosePathAuto(m_camera, m_subsystem, m_intakeSubsystem, m_searchPower, m_turnPower).schedule();
       } else {
-        Logger.Log("Path Chooser A", 1, "Choosing far path");
-        new farPathAutoGroupA(m_camera, m_subsystem, m_intakeSubsystem, m_searchPower, m_turnPower).schedule();
+        Logger.Log("Path Chooser", 1, "Choosing far path");
+        new FarPathAuto(m_camera, m_subsystem, m_intakeSubsystem, m_searchPower, m_turnPower).schedule();
       }
     } else {
       Logger.Log("Can see:", 1, "CANT SEE");

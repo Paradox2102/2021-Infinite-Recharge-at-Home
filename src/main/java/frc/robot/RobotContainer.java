@@ -21,6 +21,8 @@ import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
 import frc.robot.commands.Intake.DropIntake;
+import frc.robot.commands.GalacticSearch.BarrelPath;
+import frc.robot.commands.GalacticSearch.BouncePath;
 import frc.robot.commands.GalacticSearch.PathChooserCommandGroupA;
 import frc.robot.commands.Camera.BallDriveCommand;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
@@ -141,7 +143,7 @@ public class RobotContainer {
   // JoystickButton m_galacticSearchA = new JoystickButton(m_stick, 12);
   // JoystickButton m_galacticSearchB = new JoystickButton(m_stick, 12);
   //JoystickButton m_bouncePath = new JoystickButton(m_stick, 12);
-  // JoystickButton m_barrelPath = new JoystickButton(m_stick, 12);
+   JoystickButton m_barrelPath = new JoystickButton(m_stick, 12);
   // JoystickButton m_slalomPath = new JoystickButton(m_stick, 12);
   // JoystickButton m_calibratePowerCommand = new JoystickButton(m_stick, 11);
 
@@ -259,7 +261,7 @@ public class RobotContainer {
     // PathChooserCommandGroupB(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
     // Constants.k_searchPower, Constants.k_turnPower));
     //m_bouncePath.toggleWhenPressed(new BouncePath(m_driveSubsystem));
-    // m_barrelPath.toggleWhenPressed(new BarrelPath(m_driveSubsystem));
+     m_barrelPath.toggleWhenPressed(new BarrelPath(m_driveSubsystem));
     //m_slalomPath.toggleWhenPressed(new SlalomPath(m_driveSubsystem));
     // m_calibratePowerCommand.toggleWhenPressed(new CalibrateSpeedCommand(m_driveSubsystem, 2200));
   }
