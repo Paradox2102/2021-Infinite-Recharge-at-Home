@@ -45,23 +45,30 @@ public class PositionTracker implements Tracker{
 	private void updatePos() {
 		double leftPos = getLeftEncoderPos();
 		double rightPos = getRightEncoderPos();
+		double curAngle = getAngle();
 		// System.out.println("Left Prev " + m_prevLeft + "\nRight Prev " + m_prevRight);
 		// System.out.println("Left Pos " + leftPos + "\nRight " + rightPos);
 		synchronized(lock) {
 
-			double dist = ((leftPos - m_prevLeft) + (rightPos - m_prevRight))/2.0;
+			double arcDist = ((leftPos - m_prevLeft) + (rightPos - m_prevRight))/2.0;
 			
-			double curAngle = (getAngle() + m_lastAngle)/2.0;
+			double meanAngle = (curAngle + m_lastAngle)/2.0;
+			double halfAngle =(curAngle - m_lastAngle)/2.0;
+
+			meanAngle = Math.toRadians(meanAngle);
+			halfAngle = Math.toRadians(halfAngle);
+
+			double dist = arcDist * (1.0- halfAngle * halfAngle/6.0);
 			
-			curAngle = Math.toRadians(curAngle);
+			
 
 			// if (Math.abs(dist) > 0.001)
 			// {
 			// 	System.out.println(String.format("distxxx=%f", dist));
 			// }
 		
-			m_x += (dist * Math.cos(curAngle));
-			m_y += (dist * Math.sin(curAngle));
+			m_x += (dist * Math.cos(meanAngle));
+			m_y += (dist * Math.sin(meanAngle));
 
 			// posWriter.write("Update", ticksToFeet(leftPos), ticksToFeet(m_prevLeft), ticksToFeet(rightPos), ticksToFeet(m_prevRight), ticksToFeet(m_x), ticksToFeet(m_y));
 			
@@ -69,7 +76,7 @@ public class PositionTracker implements Tracker{
 			
 			m_prevLeft = leftPos;
 			m_prevRight = rightPos;
-			m_lastAngle = getAngle();
+			m_lastAngle = curAngle;
 			
 	//		PositionWriter.write(ticksToFeet(leftPos), ticksToFeet(rightPos), ticksToFeet(dist), Math.toDegrees(curAngle), ticksToFeet(m_x), ticksToFeet(m_y));
 		}

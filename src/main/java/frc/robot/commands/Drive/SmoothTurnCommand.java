@@ -17,18 +17,18 @@ public class SmoothTurnCommand extends CommandBase {
   double m_power;
   double k_deadzone = 10;
 
+  double m_drivePower;
   double m_turnPower;
-  double m_turnFactor;
 
   /**
    * Creates a new SmoothTurnCommand.
    */
-  public SmoothTurnCommand(DriveSubsystem driveSubsystem, double angle, double turnPower, double turnFactor) {
+  public SmoothTurnCommand(DriveSubsystem driveSubsystem, double angle, double drivePower, double turnPower) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = driveSubsystem;
     m_angle = angle;
+    m_drivePower = drivePower;
     m_turnPower = turnPower;
-    m_turnFactor = turnFactor;
     addRequirements(m_subsystem);
   }
 
@@ -39,9 +39,9 @@ public class SmoothTurnCommand extends CommandBase {
     m_subsystem.resetAngle(m_angle);
 
     if (m_angle > 0) {
-      m_subsystem.setPower(m_turnPower + m_turnFactor, m_turnPower - m_turnFactor);
+      m_subsystem.setPower(m_drivePower + m_turnPower, m_drivePower - m_turnPower);
     } else if (m_angle < 0) {
-      m_subsystem.setPower(m_turnPower - m_turnFactor, m_turnPower + m_turnFactor);
+      m_subsystem.setPower(m_drivePower - m_turnPower, m_drivePower + m_turnPower);
     }
   }
 
