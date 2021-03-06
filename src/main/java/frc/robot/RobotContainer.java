@@ -16,18 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.Camera;
-import frc.lib.Camera.BallSide;
 import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
-import frc.robot.commands.Intake.DropIntake;
-import frc.robot.commands.GalacticSearch.PathChooserCommandGroupA;
-import frc.robot.commands.Camera.BallDriveCommand;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
-import frc.robot.commands.Drive.CalibrateSpeedCommand;
-import frc.robot.commands.Intake.ActuateIntakeCommand;
-import frc.robot.commands.Intake.AmbientIntakePowerCommand;
-import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.RaiseIntake;
 import frc.robot.commands.Serializer.PowerSerializeCommand;
 import frc.robot.commands.Shooter.CalibrateShooterSpeedCommand;
@@ -66,8 +58,6 @@ public class RobotContainer {
   ShooterAngleSubsystem m_shooterAngleSubsystem = new ShooterAngleSubsystem();
   SerializerSubsystem m_serializerSubsystem = new SerializerSubsystem();
   IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  // ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-  // SnootSubsystem m_snootSubsystem = new SnootSubsystem();
 
   Camera m_turretCamera = new Camera();
   Camera m_backCamera = new Camera();
@@ -78,14 +68,14 @@ public class RobotContainer {
   Joystick m_calibStick = new Joystick(3);
 
   //show stick
-  JoystickButton m_intake = new JoystickButton(m_showStick, 3); //While hold move down and spin. move up on release
-  JoystickButton m_spinUp = new JoystickButton(m_showStick, 2); // Toggle command to rev up the shooter to specified speed.
-  JoystickButton m_turretTrack = new JoystickButton(m_showStick, 2); // Toggle command to start turret tracking with front camera.
-  JoystickButton m_fire = new JoystickButton(m_showStick, 1); // Hold command to run the throat only when shooter is revved
-  JoystickButton m_moveTurrentL = new JoystickButton(m_showStick, 7); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
-  JoystickButton m_moveTurrentR = new JoystickButton(m_showStick, 8); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
-  // JoystickButton m_unJumble = new JoystickButton(m_showStick, 8); // Toggle command to run intake, vbelt, and throat in reverse
-  JoystickButton m_serialize = new JoystickButton(m_showStick, 5); // Toggle command to run serializer (V-Belt)
+  JoystickButton m_unJumble = new JoystickButton(m_showStick, 4);
+  JoystickButton m_intake = new JoystickButton(m_showStick, 3);
+  JoystickButton m_spinUp = new JoystickButton(m_showStick, 2);
+  JoystickButton m_turretTrack = new JoystickButton(m_showStick, 2);
+  JoystickButton m_fire = new JoystickButton(m_showStick, 1);
+  JoystickButton m_moveTurrentL = new JoystickButton(m_showStick, 7);
+  JoystickButton m_moveTurrentR = new JoystickButton(m_showStick, 8);
+  JoystickButton m_serialize = new JoystickButton(m_showStick, 5);
 
 
   // Driver 1 Buttons
@@ -167,8 +157,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_shooterAngleSubsystem.setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_showStick.getThrottle()));
-    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
-        () -> -m_stick.getY(), () -> m_stick.getThrottle()));
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_showStick.getX(),
+        () -> -m_showStick.getY(), () -> m_stick.getThrottle()));
     // m_serializerSubsystem.setDefaultCommand(new SerializeCommand(m_serializerSubsystem, 0.3,
     //     () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () -> !m_throatSubsystem.GetTopBreak()));
     m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.56));
@@ -188,12 +178,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Driver 1 bindings
     // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.4)); //currently not working (gearbox issue)
-    // m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.5));
+    m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.25));
+    // m_intake.whileHeld(new IntakeCommand(m_intakeSubsystem, 1.0));
+    m_unJumble.whileHeld(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
 
     // Driver 2 bindings
     m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterPower, m_backWheelPower, m_stick));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
-    m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
+    // m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.6));
     m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.6));
     // m_unJumble.toggleWhenPressed(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));

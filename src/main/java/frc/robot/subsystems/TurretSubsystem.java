@@ -49,7 +49,7 @@ public class TurretSubsystem extends SubsystemBase {
     m_turret.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen).enableLimitSwitch(true);
     // m_softStopFwd.enableLimitSwitch(false);
     // m_softStopBack.enableLimitSwitch(false);
-    // m_turret.setSmartCurrentLimit(10);
+    // m_turret.setSmartCurrentLimit(20);
   }
 
   @Override

@@ -9,6 +9,7 @@ package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.PiCamera.Logger;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class SpinUpShooterCommand extends CommandBase {
@@ -35,16 +36,18 @@ public class SpinUpShooterCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    Logger.Log("SpinUPCommand", 1, "Initialized");
+    m_subsystem.setShooterPower(0.5);
+    m_subsystem.setBackWheelPower(0.5);
+    
+    // m_subsystem.setSpeed(2200, 2200);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterPower = (m_stick.getThrottle() + 1)/2;
-    m_backWheelPower = (m_stick.getThrottle() + 1)/2;
-    m_subsystem.setShooterPower(m_shooterPower);
-    m_subsystem.setBackWheelPower(m_backWheelPower);
+    // m_shooterPower = (m_stick.getThrottle() + 1)/2;
+    // m_backWheelPower = (m_stick.getThrottle() + 1)/
   }
 
   // Called once the command ends or is interrupted.

@@ -62,12 +62,12 @@ public class ShooterSubsystem extends SubsystemBase {
     m_backWheelEncoder = m_backWheels.getEncoder();
 
     m_shooterFollower.follow(m_shooter, true);
+    // m_backWheels.follow(m_shooter, false);
     m_shooter.setInverted(false);
     
     m_shooter.setIdleMode(IdleMode.kCoast);
     m_shooterFollower.setIdleMode(IdleMode.kCoast);
 
-    m_backWheels.restoreFactoryDefaults();
     m_backWheels.setIdleMode(IdleMode.kCoast);
 
     m_shooterController = m_shooter.getPIDController();
@@ -77,6 +77,12 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterController.setP(k_p);
     m_shooterController.setI(k_i);
     m_shooterController.setD(0);
+    m_shooterController.setIZone(k_iRange);
+
+    m_backWheelController.setFF(k_bf);
+    m_backWheelController.setP(k_bp);
+    m_backWheelController.setI(k_bi);
+    m_backWheelController.setD(0);
     m_shooterController.setIZone(k_iRange);
 
     // m_f = shooterTab.add("shooter F", k_f).getEntry();
