@@ -21,7 +21,7 @@ def process(java):
 
     for m in re.finditer(r'\bJoystickButton\s+(\w+)\s*=\s*new\s+JoystickButton\((\w+),\s*(\d+)\);', java, re.DOTALL):
         (button, stick, num) = m.group(1,2,3)
-        #num = int(num)
+        num = int(num)
         d = dict(name=button, stick=stick, num=num, actions=[])
         joysticks[stick]['buttons'][num].append(d)
         buttons[button] = d
@@ -65,6 +65,10 @@ def get_file_last_commit(file):
     result = re.sub(r'\n\s*', " ", result)
     return result
 
+def sorted_buttons(buttons):
+    int_buttons = ((k,v) for (k,v) in buttons if type(k) == int)
+    str_buttons = ((k,v) for (k,v) in buttons if type(k) != int)
+    return [*sorted(int_buttons), *sorted(str_buttons)]
 
 def md_joysticks(data):
     output = io.StringIO()
@@ -73,7 +77,7 @@ def md_joysticks(data):
     print("\n<img align=\"right\" src=\"Joystick.png\">", file=output)
     for j in joysticks:
         print("\n## Joystick %d: %s" % (j['port'], clean_name(j['name'])), file=output)
-        buttonlists = sorted(j['buttons'].items())
+        buttonlists = sorted_buttons(j['buttons'].items())
         for num, buttons in buttonlists:
             if len(buttons) > 1:
                 print("\n* __Button %s__:" % (num), file=output)
