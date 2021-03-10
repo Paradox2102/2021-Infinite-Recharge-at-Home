@@ -45,6 +45,8 @@ public class ShooterSubsystem extends SubsystemBase {
   int k_iRange = Constants.m_robotConstants.k_shooterIRange;
   int k_slot = 0;
 
+  double m_setPoint = 0;
+
   ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter Tuning");
   NetworkTableEntry m_f;
   NetworkTableEntry m_p;
@@ -79,11 +81,12 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterController.setD(0);
     m_shooterController.setIZone(k_iRange);
 
+    Logger.Log("f set", 1, ""+k_bf);
     m_backWheelController.setFF(k_bf);
     m_backWheelController.setP(k_bp);
     m_backWheelController.setI(k_bi);
     m_backWheelController.setD(0);
-    m_shooterController.setIZone(k_iRange);
+    m_backWheelController.setIZone(k_iRange);
 
     // m_f = shooterTab.add("shooter F", k_f).getEntry();
     // m_p = shooterTab.add("shooter P", k_p).getEntry();
@@ -154,11 +157,12 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setSpeed(double frontSpeed, double backSpeed) {
     m_shooterController.setReference(frontSpeed, ControlType.kVelocity);
     m_backWheelController.setReference(backSpeed, ControlType.kVelocity);
+    m_setPoint = frontSpeed;
     
   }
 
   public double getSpeed() {
-    return 0;
+    return m_shooterEncoder.getVelocity();
   }
 
   public void stop() {

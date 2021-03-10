@@ -30,12 +30,5 @@ public class RaiseIntake extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_subsystem.stopDeploy();
-        m_subsystem.setBrakeMode();
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return m_subsystem.isReverseLimitEnabled();
     }
 }

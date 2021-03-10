@@ -22,7 +22,7 @@ public class TurretTrackingCommand extends CommandBase {
   boolean regionsSeen = false;
   double k_p = 0.0003;
   double k_x = 1.6;
-  double k_deadZone = 25;
+  double k_deadZone = 10;
 
   public TurretTrackingCommand(TurretSubsystem subsystem, Camera camera) {
     m_subsystem = subsystem;

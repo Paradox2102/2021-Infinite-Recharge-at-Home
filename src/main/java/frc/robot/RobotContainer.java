@@ -20,6 +20,8 @@ import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
+import frc.robot.commands.Intake.DropIntake;
+import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.RaiseIntake;
 import frc.robot.commands.Serializer.PowerSerializeCommand;
 import frc.robot.commands.Shooter.CalibrateShooterSpeedCommand;
@@ -156,9 +158,10 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    m_shooterAngleSubsystem.setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_showStick.getThrottle()));
-    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_showStick.getX(),
-        () -> -m_showStick.getY(), () -> m_stick.getThrottle()));
+    m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.25));
+    m_shooterAngleSubsystem.setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
+        () -> -m_stick.getY(), () -> m_stick.getThrottle()));
     // m_serializerSubsystem.setDefaultCommand(new SerializeCommand(m_serializerSubsystem, 0.3,
     //     () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () -> !m_throatSubsystem.GetTopBreak()));
     m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.56));
@@ -177,18 +180,19 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Driver 1 bindings
-    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.4)); //currently not working (gearbox issue)
-    m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.25));
+    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.7)); //currently not working (gearbox issue)
+    // m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.25));
+    m_intake.toggleWhenPressed(new DropIntake(m_serializerSubsystem, m_intakeSubsystem, 0.2, 0.7));
     // m_intake.whileHeld(new IntakeCommand(m_intakeSubsystem, 1.0));
     m_unJumble.whileHeld(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
 
     // Driver 2 bindings
     m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterPower, m_backWheelPower, m_stick));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
-    // m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
+    m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.6));
     m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.6));
-    m_unJumble.toggleWhenPressed(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
+    // m_unJumble.toggleWhenPressed(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
     m_serialize.toggleWhenPressed(new PowerSerializeCommand(m_serializerSubsystem, -0.3));
 
     // Calibration bindings

@@ -37,10 +37,7 @@ public class SpinUpShooterCommand extends CommandBase {
   @Override
   public void initialize() {
     Logger.Log("SpinUPCommand", 1, "Initialized");
-    m_subsystem.setShooterPower(0.5);
-    m_subsystem.setBackWheelPower(0.5);
-    
-    // m_subsystem.setSpeed(2200, 2200);
+    m_subsystem.setSpeed(2400, 2400);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

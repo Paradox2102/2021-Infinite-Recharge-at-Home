@@ -65,7 +65,10 @@ public class ThroatPowerCommand extends CommandBase {
   @Override
   public void execute() {
 
-    m_subsystem.setThroatPower(m_power);
+    if(m_getVel.getAsDouble() > m_rpmSpeed.getAsDouble() - 5000) {
+      m_subsystem.setThroatPower(m_power);
+    }
+    
 
     // if (m_getVel.getAsDouble() - k_deadZoneSpeed > (m_burst ? 0 : m_rpmSpeed.getAsDouble()) && m_rpmSpeed.getAsDouble() > 0) {
     //   // turret position
