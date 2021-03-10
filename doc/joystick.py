@@ -41,7 +41,7 @@ def process(java):
         command = re.sub(r'\s+', ' ', command)
         d = dict(button=button, method=method, command=command)
         buttons[button]['actions'].append(d)
-        #print("ButtonAction", button, method, command)
+        print("ButtonAction", button, method, command)
     return joysticks
 
     
@@ -90,7 +90,7 @@ def md_joysticks(data):
                         a = b['actions'][0]
                         print("\n  * %s: _%s_: %s" % (clean_name(b['name']), a['method'], wrap_code(a['command'])), file=output)
                     else:
-                    	print("\n  * %s" % (clean_name(b['name'])), file=output)
+                    	print("\n  * %s:  No actions configured" % (clean_name(b['name'])), file=output)
             else:
                 b = buttons[0]
                 if len(b['actions']) > 1:
