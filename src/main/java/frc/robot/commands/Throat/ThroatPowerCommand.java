@@ -26,9 +26,11 @@ public class ThroatPowerCommand extends CommandBase {
   double k_deadZoneX = 0;
   Camera m_turretCamera = null;
   DoubleSupplier m_offset;
-  boolean m_burst = false;
+  boolean m_semiAuto = false;
+  long systime = 0;
 
-  public ThroatPowerCommand(ThroatSubsystem subsystem, DoubleSupplier getVel, DoubleSupplier rpmSpeed, double power, boolean burst) {
+  public ThroatPowerCommand(ThroatSubsystem subsystem, DoubleSupplier getVel, DoubleSupplier rpmSpeed, double power,
+      boolean semiAuto) {
     m_subsystem = subsystem;
     m_power = power;
     m_getVel = getVel;
@@ -36,13 +38,13 @@ public class ThroatPowerCommand extends CommandBase {
     k_deadZoneX = 0;
     m_offset = () -> 0;
     m_turretCamera = null;
-    m_burst = burst;
+    m_semiAuto = semiAuto;
 
     addRequirements(m_subsystem);
   }
 
   public ThroatPowerCommand(ThroatSubsystem subsystem, DoubleSupplier getVel, DoubleSupplier rpmSpeed, double power,
-      double deadzone, Camera turretCamera, DoubleSupplier offset, boolean burst) {
+      double deadzone, Camera turretCamera, DoubleSupplier offset, boolean semiAuto) {
     m_subsystem = subsystem;
     m_power = power;
     m_getVel = getVel;
@@ -50,7 +52,7 @@ public class ThroatPowerCommand extends CommandBase {
     k_deadZoneX = deadzone;
     m_turretCamera = turretCamera;
     m_offset = offset;
-    m_burst = burst;
+    m_semiAuto = semiAuto;
 
     addRequirements(m_subsystem);
   }
@@ -65,30 +67,43 @@ public class ThroatPowerCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(m_getVel.getAsDouble() > m_rpmSpeed.getAsDouble() - 5000) {
+    // if(m_getVel.getAsDouble() > m_rpmSpeed.getAsDouble() - 5000) {
+    // m_subsystem.setThroatPower(m_power);
+    // }
+    if (m_semiAuto) {
+      if (!m_subsystem.GetTopBreak()) {
+        systime = System.currentTimeMillis();
+        m_subsystem.setThroatPower(m_power);
+      } else if (System.currentTimeMillis() - systime >= 500) {
+        m_subsystem.setThroatPower(m_power);
+      } else {
+        m_subsystem.setThroatPower(0);
+      }
+    } else {
       m_subsystem.setThroatPower(m_power);
     }
-    
 
-    // if (m_getVel.getAsDouble() - k_deadZoneSpeed > (m_burst ? 0 : m_rpmSpeed.getAsDouble()) && m_rpmSpeed.getAsDouble() > 0) {
-    //   // turret position
-    //   if (k_deadZoneX != 0) {
-    //     CameraData data = m_turretCamera.createData();
+    // if (m_getVel.getAsDouble() - k_deadZoneSpeed > (m_burst ? 0 :
+    // m_rpmSpeed.getAsDouble()) && m_rpmSpeed.getAsDouble() > 0) {
+    // // turret position
+    // if (k_deadZoneX != 0) {
+    // CameraData data = m_turretCamera.createData();
 
-    //     if (data.canSee()) {
-    //       if (data.centerDiff(data.centerLine(), m_offset.getAsDouble()) < k_deadZoneX) {
-    //         m_subsystem.setThroatPower(m_power);
-    //       } else {
-    //         // System.out.println("Turret not aligned");
-    //         m_subsystem.stopThroatPower();
-    //       }
-    //     }
-    //   } else {
-    //     m_subsystem.setThroatPower(m_power);
-    //   }
+    // if (data.canSee()) {
+    // if (data.centerDiff(data.centerLine(), m_offset.getAsDouble()) < k_deadZoneX)
+    // {
+    // m_subsystem.setThroatPower(m_power);
     // } else {
-    //   // System.out.println("Speed not Met");
-    //   m_subsystem.stopThroatPower();
+    // // System.out.println("Turret not aligned");
+    // m_subsystem.stopThroatPower();
+    // }
+    // }
+    // } else {
+    // m_subsystem.setThroatPower(m_power);
+    // }
+    // } else {
+    // // System.out.println("Speed not Met");
+    // m_subsystem.stopThroatPower();
     // }
   }
 

@@ -34,15 +34,18 @@ public class ShooterSubsystem extends SubsystemBase {
   CANSparkMax m_shooterFollower = new CANSparkMax(Constants.k_shooterFollower, MotorType.kBrushless);
   CANSparkMax m_backWheels = new CANSparkMax(Constants.k_backWheels, MotorType.kBrushless);
 
-  double k_f = Constants.m_robotConstants.k_shooterF;
-  double k_p = Constants.m_robotConstants.k_shooterP;
-  double k_i = Constants.m_robotConstants.k_shooterI;
+    private double k_f = 0.000199;
+    private double k_p = 0.0003;//0.4;
+    private double k_i = 0.000001;//0.032;
+    private double k_d = 0;
 
-  double k_bf = Constants.m_robotConstants.k_backWheelF;
-  double k_bp = Constants.m_robotConstants.k_backWheelP;
-  double k_bi = Constants.m_robotConstants.k_backWheelI;
+    private double k_bf = 0.0002;
+    private double k_bp = 0.00002;
+    private double k_bi = 0.0000001;
+    private double k_bd = 0;
 
-  int k_iRange = Constants.m_robotConstants.k_shooterIRange;
+    private int k_iRange = 100;
+
   int k_slot = 0;
 
   double m_setPoint = 0;
@@ -73,20 +76,27 @@ public class ShooterSubsystem extends SubsystemBase {
     m_backWheels.setIdleMode(IdleMode.kCoast);
 
     m_shooterController = m_shooter.getPIDController();
-    m_backWheelController = m_backWheels.getPIDController();
+    m_backWheelController = m_backWheels.getPIDController(); 
 
-    m_shooterController.setFF(k_f);
-    m_shooterController.setP(k_p);
-    m_shooterController.setI(k_i);
-    m_shooterController.setD(0);
-    m_shooterController.setIZone(k_iRange);
+    Logger.Log("F value main", 1, ""+k_bf);
+    Logger.Log("P value main", 1, ""+k_bp);
+    Logger.Log("I value main", 1, ""+k_bi);
+    Logger.Log("IZone value main", 1, ""+k_iRange);
+    setSparkMaxPID(m_shooterController, k_f, k_p, k_i, k_d, k_iRange);
+    setSparkMaxPID(m_backWheelController, k_bf, k_bp, k_bi, k_bd, k_iRange);
+     
+    // m_shooterController.setFF(k_f);
+    // m_shooterController.setP(k_p);
+    // m_shooterController.setI(k_i);
+    // m_shooterController.setD(0);
+    // m_shooterController.setIZone(k_iRange);
 
-    Logger.Log("f set", 1, ""+k_bf);
-    m_backWheelController.setFF(k_bf);
-    m_backWheelController.setP(k_bp);
-    m_backWheelController.setI(k_bi);
-    m_backWheelController.setD(0);
-    m_backWheelController.setIZone(k_iRange);
+    // Logger.Log("f set", 1, ""+k_bf);
+    // m_backWheelController.setFF(k_bf);
+    // m_backWheelController.setP(k_bp);
+    // m_backWheelController.setI(k_bi);
+    // m_backWheelController.setD(0);
+    // m_backWheelController.setIZone(k_iRange);
 
     // m_f = shooterTab.add("shooter F", k_f).getEntry();
     // m_p = shooterTab.add("shooter P", k_p).getEntry();
@@ -159,6 +169,20 @@ public class ShooterSubsystem extends SubsystemBase {
     m_backWheelController.setReference(backSpeed, ControlType.kVelocity);
     m_setPoint = frontSpeed;
     
+  }
+
+  public void setSparkMaxPID(CANPIDController controller, double f, double p, double i, double d, double IZone) {
+    Logger.Log("F value", 1, ""+f);
+    Logger.Log("P value", 1, ""+p);
+    Logger.Log("I value", 1, ""+i);
+    Logger.Log("D value", 1, ""+d);
+    Logger.Log("IZone value", 1, ""+IZone);
+
+    Logger.Log("Set I", 1, ""+controller.setI(i));
+    Logger.Log("Set P", 1, ""+controller.setP(p));
+    Logger.Log("Set F", 1, ""+controller.setFF(f));
+    Logger.Log("set D", 1, ""+controller.setD(d));
+    Logger.Log("Set Izone", 1, ""+controller.setIZone(IZone));
   }
 
   public double getSpeed() {

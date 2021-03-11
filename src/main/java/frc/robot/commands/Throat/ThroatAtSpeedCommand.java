@@ -17,6 +17,7 @@ public class ThroatAtSpeedCommand extends CommandBase {
    */
   private ThroatSubsystem m_throatSubsystem;
   private double m_power = 0;
+  long systime = 0;
 
   public ThroatAtSpeedCommand(ThroatSubsystem throatSubsystem, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -42,8 +43,9 @@ public class ThroatAtSpeedCommand extends CommandBase {
     // Logger.Log("ThroatAtSpeedCommand", 3, "Executing");
 
     if (!m_throatSubsystem.GetTopBreak() && m_throatSubsystem.GetBottomBreak()) {
+      systime = System.currentTimeMillis();
       m_throatSubsystem.setThroatPower(m_power);
-    } else {
+    } else if (m_throatSubsystem.GetTopBreak() || System.currentTimeMillis() - systime >= 80) {
       m_throatSubsystem.stopThroatPower();
     }
   }
