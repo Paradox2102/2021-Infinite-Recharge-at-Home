@@ -78,6 +78,9 @@ def md_joysticks(data):
     for j in joysticks:
         print("\n## Joystick %d: %s" % (j['port'], clean_name(j['name'])), file=output)
         buttonlists = sorted_buttons(j['buttons'].items())
+        if not buttonlists:
+            print("\n* No buttons configured", file=output)
+            continue
         for num, buttons in buttonlists:
             if len(buttons) > 1:
                 print("\n* __Button %s__:" % (num), file=output)
@@ -90,7 +93,7 @@ def md_joysticks(data):
                         a = b['actions'][0]
                         print("\n  * %s: _%s_: %s" % (clean_name(b['name']), a['method'], wrap_code(a['command'])), file=output)
                     else:
-                    	print("\n  * %s" % (clean_name(b['name'])), file=output)
+                    	print("\n  * %s:  No actions configured" % (clean_name(b['name'])), file=output)
             else:
                 b = buttons[0]
                 if len(b['actions']) > 1:
