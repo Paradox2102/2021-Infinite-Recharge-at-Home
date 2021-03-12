@@ -58,7 +58,7 @@ public class PositionTracker implements Tracker{
 			meanAngle = Math.toRadians(meanAngle);
 			halfAngle = Math.toRadians(halfAngle);
 
-			double dist = arcDist * (1.0- halfAngle * halfAngle/6.0);
+			double dist = arcDist * (1.0- (halfAngle * halfAngle)/6.0);
 			
 			
 
