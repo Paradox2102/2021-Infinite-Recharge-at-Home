@@ -69,7 +69,7 @@ public class RobotContainer {
   Joystick m_climbStick = new Joystick(2);
   Joystick m_calibStick = new Joystick(3);
 
-  //show stick
+  // show stick
   // JoystickButton m_unJumble = new JoystickButton(m_showStick, 4);
   // JoystickButton m_intake = new JoystickButton(m_showStick, 3);
   // JoystickButton m_spinUp = new JoystickButton(m_showStick, 2);
@@ -79,27 +79,31 @@ public class RobotContainer {
   // JoystickButton m_moveTurrentR = new JoystickButton(m_showStick, 8);
   // JoystickButton m_serialize = new JoystickButton(m_showStick, 5);
 
-
   // Driver 1 Buttons
-  JoystickButton m_intake = new JoystickButton(m_stick, 3); //While hold move down and spin. move up on release
+  JoystickButton m_intake = new JoystickButton(m_stick, 3); // While hold move down and spin. move up on release
 
   // // Driver 2 Buttons
-  JoystickButton m_spinUp = new JoystickButton(m_climbStick, 2); // Toggle command to rev up the shooter to specified speed.
-  JoystickButton m_turretTrack = new JoystickButton(m_climbStick, 2); // Toggle command to start turret tracking with front camera.
-  JoystickButton m_fire = new JoystickButton(m_climbStick, 1); // Hold command to run the throat only when shooter is revved
-  JoystickButton m_moveTurrentL = new JoystickButton(m_climbStick, 3); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
-  JoystickButton m_moveTurrentR = new JoystickButton(m_climbStick, 4); // Toggle command to turn the turret manually (Should cancel tracking command if in use)
-  JoystickButton m_unJumble = new JoystickButton(m_climbStick, 8); // Toggle command to run intake, vbelt, and throat in reverse
+  JoystickButton m_spinUp = new JoystickButton(m_climbStick, 2); // Toggle command to rev up the shooter to specified
+                                                                 // speed.
+  JoystickButton m_turretTrack = new JoystickButton(m_climbStick, 2); // Toggle command to start turret tracking with
+                                                                      // front camera.
+  JoystickButton m_fire = new JoystickButton(m_climbStick, 1); // Hold command to run the throat only when shooter is
+                                                               // revved
+  JoystickButton m_moveTurrent = new JoystickButton(m_climbStick, 9); // Toggle command to turn the turret manually
+                                                                      // (Should cancel tracking command if in use)
+  // JoystickButton m_moveTurrentR = new JoystickButton(m_climbStick, 4); //
+  // Toggle command to turn the turret manually
+  // (Should cancel tracking command if in use)
+  JoystickButton m_unJumble = new JoystickButton(m_climbStick, 8); // Toggle command to run intake, vbelt, and throat in
+                                                                   // reverse
   JoystickButton m_serialize = new JoystickButton(m_climbStick, 7); // Toggle command to run serializer (V-Belt)
-  //Controls shooter hood with throttle
+  // Controls shooter hood with throttle
 
   // Calibration buttons
   JoystickButton m_calibrateShooter = new JoystickButton(m_calibStick, 2);
-  
+
   // JoystickButton m_raiseIntake = new JoystickButton(m_stick, 4);
   // JoystickButton m_feederIntake = new JoystickButton(m_stick, 6);
-
-  
 
   // JoystickButton m_spinUpClimb = new JoystickButton(m_climbStick, 2);
   // JoystickButton m_spinUpTrackClimb = new JoystickButton(m_climbStick, 2);
@@ -114,7 +118,6 @@ public class RobotContainer {
 
   // JoystickButton m_climb = new JoystickButton(m_climbStick, 7);
 
-  
   // JoystickButton m_feederIntakeClimb = new JoystickButton(m_climbStick, 8);
 
   // JoystickButton m_offsetRight = new JoystickButton(m_climbStick, 10);
@@ -125,15 +128,16 @@ public class RobotContainer {
   // JoystickButton m_snootTesting = new JoystickButton(m_calibStick, 3);
   // JoystickButton m_turretTrackCalib = new JoystickButton(m_calibStick, 4);
 
-  // JoystickButton m_snootSetRotation = new JoystickButton(m_calibStick, 5); // snooter is snooting
+  // JoystickButton m_snootSetRotation = new JoystickButton(m_calibStick, 5); //
+  // snooter is snooting
 
   // JoystickButton m_trackBalls = new JoystickButton(m_calibStick, 6);
   // JoystickButton m_toggleIntake = new JoystickButton(m_calibStick, 8);
 
   // JoystickButton m_galacticSearchA = new JoystickButton(m_stick, 12);
   // JoystickButton m_galacticSearchB = new JoystickButton(m_stick, 12);
-  //JoystickButton m_bouncePath = new JoystickButton(m_stick, 12);
-   JoystickButton m_barrelPath = new JoystickButton(m_stick, 12);
+  // JoystickButton m_bouncePath = new JoystickButton(m_stick, 12);
+  JoystickButton m_barrelPath = new JoystickButton(m_stick, 12);
   // JoystickButton m_slalomPath = new JoystickButton(m_stick, 12);
   // JoystickButton m_calibratePowerCommand = new JoystickButton(m_stick, 11);
 
@@ -159,11 +163,14 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.25));
-    m_shooterAngleSubsystem.setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
+    m_shooterAngleSubsystem
+        .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
         () -> -m_stick.getY(), () -> m_stick.getThrottle()));
-    // m_serializerSubsystem.setDefaultCommand(new SerializeCommand(m_serializerSubsystem, 0.3,
-    //     () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () -> !m_throatSubsystem.GetTopBreak()));
+    // m_serializerSubsystem.setDefaultCommand(new
+    // SerializeCommand(m_serializerSubsystem, 0.3,
+    // () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () ->
+    // !m_throatSubsystem.GetTopBreak()));
     m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 1.0));
 
     // m_intakeSubsystem.setDefaultCommand(new
@@ -180,7 +187,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Driver 1 bindings
-    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.7)); //currently not working (gearbox issue)
+    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.7)); //currently
+    // not working (gearbox issue)
     // m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.25));
     m_intake.toggleWhenPressed(new DropIntake(m_serializerSubsystem, m_intakeSubsystem, 0.2, 0.7));
     // m_intake.whileHeld(new IntakeCommand(m_intakeSubsystem, 1.0));
@@ -190,14 +198,18 @@ public class RobotContainer {
     m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterPower, m_backWheelPower, m_stick));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
     m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
-    m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.6));
-    m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.6));
-    // m_unJumble.toggleWhenPressed(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
+    m_moveTurrent.whileHeld(new TurretMoveCommand(m_turretSubsystem, () -> m_climbStick.getZ()));
+    // m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.6));
+    // m_moveTurrentR.whileHeld(new TurretMoveCommand(m_turretSubsystem, 0.6));
+    // m_unJumble.toggleWhenPressed(new UnJumbleCommand(m_intakeSubsystem,
+    // m_throatSubsystem, m_serializerSubsystem));
     m_serialize.toggleWhenPressed(new PowerSerializeCommand(m_serializerSubsystem, -0.3));
 
     // Calibration bindings
-    // m_calibrateShooter.toggleWhenPressed(new CalibrateShooterSpeedCommand(m_shooterSubsystem, 1500.0));
-    m_calibrateShooter.toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
+    // m_calibrateShooter.toggleWhenPressed(new
+    // CalibrateShooterSpeedCommand(m_shooterSubsystem, 1500.0));
+    m_calibrateShooter
+        .toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
 
     // m_calibrateBtn.whileHeld(new SpeedCommand(m_driveSubsystem, 11.94));
     // m_trackBalls.toggleWhenPressed(new BallDriveCommand(m_driveSubsystem,
@@ -206,58 +218,68 @@ public class RobotContainer {
     // m_shooterSubsystem, m_serializerSubsystem, m_indexerSubsystem,
     // m_intakeSubsystem, () -> getThrottle()));
     // m_intake.toggleWhenPressed(new IntakeCommand(m_intakeSubsystem, 0.6));
-    
+
     // m_outtake.toggleWhenPressed(new IntakeCommand(m_intakeSubsystem, -0.75));
     // m_outtakeClimb.whileHeld(new IntakeCommand(m_intakeSubsystem, -0.75));
-    
+
     // m_spinUpTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem,
     // m_turretCamera));
     // m_spinUpClimb.toggleWhenPressed(
-    //     new SpinUpCommand(m_turretSubsystem, m_turretCamera, m_shooterSubsystem, m_indexerSubsystem, m_shooterSpeed));
-    // m_spinUpTrackClimb.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
-    
-    
+    // new SpinUpCommand(m_turretSubsystem, m_turretCamera, m_shooterSubsystem,
+    // m_indexerSubsystem, m_shooterSpeed));
+    // m_spinUpTrackClimb.toggleWhenPressed(new
+    // TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
 
     // m_offsetLeft.whenPressed(new IncrementOffsetCommand(m_turretSubsystem, -5));
     // m_offsetRight.whenPressed(new IncrementOffsetCommand(m_turretSubsystem, 5));
 
-    
-    // m_feederIntakeClimb.whileHeld(new AmbientIntakePowerCommand(m_intakeSubsystem, -0.5));
-    // m_feederIntake.whileHeld(new AmbientIntakePowerCommand(m_intakeSubsystem, -0.5));
+    // m_feederIntakeClimb.whileHeld(new
+    // AmbientIntakePowerCommand(m_intakeSubsystem, -0.5));
+    // m_feederIntake.whileHeld(new AmbientIntakePowerCommand(m_intakeSubsystem,
+    // -0.5));
 
-    // m_manualControlPanel.whileActiveOnce(new FixedRotationCommand(m_snootSubsystem, 0.25, 4.125));
+    // m_manualControlPanel.whileActiveOnce(new
+    // FixedRotationCommand(m_snootSubsystem, 0.25, 4.125));
 
-    // m_increaseTrim.whenActive(new IncrementTrimCommand(m_shooterSubsystem, 500), true);
-    // m_decreaseTrim.whenActive(new IncrementTrimCommand(m_shooterSubsystem, -500), true);
+    // m_increaseTrim.whenActive(new IncrementTrimCommand(m_shooterSubsystem, 500),
+    // true);
+    // m_decreaseTrim.whenActive(new IncrementTrimCommand(m_shooterSubsystem, -500),
+    // true);
 
-    
-
-    // m_climb.whileHeld(new MoveClimberCommand(m_climberSubsystem, () -> -m_climbStick.getY()));
+    // m_climb.whileHeld(new MoveClimberCommand(m_climberSubsystem, () ->
+    // -m_climbStick.getY()));
     // m_calibrateSpeed.whileHeld(new ThroatMoveCommand(m_throatSubsystem, 0.85));
     // m_calibrateSpeedShooter.toggleWhenPressed(
-    //     new frc.robot.commands.Shooter.CalibrateSpeedCommand(m_shooterSubsystem, () -> getThrottleCalib()));
+    // new frc.robot.commands.Shooter.CalibrateSpeedCommand(m_shooterSubsystem, ()
+    // -> getThrottleCalib()));
     // m_throat.toggleWhenPressed(new ParallelDeadlineGroup(new
     // ThroatAtSpeedCommand(m_throatSubsystem, 0.75), new
     // IntakeCommand(m_intakeSubsystem, 0.5)));
     // m_snootTesting.whileHeld(new SnootTesting(m_snootSubsystem, 0.25));
-    // m_snootSetRotation.whenPressed(new FixedRotationCommand(m_snootSubsystem, 0.25, 3.2));
+    // m_snootSetRotation.whenPressed(new FixedRotationCommand(m_snootSubsystem,
+    // 0.25, 3.2));
 
-    // m_toggleIntake.toggleWhenPressed(new ActuateIntakeCommand(m_intakeSubsystem));
+    // m_toggleIntake.toggleWhenPressed(new
+    // ActuateIntakeCommand(m_intakeSubsystem));
 
-    // m_trackBalls.whileHeld(new BallDriveCommand(m_driveSubsystem, m_backCamera, 0.25, BallSide.LEFT, true, 20));
+    // m_trackBalls.whileHeld(new BallDriveCommand(m_driveSubsystem, m_backCamera,
+    // 0.25, BallSide.LEFT, true, 20));
 
-    // m_turretTrackCalib.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
+    // m_turretTrackCalib.toggleWhenPressed(new
+    // TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
 
-    // m_galacticSearchA.toggleWhenPressed(new PathChooserCommandGroupA(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
-    //     Constants.k_searchPower, Constants.k_turnPower));
+    // m_galacticSearchA.toggleWhenPressed(new
+    // PathChooserCommandGroupA(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
+    // Constants.k_searchPower, Constants.k_turnPower));
 
     // m_galacticSearchB.toggleWhenPressed(new
     // PathChooserCommandGroupB(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
     // Constants.k_searchPower, Constants.k_turnPower));
-    //m_bouncePath.toggleWhenPressed(new BouncePath(m_driveSubsystem));
-    //  m_barrelPath.toggleWhenPressed(new BarrelPath(m_driveSubsystem));
-    //m_slalomPath.toggleWhenPressed(new SlalomPath(m_driveSubsystem));
-    // m_calibratePowerCommand.toggleWhenPressed(new CalibrateSpeedCommand(m_driveSubsystem, 2200));
+    // m_bouncePath.toggleWhenPressed(new BouncePath(m_driveSubsystem));
+    // m_barrelPath.toggleWhenPressed(new BarrelPath(m_driveSubsystem));
+    // m_slalomPath.toggleWhenPressed(new SlalomPath(m_driveSubsystem));
+    // m_calibratePowerCommand.toggleWhenPressed(new
+    // CalibrateSpeedCommand(m_driveSubsystem, 2200));
   }
 
   public void periodic() {
@@ -265,18 +287,18 @@ public class RobotContainer {
     String pColor = "None";
     if (color.length() > 0) {
       switch (color.charAt(0)) {
-      case 'B':
-        pColor = "Red";
-        break;
-      case 'R':
-        pColor = "Blue";
-        break;
-      case 'G':
-        pColor = "Yellow";
-        break;
-      case 'Y':
-        pColor = "Green";
-        break;
+        case 'B':
+          pColor = "Red";
+          break;
+        case 'R':
+          pColor = "Blue";
+          break;
+        case 'G':
+          pColor = "Yellow";
+          break;
+        case 'Y':
+          pColor = "Green";
+          break;
       }
     } else {
       pColor = "None";
@@ -286,6 +308,8 @@ public class RobotContainer {
     SmartDashboard.putNumber("Time Left", DriverStation.getInstance().getMatchTime());
     SmartDashboard.putNumber("Offset", m_turretSubsystem.getOffset());
     SmartDashboard.putBoolean("Lights State", m_turretCamera.getLightsState());
+
+    SmartDashboard.putNumber("Joystick Z", m_climbStick.getZ());
   }
 
   /**
@@ -358,7 +382,7 @@ public class RobotContainer {
   }
 
   // public void setTrim(double amount) {
-  //   m_shooterSubsystem.setTrim(amount);
+  // m_shooterSubsystem.setTrim(amount);
   // }
 
   public void setLightsBackCamera(boolean lights) {

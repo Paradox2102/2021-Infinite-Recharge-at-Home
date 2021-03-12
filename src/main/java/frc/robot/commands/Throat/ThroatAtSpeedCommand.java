@@ -45,7 +45,8 @@ public class ThroatAtSpeedCommand extends CommandBase {
     if (!m_throatSubsystem.GetTopBreak() && m_throatSubsystem.GetBottomBreak()) {
       systime = System.currentTimeMillis();
       m_throatSubsystem.setThroatPower(m_power);
-    } else if (m_throatSubsystem.GetTopBreak() || System.currentTimeMillis() - systime >= 80) {
+    } else if (m_throatSubsystem.GetTopBreak()
+        || (System.currentTimeMillis() - systime >= 80 && !m_throatSubsystem.GetTopBreak())) {
       m_throatSubsystem.stopThroatPower();
     }
   }

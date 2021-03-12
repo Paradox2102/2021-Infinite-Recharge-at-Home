@@ -19,7 +19,7 @@ import frc.robot.Constants;
 public class ThroatSubsystem extends SubsystemBase {
   private TalonSRX m_throatMotor = new TalonSRX(Constants.k_throat);
 
-  //Digital Input Output tools
+  // Digital Input Output tools
   private DigitalInput m_dioTop = new DigitalInput(Constants.k_dioTop);
   private DigitalInput m_dioBottom = new DigitalInput(Constants.k_dioBottom);
 
@@ -29,11 +29,11 @@ public class ThroatSubsystem extends SubsystemBase {
     m_throatMotor.setInverted(true);
     m_throatMotor.setNeutralMode(NeutralMode.Brake);
 
+    m_throatMotor.configPeakCurrentLimit(35);
+    m_throatMotor.configPeakCurrentDuration(200);
+    m_throatMotor.configContinuousCurrentLimit(25);
     m_throatMotor.enableCurrentLimit(true);
-    m_throatMotor.configContinuousCurrentLimit(20); 
   }
-
-
 
   public void setThroatPower(double throatPower) {
     m_throatMotor.set(ControlMode.PercentOutput, throatPower);
@@ -42,8 +42,7 @@ public class ThroatSubsystem extends SubsystemBase {
   public void stopThroatPower() {
     m_throatMotor.set(ControlMode.PercentOutput, 0);
   }
-  
- 
+
   // public boolean GetOutput(){
   // return m_dio.get();
   // }
@@ -52,7 +51,7 @@ public class ThroatSubsystem extends SubsystemBase {
     return !m_dioTop.get();
   }
 
-  public boolean GetBottomBreak(){
+  public boolean GetBottomBreak() {
     return !m_dioBottom.get();
   }
 
