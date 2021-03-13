@@ -162,7 +162,8 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.25));
+    // m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem,
+    // 0.25));
     m_shooterAngleSubsystem
         .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
@@ -171,7 +172,7 @@ public class RobotContainer {
     // SerializeCommand(m_serializerSubsystem, 0.3,
     // () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () ->
     // !m_throatSubsystem.GetTopBreak()));
-    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 1.0));
+    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.75));
 
     // m_intakeSubsystem.setDefaultCommand(new
     // AmbientIntakePowerCommand(m_intakeSubsystem, 0.25));

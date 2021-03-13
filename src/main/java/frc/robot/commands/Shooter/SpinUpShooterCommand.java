@@ -17,11 +17,10 @@ public class SpinUpShooterCommand extends CommandBase {
    * Creates a new SpinUpShooterCommand.
    */
 
-   ShooterSubsystem m_subsystem;
-   double m_shooterPower;
-   double m_backWheelPower;
-   Joystick m_stick;
-
+  ShooterSubsystem m_subsystem;
+  double m_shooterPower;
+  double m_backWheelPower;
+  Joystick m_stick;
 
   public SpinUpShooterCommand(ShooterSubsystem subsystem, double shooterPower, double backWheelPower, Joystick stick) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,7 +36,7 @@ public class SpinUpShooterCommand extends CommandBase {
   @Override
   public void initialize() {
     Logger.Log("SpinUPCommand", 1, "Initialized");
-    m_subsystem.setSpeed(2400, 2400);
+    m_subsystem.setSpeed(2700, 2700);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
