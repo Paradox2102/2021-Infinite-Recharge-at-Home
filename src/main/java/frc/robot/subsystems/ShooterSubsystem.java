@@ -34,14 +34,14 @@ public class ShooterSubsystem extends SubsystemBase {
   CANSparkMax m_shooterFollower = new CANSparkMax(Constants.k_shooterFollower, MotorType.kBrushless);
   CANSparkMax m_backWheels = new CANSparkMax(Constants.k_backWheels, MotorType.kBrushless);
 
-  private double k_f = 0.000199;
-  private double k_p = 0.0003;// 0.4;
-  private double k_i = 0.000001;// 0.032;
-  private double k_d = 0;
+  private double k_f = 0.00023;
+  private double k_p = 0.0004; // 0.4;
+  private double k_i = 0.000001; // 0.032;
+  private double k_d = 0.0000007;
 
-  private double k_bf = 0.00021;
-  private double k_bp = 0.0004;// 0.00002;
-  private double k_bi = 0.0000004;// 0.0000001;
+  private double k_bf = 0.00022;
+  private double k_bp = 0.00002;
+  private double k_bi = 0;// 0.0000004;// 0.0000001;
   private double k_bd = 0;
 
   private int k_iRange = 100;
@@ -73,7 +73,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_backWheels.setIdleMode(IdleMode.kCoast);
 
-    m_shooter.setClosedLoopRampRate(1);
+    // m_shooter.setClosedLoopRampRate(1);
     // m_backWheels.setOpenLoopRampRate(1);
 
     m_shooterController = m_shooter.getPIDController();
