@@ -19,7 +19,7 @@ package frc.robot;
  */
 public final class Constants {
     public static PracticeType m_robotConstants = new PracticeType();
-    //public static FinalType m_robotConstants = new FinalType();
+    // public static FinalType m_robotConstants = new FinalType();
     public static int k_leftDrive = 1;
     public static int k_leftFollower = 2;
     public static int k_rightDrive = 3;
@@ -37,7 +37,7 @@ public final class Constants {
     public static final int k_dioTop = 0;
     public static final int k_dioBottom = 1;
 
-    public static final int k_shooterAngle = 9; //servo
+    public static final int k_shooterAngle = 9; // servo
 
     // Power for Galactic Search
     public static double k_searchPower = 0.3;
