@@ -1,8 +1,10 @@
 package frc.CameraReciever;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 
@@ -24,7 +26,9 @@ public class Network {
             ByteBuffer commandBuffer = ByteBuffer.wrap(command);
             ByteBuffer dataBuffer;
             Socket sock = new Socket(m_host, m_port);
+            DataOutputStream out = new DataOutputStream(sock.getOutputStream());
 
+            out.writeByte(0x10);
             sock.getInputStream().read(command);
 
             short numBalls;
