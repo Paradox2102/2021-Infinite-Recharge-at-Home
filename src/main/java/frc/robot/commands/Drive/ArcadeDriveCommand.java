@@ -29,7 +29,7 @@ public class ArcadeDriveCommand extends CommandBase {
   private DriveHelper m_driveHelper = new DriveHelper();
 
   enum driveTypes{
-    normal, halfPower, speedControl, speedControlHalfSpeed, curvature
+    normal, halfPower, speedControl, speedControlHalfSpeed, curvature, curvatureHalfSpeed, curvatureLSM
   }
   private SendableChooser<driveTypes> m_chooser = new SendableChooser<>();
 
@@ -47,6 +47,8 @@ public class ArcadeDriveCommand extends CommandBase {
     m_chooser.addOption("speedControl", driveTypes.speedControl);
     m_chooser.addOption("speedControlHalfSpeed",driveTypes.speedControlHalfSpeed);
     m_chooser.addOption("curvature", driveTypes.curvature);
+    m_chooser.addOption("curvatureHalfSpeed", driveTypes.curvatureHalfSpeed);
+    m_chooser.addOption("curvature with Low Speed Mode", driveTypes.curvatureLSM);
     SmartDashboard.putData("drive mode", m_chooser);
   }
 
@@ -89,11 +91,32 @@ public class ArcadeDriveCommand extends CommandBase {
         y = y * k_maxSpeed;
         m_subsystem.setSpeed(y+x, y-x);
         break;
-      case curvature:
+      case curvature: {
         DriveSignal ds = m_driveHelper.cheesyDrive(y, x, false);
-        m_subsystem.setPower(ds.leftMotor, ds.rightMotor);
+        m_subsystem.setSpeed(ds.leftMotor* k_maxSpeed, ds.rightMotor * k_maxSpeed);}
         break;
-
+      case curvatureHalfSpeed: {
+        double speedVariable = .8;
+        DriveSignal ds = m_driveHelper.cheesyDrive(y*speedVariable, x, false);
+        m_subsystem.setSpeed(ds.leftMotor* k_maxSpeed, ds.rightMotor * k_maxSpeed);}
+        break;
+        case curvatureLSM: {
+          double speedVariable = .8;
+          DriveSignal ds = m_driveHelper.cheesyDrive(y*speedVariable, x, false);
+          DriveSignal dsLow = m_driveHelper.cheesyDrive(y*speedVariable, x, true);
+          double leftMotor;
+          double rightMotor;
+          double lowSpeedThreshhold = .01;
+          if (Math.abs(y) < lowSpeedThreshhold){
+            leftMotor= dsLow.leftMotor * Math.abs(y)/lowSpeedThreshhold + ds.leftMotor * (lowSpeedThreshhold - Math.abs(y))/lowSpeedThreshhold;
+            rightMotor= dsLow.rightMotor * Math.abs(y)/lowSpeedThreshhold + ds.rightMotor * (lowSpeedThreshhold - Math.abs(y))/lowSpeedThreshhold;
+          }
+          else {
+            leftMotor = ds.leftMotor;
+            rightMotor = ds.rightMotor;
+          }
+          m_subsystem.setSpeed(leftMotor* k_maxSpeed, rightMotor * k_maxSpeed);}
+          break;
     }
 
     // System.out.println("Arcade Drive Execute Running");

@@ -167,12 +167,17 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
 
 
 
+    final double k_timeRamp = .6;
 
+     m_leftDrive.setOpenLoopRampRate(k_timeRamp);
+     m_rightDrive.setOpenLoopRampRate(k_timeRamp);
+     m_leftFollower.setOpenLoopRampRate(k_timeRamp);
+     m_rightFollower.setOpenLoopRampRate(k_timeRamp);
 
-    // m_leftDrive.setOpenLoopRampRate(0.75);
-    // m_rightDrive.setOpenLoopRampRate(0.75);
-    // m_leftFollower.setOpenLoopRampRate(0.75);
-    // m_rightFollower.setOpenLoopRampRate(0.75);
+     m_leftDrive.setClosedLoopRampRate(k_timeRamp);
+     m_rightDrive.setClosedLoopRampRate(k_timeRamp);
+     m_leftFollower.setClosedLoopRampRate(k_timeRamp);
+     m_rightFollower.setClosedLoopRampRate(k_timeRamp); 
 
     // Tracking and Pure Pursuit Setup
     m_sensors = new Sensor(m_leftSparkEncoder, m_rightSparkEncoder, m_gyro, k_ticksFootSpark);
