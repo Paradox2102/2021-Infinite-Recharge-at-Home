@@ -25,4 +25,8 @@ public class Region {
     public int getLeftBound() {
         return m_xmin;
     }
+
+    public double centerDiff() {
+        return m_xmin + ((m_xmax - m_xmin) / 2);
+    }
 }

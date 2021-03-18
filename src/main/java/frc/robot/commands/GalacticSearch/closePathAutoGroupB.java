@@ -10,6 +10,7 @@ package frc.robot.commands.GalacticSearch;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.CameraReciever.BallCamera;
 import frc.lib.Camera;
 import frc.robot.commands.Drive.TurnByAngleCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -21,7 +22,7 @@ public class closePathAutoGroupB extends ParallelCommandGroup {
   /**
    * Creates a new closePathAutoGroupB.
    */
-  public closePathAutoGroupB(Camera camera, DriveSubsystem driveSubsystem, double searchPower, double turnPower) {
+  public closePathAutoGroupB(BallCamera camera, DriveSubsystem driveSubsystem, double searchPower, double turnPower) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     addCommands(new SequentialCommandGroup(new driveToBallCommand(camera, driveSubsystem, searchPower),

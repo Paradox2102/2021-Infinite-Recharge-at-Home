@@ -10,6 +10,7 @@ package frc.robot.commands.GalacticSearch;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.CameraReciever.BallCamera;
 import frc.lib.Camera;
 import frc.robot.commands.Camera.ToggleLightsCommand;
 import frc.robot.commands.Drive.DriveByDistanceCommand;
@@ -26,15 +27,13 @@ public class closePathAutoGroupA extends ParallelCommandGroup {
   /**
    * Creates a new driveToBallAuto.
    */
-  public closePathAutoGroupA(Camera camera, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem,
+  public closePathAutoGroupA(BallCamera camera, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem,
       double searchPower, double turnPower) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(/* new IntakeCommand(intakeSubsystem, 0.9), */
         new IntakeCommand(intakeSubsystem, 0.6),
-        new SequentialCommandGroup(
-          new ToggleLightsCommand(camera, true),
-          new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(3),
+        new SequentialCommandGroup(new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(3),
             new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(3),
             new TurnByAngleCommand(driveSubsystem, -60, turnPower),
             new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(3),

@@ -39,9 +39,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private double k_i = 0.000001; // 0.032;
   private double k_d = 0.0000007;
 
-  private double k_bf = 0.00022;
-  private double k_bp = 0.00002;
-  private double k_bi = 0;// 0.0000004;// 0.0000001;
+  private double k_bf = 0.000207;
+  private double k_bp = 0.00003;
+  private double k_bi = 0.0000004;// 0.0000001;
   private double k_bd = 0;
 
   private int k_iRange = 100;

@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.CameraReciever.BallCamera;
 import frc.lib.Camera;
 import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
+import frc.robot.commands.GalacticSearch.driveToBallCommand;
 import frc.robot.commands.Intake.DropIntake;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.RaiseIntake;
@@ -63,6 +65,7 @@ public class RobotContainer {
 
   Camera m_turretCamera = new Camera();
   Camera m_backCamera = new Camera();
+  BallCamera m_cam = new BallCamera("10.21.2.50", 1234);
 
   Joystick m_showStick = new Joystick(0);
   Joystick m_stick = new Joystick(1);
@@ -131,7 +134,7 @@ public class RobotContainer {
   // JoystickButton m_snootSetRotation = new JoystickButton(m_calibStick, 5); //
   // snooter is snooting
 
-  // JoystickButton m_trackBalls = new JoystickButton(m_calibStick, 6);
+  JoystickButton m_trackBalls = new JoystickButton(m_calibStick, 6);
   // JoystickButton m_toggleIntake = new JoystickButton(m_calibStick, 8);
 
   // JoystickButton m_galacticSearchA = new JoystickButton(m_stick, 12);
@@ -155,6 +158,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
     DriverStation.getInstance().silenceJoystickConnectionWarning(true);
     // Configure the button bindings
     m_turretCamera.connect(Constants.m_robotConstants.k_ipAddress);
@@ -162,8 +166,7 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    // m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem,
-    // 0.25));
+    m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.25));
     m_shooterAngleSubsystem
         .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
@@ -213,8 +216,7 @@ public class RobotContainer {
         .toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
 
     // m_calibrateBtn.whileHeld(new SpeedCommand(m_driveSubsystem, 11.94));
-    // m_trackBalls.toggleWhenPressed(new BallDriveCommand(m_driveSubsystem,
-    // m_camera, -0.25));
+    m_trackBalls.toggleWhenPressed(new driveToBallCommand(m_cam, m_driveSubsystem, 0.25));
     // m_shoot.toggleWhenPressed(new ShootAllCommand(m_throatSubsystem,
     // m_shooterSubsystem, m_serializerSubsystem, m_indexerSubsystem,
     // m_intakeSubsystem, () -> getThrottle()));
@@ -284,6 +286,9 @@ public class RobotContainer {
   }
 
   public void periodic() {
+    m_cam.Recieve();
+    // System.out.println(m_cam.canSee());
+
     String color = DriverStation.getInstance().getGameSpecificMessage();
     String pColor = "None";
     if (color.length() > 0) {

@@ -8,6 +8,7 @@
 package frc.robot.commands.GalacticSearch;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.CameraReciever.BallCamera;
 import frc.lib.Camera;
 import frc.lib.Logger;
 import frc.lib.Camera.CameraData;
@@ -18,13 +19,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class PathChooserCommandGroupB extends InstantCommand {
-  Camera m_camera;
+  BallCamera m_camera;
   DriveSubsystem m_subsystem;
   IntakeSubsystem m_intakeSubsystem;
   double m_searchPower;
   double m_turnPower;
 
-  public PathChooserCommandGroupB(Camera camera, DriveSubsystem subsystem, IntakeSubsystem intakeSubsystem,
+  public PathChooserCommandGroupB(BallCamera camera, DriveSubsystem subsystem, IntakeSubsystem intakeSubsystem,
       double searchPower, double turnPower) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_camera = camera;
@@ -38,10 +39,10 @@ public class PathChooserCommandGroupB extends InstantCommand {
   @Override
   public void initialize() {
     Logger.Log("PathChooserCommand", 1, "initialize");
-    CameraData cameraData = m_camera.createData();
+    // CameraData cameraData = m_camera.createData();
 
-    if (cameraData.canSee()) {
-      int positionY = cameraData.m_regions.GetRegion(0).m_bounds.m_top;
+    if (m_camera.canSee()) {
+      int positionY = m_camera.findClosestRegion().getTopBound();
       Logger.Log("PositionY:", 1, "" + positionY);
       if (positionY > 140) {
         Logger.Log("Path Chooser B", 1, "Choosing close path");
