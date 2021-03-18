@@ -7,13 +7,16 @@
 
 package frc.robot.commands.Turret;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TurretSubsystem;
 
 public class TurretMoveCommand extends CommandBase {
   TurretSubsystem m_turretSubsystem;
-  double m_power;
-  public TurretMoveCommand(TurretSubsystem turretSubsystem, double power) {
+  DoubleSupplier m_power;
+
+  public TurretMoveCommand(TurretSubsystem turretSubsystem, DoubleSupplier power) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_turretSubsystem = turretSubsystem;
     m_power = power;
@@ -24,12 +27,13 @@ public class TurretMoveCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_turretSubsystem.setPower(m_power);
+    // m_turretSubsystem.setPower(m_power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_turretSubsystem.setPower(m_power.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

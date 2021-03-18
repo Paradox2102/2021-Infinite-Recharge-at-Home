@@ -10,6 +10,7 @@ package frc.robot.commands.GalacticSearch;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.CameraReciever.BallCamera;
 import frc.lib.Camera;
 import frc.robot.commands.Camera.ToggleLightsCommand;
 import frc.robot.commands.Drive.TurnByAngleCommand;
@@ -22,16 +23,15 @@ public class farPathAutoGroupB extends ParallelCommandGroup {
   /**
    * Creates a new farPathAutoGroupB.
    */
-  public farPathAutoGroupB(Camera camera, DriveSubsystem driveSubsystem, double searchPower, double turnPower) {
+  public farPathAutoGroupB(BallCamera camera, DriveSubsystem driveSubsystem, double searchPower, double turnPower) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    addCommands(new SequentialCommandGroup(new ToggleLightsCommand(camera, true),
-        new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(3),
-        new TurnByAngleCommand(driveSubsystem, -30, turnPower),
+    addCommands(new SequentialCommandGroup(new driveToBallCommand(camera, driveSubsystem, searchPower),
+        new WaitCommand(3), new TurnByAngleCommand(driveSubsystem, -30, turnPower),
         new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(3),
         new TurnByAngleCommand(driveSubsystem, 30, turnPower),
         new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(3),
         new TurnByAngleCommand(driveSubsystem, -15, turnPower),
-        new driveToBallCommand(camera, driveSubsystem, searchPower), new ToggleLightsCommand(camera, false)));
+        new driveToBallCommand(camera, driveSubsystem, searchPower)));
   }
 }

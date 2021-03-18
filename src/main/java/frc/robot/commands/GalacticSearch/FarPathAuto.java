@@ -10,6 +10,7 @@ package frc.robot.commands.GalacticSearch;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.CameraReciever.BallCamera;
 import frc.lib.Camera;
 import frc.robot.commands.Camera.ToggleLightsCommand;
 import frc.robot.commands.Drive.SmoothTurnCommand;
@@ -28,24 +29,19 @@ public class FarPathAuto extends ParallelCommandGroup {
   final static double k_turnPower = .25;
   final static double k_waitTime = .5;
 
-  public FarPathAuto(Camera camera, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, double searchPower, double drivePower) {
+  public FarPathAuto(BallCamera camera, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem,
+      double searchPower, double drivePower) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    addCommands(
-      new IntakeCommand(intakeSubsystem, 0.6), 
-      new SequentialCommandGroup(
-      new ToggleLightsCommand(camera, true), 
-      new driveToBallCommand(camera, driveSubsystem, searchPower),
-        //new TurnByAngleCommand(driveSubsystem, -60, turnPower),
-      new WaitCommand(k_waitTime),
-      new SmoothTurnCommand(driveSubsystem, -45, -drivePower, k_turnPower),
-      new driveToBallCommand(camera, driveSubsystem, searchPower),
-      new WaitCommand(k_waitTime),
-      // new TurnByAngleCommand(driveSubsystem, 30, turnPower),
-      new SmoothTurnCommand(driveSubsystem, 50, -drivePower, k_turnPower),
-      new driveToBallCommand(camera, driveSubsystem, searchPower),
-      new WaitCommand(k_waitTime),
-      new SmoothTurnCommand(driveSubsystem, -30, -drivePower, k_turnPower),
-      new driveToBallCommand(camera, driveSubsystem, searchPower)));
+    addCommands(new IntakeCommand(intakeSubsystem, 0.6),
+        new SequentialCommandGroup(new driveToBallCommand(camera, driveSubsystem, searchPower),
+            // new TurnByAngleCommand(driveSubsystem, -60, turnPower),
+            new WaitCommand(k_waitTime), new SmoothTurnCommand(driveSubsystem, -45, -drivePower, k_turnPower),
+            new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(k_waitTime),
+            // new TurnByAngleCommand(driveSubsystem, 30, turnPower),
+            new SmoothTurnCommand(driveSubsystem, 50, -drivePower, k_turnPower),
+            new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(k_waitTime),
+            new SmoothTurnCommand(driveSubsystem, -30, -drivePower, k_turnPower),
+            new driveToBallCommand(camera, driveSubsystem, searchPower)));
   }
 }

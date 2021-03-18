@@ -26,7 +26,8 @@ public class BallDriveCommand extends CommandBase {
   double m_encoderAmount;
   double m_initEncoderPos;
 
-  public BallDriveCommand(DriveSubsystem subsystem, Camera camera, double power, BallSide ballSide, boolean reversed, double encoderAmount) {
+  public BallDriveCommand(DriveSubsystem subsystem, Camera camera, double power, BallSide ballSide, boolean reversed,
+      double encoderAmount) {
     m_subsystem = subsystem;
     m_camera = camera;
     m_power = power;
@@ -43,41 +44,40 @@ public class BallDriveCommand extends CommandBase {
     m_camera.toggleLights(true);
     m_seenBalls = false;
     m_finalDrive = false;
-    
+
     Logger.Log("BallDriveCommand", 1, "Init");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!m_finalDrive){
+    if (!m_finalDrive) {
       CameraData data = m_camera.createData();
       int numBalls = data.ballFilter().size();
       double powerDiff;
-  
+
       System.out.println(numBalls);
       if (numBalls >= 2) {
         double diff = data.ballCenterDiff(data.centerLine(), data.ballSelector(k_ballSide));
         powerDiff = diff * k_p;
-  
-        
+
       } else if (numBalls >= 1) {
         double diff = data.centerDiff(data.centerLine(), 0, data.ballFilter().get(0));
         powerDiff = diff * k_p;
-      }else{
+      } else {
         powerDiff = 0;
       }
-  
+
       // turn left
-      if(!m_reversed){
+      if (!m_reversed) {
         m_subsystem.setPower(m_power - powerDiff, m_power + powerDiff);
-      }else{
+      } else {
         m_subsystem.setPower(-m_power - powerDiff, -m_power + powerDiff);
       }
-    }else{
-      if(!m_reversed){
+    } else {
+      if (!m_reversed) {
         m_subsystem.setPower(m_power, m_power);
-      }else{
+      } else {
         m_subsystem.setPower(-m_power, -m_power);
       }
     }
@@ -101,22 +101,22 @@ public class BallDriveCommand extends CommandBase {
       m_seenBalls = true;
     }
 
-    if(!m_finalDrive){
+    if (!m_finalDrive) {
       if (m_seenBalls && !canSeeMulti) {
         return true;
       }
 
       m_finalDrive = data.ballBelowHeight(450, data.ballFilter(), k_ballSide);
 
-      if(m_finalDrive){
+      if (m_finalDrive) {
         m_initEncoderPos = m_subsystem.getLeftPos();
       }
     }
-    
-    if(m_finalDrive){
-      if(!m_reversed){
+
+    if (m_finalDrive) {
+      if (!m_reversed) {
         return (m_subsystem.getLeftPos() - m_initEncoderPos) > m_encoderAmount;
-      }else{
+      } else {
         return (m_subsystem.getLeftPos() - m_initEncoderPos) < -m_encoderAmount;
       }
     }

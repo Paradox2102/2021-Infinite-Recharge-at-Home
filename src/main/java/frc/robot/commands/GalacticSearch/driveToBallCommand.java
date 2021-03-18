@@ -10,6 +10,8 @@ package frc.robot.commands.GalacticSearch;
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.CameraReciever.BallCamera;
+import frc.CameraReciever.Region;
 import frc.PiCamera.PiCamera.PiCameraRegion;
 import frc.lib.Camera;
 import frc.lib.Logger;
@@ -18,19 +20,19 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class driveToBallCommand extends CommandBase {
 
-  Camera m_camera;
+  BallCamera m_camera;
   DriveSubsystem m_subsystem;
 
   double k_turningFactor = 0.0004;
   double m_power;
-  int lowerBound = 315;
+  int lowerBound = 240;
 
   boolean finished;
 
   /**
    * Creates a new driveToBallCommand.
    */
-  public driveToBallCommand(Camera camera, DriveSubsystem subsystem, double power) {
+  public driveToBallCommand(BallCamera camera, DriveSubsystem subsystem, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_camera = camera;
     m_subsystem = subsystem;
@@ -48,23 +50,20 @@ public class driveToBallCommand extends CommandBase {
   @Override
   public void execute() {
     Logger.Log("driveToBallCommand", -1, "execute");
-    CameraData cameraData = m_camera.createData();
+    // CameraData cameraData = m_camera.createData();
 
-    if (cameraData.canSee()) {
-      ArrayList<PiCameraRegion> regions = cameraData.ballFilter();
-      if (!regions.isEmpty()) {
-        // PiCameraRegion region = regions.get(0);
-        PiCameraRegion region = cameraData.findShortestLine();
-        double centerDiff = cameraData.centerDiff(cameraData.centerLine(), 0.0, region);
+    if (m_camera.canSee()) {
+      System.out.println(m_camera.findClosestRegion().getTopBound());
+      // ArrayList<PiCameraRegion> regions = cameraData.ballFilter();
+      // PiCameraRegion region = regions.get(0);
+      Region region = m_camera.findClosestRegion();
+      double centerDiff = region.centerDiff() - m_camera.getCenterLine();
 
-        m_subsystem.setPower(m_power - (k_turningFactor * centerDiff), m_power + (k_turningFactor * centerDiff));
+      m_subsystem.setPower(m_power + (k_turningFactor * centerDiff), m_power - (k_turningFactor * centerDiff));
 
-        if (region.m_bounds.m_top >= lowerBound) {
-          finished = true;
-          Logger.Log("finish", 1, "" + finished);
-        }
-      } else {
-        m_subsystem.setPower(0, 0);
+      if (region.getTopBound() >= lowerBound) {
+        finished = true;
+        Logger.Log("finish", 1, "" + finished);
       }
     } else {
       m_subsystem.setPower(0, 0);
