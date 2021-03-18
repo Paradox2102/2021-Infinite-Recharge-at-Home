@@ -4,7 +4,7 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 
-public class BallCamera {
+public class BallCamera extends Thread {
     private String m_host;
     private int m_port; // 1234
     boolean cansee = false;
@@ -22,53 +22,58 @@ public class BallCamera {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Recieve();
     }
 
     public void Recieve() {
-        try {
-            byte command[] = new byte[4];
-            byte data[];
-            ByteBuffer commandBuffer = ByteBuffer.wrap(command);
-            ByteBuffer dataBuffer;
-            DataOutputStream out = new DataOutputStream(sock.getOutputStream());
+        new Thread(() -> {
+            while (true) {
+                try {
+                    byte command[] = new byte[4];
+                    byte data[];
+                    ByteBuffer commandBuffer = ByteBuffer.wrap(command);
+                    ByteBuffer dataBuffer;
+                    DataOutputStream out = new DataOutputStream(sock.getOutputStream());
 
-            out.writeByte(0x10);
-            sock.getInputStream().read(command);
+                    out.writeByte(0x10);
+                    sock.getInputStream().read(command);
 
-            short numBalls;
+                    short numBalls;
 
-            if (commandBuffer.getShort() == 0x10) {
-                numBalls = commandBuffer.getShort();
-                if (numBalls != 0) {
-                    cansee = true;
-                    data = new byte[numBalls * 8];
-                    dataBuffer = ByteBuffer.wrap(data);
-                    // cameraData = new short[numBalls][4];
-                    cameraData = new Region[numBalls];
+                    if (commandBuffer.getShort() == 0x10) {
+                        numBalls = commandBuffer.getShort();
+                        if (numBalls != 0) {
+                            cansee = true;
+                            data = new byte[numBalls * 8];
+                            dataBuffer = ByteBuffer.wrap(data);
+                            // cameraData = new short[numBalls][4];
+                            cameraData = new Region[numBalls];
 
-                    sock.getInputStream().read(data);
+                            sock.getInputStream().read(data);
 
-                    for (int i = 0; i < cameraData.length; i++) {
-                        cameraData[i] = new Region(dataBuffer.getShort(), dataBuffer.getShort(), dataBuffer.getShort(),
-                                dataBuffer.getShort());
+                            for (int i = 0; i < cameraData.length; i++) {
+                                cameraData[i] = new Region(dataBuffer.getShort(), dataBuffer.getShort(),
+                                        dataBuffer.getShort(), dataBuffer.getShort());
+                            }
+                            // System.out.println(cameraData[0].getTopBound());
+
+                        } else {
+                            cansee = false;
+                        }
+
+                    } else {
+                        cameraData = null;
                     }
-                    // System.out.println(cameraData[0].getTopBound());
 
-                } else {
-                    cansee = false;
+                } catch (
+
+                Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
-
-            } else {
-                cameraData = null;
             }
-
-        } catch (
-
-        Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        }).start();
+        
     }
 
     public Region findClosestRegion() {

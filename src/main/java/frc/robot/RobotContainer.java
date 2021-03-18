@@ -286,8 +286,6 @@ public class RobotContainer {
   }
 
   public void periodic() {
-    m_cam.Recieve();
-    // System.out.println(m_cam.canSee());
 
     String color = DriverStation.getInstance().getGameSpecificMessage();
     String pColor = "None";
