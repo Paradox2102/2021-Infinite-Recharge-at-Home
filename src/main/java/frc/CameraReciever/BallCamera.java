@@ -1,7 +1,9 @@
 package frc.CameraReciever;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 
 public class BallCamera extends Thread {
@@ -17,18 +19,14 @@ public class BallCamera extends Thread {
     public BallCamera(String host, int port) {
         m_host = host;
         m_port = port;
-        try {
-            sock = new Socket(host, port);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         Recieve();
     }
 
     public void Recieve() {
         new Thread(() -> {
-            while (true) {
-                try {
+            try {
+                sock = new Socket(m_host, m_port);
+                while (true) {
                     byte command[] = new byte[4];
                     byte data[];
                     ByteBuffer commandBuffer = ByteBuffer.wrap(command);
@@ -65,15 +63,32 @@ public class BallCamera extends Thread {
                         cameraData = null;
                     }
 
-                } catch (
-
-                Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
                 }
             }
+
+            // catch (UnknownHostException e) {
+            // // TODO Auto-generated catch block
+            // try {
+            // Thread.sleep(1000);
+            // } catch (InterruptedException e1) {
+            // // TODO Auto-generated catch block
+            // e1.printStackTrace();
+            // }
+            // } catch (IOException e) {
+            // e.printStackTrace();
+            // }
+
+            catch (Exception e) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+
         }).start();
-        
+
     }
 
     public Region findClosestRegion() {

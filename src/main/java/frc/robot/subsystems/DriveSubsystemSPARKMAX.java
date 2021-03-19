@@ -143,9 +143,11 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
     m_leftWrapper = new SparkMaxWrapperVel(m_leftDrive, m_leftSparkEncoder, false);
     m_rightWrapper = new SparkMaxWrapperVel(m_rightDrive, m_rightSparkEncoder, false);
 
-    // m_leftPIDController = new PIDController(k_iLeft, 0, k_pLeft, k_fLeft, m_leftWrapper, m_leftWrapper, 0.02);
+    // m_leftPIDController = new PIDController(k_iLeft, 0, k_pLeft, k_fLeft,
+    // m_leftWrapper, m_leftWrapper, 0.02);
     // m_leftPIDController.setIRange(k_iRange);
-    // m_rightPIDController = new PIDController(k_iRight, 0, k_pRight, k_fRight, m_rightWrapper, m_rightWrapper, 0.02);
+    // m_rightPIDController = new PIDController(k_iRight, 0, k_pRight, k_fRight,
+    // m_rightWrapper, m_rightWrapper, 0.02);
     // m_rightPIDController.setIRange(k_iRange);
 
     m_leftPIDController = m_leftDrive.getPIDController();
@@ -165,19 +167,17 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
     m_rightPIDController.setIZone(k_iRange);
     m_rightPIDController.setOutputRange(-1, 1);
 
+    final double k_timeRamp = 0;
 
+    m_leftDrive.setOpenLoopRampRate(k_timeRamp);
+    m_rightDrive.setOpenLoopRampRate(k_timeRamp);
+    m_leftFollower.setOpenLoopRampRate(k_timeRamp);
+    m_rightFollower.setOpenLoopRampRate(k_timeRamp);
 
-    final double k_timeRamp = .6;
-
-     m_leftDrive.setOpenLoopRampRate(k_timeRamp);
-     m_rightDrive.setOpenLoopRampRate(k_timeRamp);
-     m_leftFollower.setOpenLoopRampRate(k_timeRamp);
-     m_rightFollower.setOpenLoopRampRate(k_timeRamp);
-
-     m_leftDrive.setClosedLoopRampRate(k_timeRamp);
-     m_rightDrive.setClosedLoopRampRate(k_timeRamp);
-     m_leftFollower.setClosedLoopRampRate(k_timeRamp);
-     m_rightFollower.setClosedLoopRampRate(k_timeRamp); 
+    m_leftDrive.setClosedLoopRampRate(k_timeRamp);
+    m_rightDrive.setClosedLoopRampRate(k_timeRamp);
+    m_leftFollower.setClosedLoopRampRate(k_timeRamp);
+    m_rightFollower.setClosedLoopRampRate(k_timeRamp);
 
     // Tracking and Pure Pursuit Setup
     m_sensors = new Sensor(m_leftSparkEncoder, m_rightSparkEncoder, m_gyro, k_ticksFootSpark);
@@ -216,7 +216,7 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
     m_rightPIDController.setD(k_dRight);
     m_rightPIDController.setIZone(k_iRange);
 
-    //System.out.println(k_iLeft);
+    // System.out.println(k_iLeft);
   }
 
   // setting basic power(checks for disabling PID controller)
@@ -248,13 +248,13 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
   }
 
   // public void disablePID() {
-  //   m_leftPIDController.disable();
-  //   m_rightPIDController.disable();
+  // m_leftPIDController.disable();
+  // m_rightPIDController.disable();
   // }
 
   // public void enablePID() {
-  //   m_leftPIDController.enable();
-  //   m_rightPIDController.enable();
+  // m_leftPIDController.enable();
+  // m_rightPIDController.enable();
   // }
 
   public void startFollow() {
@@ -310,8 +310,6 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
   private double feetToTicks(double feet) {
     return feet * k_ticksFootSpark;
   }
-
-  
 
   public void resetAngle(double angle) {
     m_gyro.setYaw(angle);
