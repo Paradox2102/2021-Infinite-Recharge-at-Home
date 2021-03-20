@@ -19,7 +19,7 @@ public class BallCamera extends Thread {
     public BallCamera(String host, int port) {
         m_host = host;
         m_port = port;
-        Recieve();
+      //  Recieve();
     }
 
     public void Recieve() {
