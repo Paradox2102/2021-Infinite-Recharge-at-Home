@@ -25,7 +25,7 @@ public class driveToBallCommand extends CommandBase {
 
   double k_turningFactor = 0.0004;
   double m_power;
-  int lowerBound = 240;
+  int lowerBound = 200;
 
   boolean finished;
 
@@ -51,12 +51,12 @@ public class driveToBallCommand extends CommandBase {
   public void execute() {
     Logger.Log("driveToBallCommand", -1, "execute");
     // CameraData cameraData = m_camera.createData();
-
-    if (m_camera.canSee()) {
-      System.out.println(m_camera.findClosestRegion().getTopBound());
+    Region cameraData[] = m_camera.getRegions();
+    if (cameraData != null) {
+      System.out.println(m_camera.findClosestRegion(cameraData).getTopBound());
       // ArrayList<PiCameraRegion> regions = cameraData.ballFilter();
       // PiCameraRegion region = regions.get(0);
-      Region region = m_camera.findClosestRegion();
+      Region region = m_camera.findClosestRegion(cameraData);
       double centerDiff = region.centerDiff() - m_camera.getCenterLine();
 
       m_subsystem.setPower(m_power + (k_turningFactor * centerDiff), m_power - (k_turningFactor * centerDiff));

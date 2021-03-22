@@ -21,6 +21,7 @@ import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
+import frc.robot.commands.Drive.DriveToTargetSizeCommand;
 import frc.robot.commands.GalacticSearch.driveToBallCommand;
 import frc.robot.commands.Intake.DropIntake;
 import frc.robot.commands.Intake.IntakeCommand;
@@ -65,12 +66,13 @@ public class RobotContainer {
 
   Camera m_turretCamera = new Camera();
   Camera m_backCamera = new Camera();
-  BallCamera m_cam = new BallCamera("10.21.2.50", 1234);
+  BallCamera m_cam;
 
   Joystick m_showStick = new Joystick(0);
   Joystick m_stick = new Joystick(1);
   Joystick m_climbStick = new Joystick(2);
   Joystick m_calibStick = new Joystick(3);
+  Joystick m_powerPortStick = new Joystick(4);
 
   // show stick
   // JoystickButton m_unJumble = new JoystickButton(m_showStick, 4);
@@ -81,6 +83,15 @@ public class RobotContainer {
   // JoystickButton m_moveTurrentL = new JoystickButton(m_showStick, 7);
   // JoystickButton m_moveTurrentR = new JoystickButton(m_showStick, 8);
   // JoystickButton m_serialize = new JoystickButton(m_showStick, 5);
+
+  // Power Port Challenge Buttons
+  JoystickButton m_portFire = new JoystickButton(m_powerPortStick, 1);
+  JoystickButton m_portTrack = new JoystickButton(m_powerPortStick, 3);
+  JoystickButton m_driveToFirst = new JoystickButton(m_powerPortStick, 7);
+  JoystickButton m_driveToSecond = new JoystickButton(m_powerPortStick, 8);
+  JoystickButton m_driveToThird = new JoystickButton(m_powerPortStick, 9);
+  JoystickButton m_driveToFourth = new JoystickButton(m_powerPortStick, 10);
+  JoystickButton m_driveBack = new JoystickButton(m_powerPortStick, 2);
 
   // Driver 1 Buttons
   JoystickButton m_intake = new JoystickButton(m_stick, 3); // While hold move down and spin. move up on release
@@ -163,19 +174,21 @@ public class RobotContainer {
     // Configure the button bindings
     m_turretCamera.connect(Constants.m_robotConstants.k_ipAddress);
     m_backCamera.connect(Constants.m_robotConstants.k_ipAddressBack);
+    m_cam = new BallCamera("10.21.2.50", 1234);
 
     configureButtonBindings();
 
-    m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.25));
+    // m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem,
+    // 0.25));
     m_shooterAngleSubsystem
         .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
-    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
-        () -> -m_stick.getY(), () -> m_stick.getThrottle()));
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_powerPortStick.getX(),
+        () -> -m_powerPortStick.getY(), () -> m_powerPortStick.getThrottle()));
     // m_serializerSubsystem.setDefaultCommand(new
     // SerializeCommand(m_serializerSubsystem, 0.3,
     // () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () ->
     // !m_throatSubsystem.GetTopBreak()));
-    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.75));
+    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.5));
 
     // m_intakeSubsystem.setDefaultCommand(new
     // AmbientIntakePowerCommand(m_intakeSubsystem, 0.25));
@@ -190,9 +203,21 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Power Port Bindings
+    m_portFire.toggleWhenPressed(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
+    m_portTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
+    m_driveToFirst.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_shooterSubsystem,
+        m_shooterAngleSubsystem, m_turretCamera, 0.23, 2600, 6900));
+    m_driveToSecond.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_shooterSubsystem,
+        m_shooterAngleSubsystem, m_turretCamera, 0.335, 2600, 13000));
+    m_driveToThird.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_shooterSubsystem,
+        m_shooterAngleSubsystem, m_turretCamera, 0.515, 2600, 32840));
+    m_driveToFourth.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_shooterSubsystem,
+        m_shooterAngleSubsystem, m_turretCamera, 1.0, 2800, 91500));
+    m_driveBack.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_turretCamera));
+
     // Driver 1 bindings
-    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.7)); //currently
-    // not working (gearbox issue)
+    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.7));
     // m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.25));
     m_intake.toggleWhenPressed(new DropIntake(m_serializerSubsystem, m_intakeSubsystem, 0.2, 0.7));
     // m_intake.whileHeld(new IntakeCommand(m_intakeSubsystem, 1.0));
@@ -286,23 +311,26 @@ public class RobotContainer {
   }
 
   public void periodic() {
+    // SmartDashboard.putNumber("TargetArea",
+    // (m_turretCamera.createData().getTargetHeight() *
+    // m_turretCamera.createData().getTargetWidth()));
 
     String color = DriverStation.getInstance().getGameSpecificMessage();
     String pColor = "None";
     if (color.length() > 0) {
       switch (color.charAt(0)) {
-        case 'B':
-          pColor = "Red";
-          break;
-        case 'R':
-          pColor = "Blue";
-          break;
-        case 'G':
-          pColor = "Yellow";
-          break;
-        case 'Y':
-          pColor = "Green";
-          break;
+      case 'B':
+        pColor = "Red";
+        break;
+      case 'R':
+        pColor = "Blue";
+        break;
+      case 'G':
+        pColor = "Yellow";
+        break;
+      case 'Y':
+        pColor = "Green";
+        break;
       }
     } else {
       pColor = "None";

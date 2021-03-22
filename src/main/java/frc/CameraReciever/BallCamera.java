@@ -2,6 +2,7 @@ package frc.CameraReciever;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
@@ -10,11 +11,13 @@ public class BallCamera extends Thread {
     private String m_host;
     private int m_port; // 1234
     boolean cansee = false;
-    int centerLine = 150;
+    int centerLine = 200;
 
-    Region cameraData[];
+    Region m_cameraData[];
 
     Socket sock;
+
+    Object m_lock = new Object();
 
     public BallCamera(String host, int port) {
         m_host = host;
@@ -38,13 +41,12 @@ public class BallCamera extends Thread {
 
                     short numBalls;
 
+                    Region cameraData[] = null;
                     if (commandBuffer.getShort() == 0x10) {
                         numBalls = commandBuffer.getShort();
                         if (numBalls != 0) {
-                            cansee = true;
                             data = new byte[numBalls * 8];
                             dataBuffer = ByteBuffer.wrap(data);
-                            // cameraData = new short[numBalls][4];
                             cameraData = new Region[numBalls];
 
                             sock.getInputStream().read(data);
@@ -53,14 +55,12 @@ public class BallCamera extends Thread {
                                 cameraData[i] = new Region(dataBuffer.getShort(), dataBuffer.getShort(),
                                         dataBuffer.getShort(), dataBuffer.getShort());
                             }
-                            // System.out.println(cameraData[0].getTopBound());
-
-                        } else {
-                            cansee = false;
+                            // System.out.println(m_cameraData[0].getTopBound());
                         }
+                    }
 
-                    } else {
-                        cameraData = null;
+                    synchronized (m_lock) {
+                        m_cameraData = cameraData;
                     }
 
                 }
@@ -91,7 +91,7 @@ public class BallCamera extends Thread {
 
     }
 
-    public Region findClosestRegion() {
+    public Region findClosestRegion(Region cameraData[]) {
         Region closest = cameraData[0];
         for (int i = 1; i < cameraData.length; i++) {
             if (cameraData[i].getTopBound() > closest.getTopBound()) {
@@ -102,11 +102,25 @@ public class BallCamera extends Thread {
     }
 
     public Region[] getRegions() {
-        return cameraData;
+        synchronized (m_lock) {
+            return m_cameraData;
+        }
     }
 
-    public boolean canSee() {
-        return cansee;
+    private static byte[] toByteArray(InputStream stream, int length) {
+        byte[] buffer = new byte[length];
+
+        int offset = 0;
+        while (offset < length) {
+            try {
+                int count = stream.read(buffer, offset, (length - offset));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        return buffer;
     }
 
     public int getCenterLine() {
