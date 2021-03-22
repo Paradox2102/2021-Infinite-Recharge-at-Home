@@ -22,10 +22,10 @@ public class BallCamera extends Thread {
     public BallCamera(String host, int port) {
         m_host = host;
         m_port = port;
-        Recieve();
+        Receive();
     }
 
-    public void Recieve() {
+    public void Receive() {
         new Thread(() -> {
             try {
                 sock = new Socket(m_host, m_port);
