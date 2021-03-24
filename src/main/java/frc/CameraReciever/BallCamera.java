@@ -1,5 +1,6 @@
 package frc.CameraReciever;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,30 +31,32 @@ public class BallCamera extends Thread {
             try {
                 sock = new Socket(m_host, m_port);
                 while (true) {
-                    byte command[] = new byte[4];
-                    byte data[];
-                    ByteBuffer commandBuffer = ByteBuffer.wrap(command);
-                    ByteBuffer dataBuffer;
+                    // byte command[] = new byte[4];
+                    // short data[];
+                    // ByteBuffer commandBuffer = ByteBuffer.wrap(command);
+                    // ByteBuffer dataBuffer;
                     DataOutputStream out = new DataOutputStream(sock.getOutputStream());
+                    DataInputStream in = new DataInputStream(sock.getInputStream());
 
                     out.writeByte(0x10);
-                    sock.getInputStream().read(command);
+                    // sock.getInputStream().read(command);
+                    short command = in.readShort();
 
                     short numBalls;
 
                     Region cameraData[] = null;
-                    if (commandBuffer.getShort() == 0x10) {
-                        numBalls = commandBuffer.getShort();
+                    if (command == 0x10) {
+                        numBalls = in.readShort();
                         if (numBalls != 0) {
-                            data = new byte[numBalls * 8];
-                            dataBuffer = ByteBuffer.wrap(data);
+                            // data = new short[numBalls * 4];
+                            // dataBuffer = ByteBuffer.wrap(data);
                             cameraData = new Region[numBalls];
 
-                            sock.getInputStream().read(data);
+                            // sock.getInputStream().read(data);
 
                             for (int i = 0; i < cameraData.length; i++) {
-                                cameraData[i] = new Region(dataBuffer.getShort(), dataBuffer.getShort(),
-                                        dataBuffer.getShort(), dataBuffer.getShort());
+                                cameraData[i] = new Region(in.readShort(), in.readShort(), in.readShort(),
+                                        in.readShort());
                             }
                             // System.out.println(m_cameraData[0].getTopBound());
                         }
@@ -105,22 +108,6 @@ public class BallCamera extends Thread {
         synchronized (m_lock) {
             return m_cameraData;
         }
-    }
-
-    private static byte[] toByteArray(InputStream stream, int length) {
-        byte[] buffer = new byte[length];
-
-        int offset = 0;
-        while (offset < length) {
-            try {
-                int count = stream.read(buffer, offset, (length - offset));
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-        return buffer;
     }
 
     public int getCenterLine() {

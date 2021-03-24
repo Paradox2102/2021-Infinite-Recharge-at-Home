@@ -41,8 +41,8 @@ public class PathChooserCommandGroupB extends InstantCommand {
     Logger.Log("PathChooserCommand", 1, "initialize");
     // CameraData cameraData = m_camera.createData();
 
-    if (m_camera.canSee()) {
-      int positionY = m_camera.findClosestRegion().getTopBound();
+    if (m_camera.getRegions() != null) {
+      int positionY = m_camera.findClosestRegion(m_camera.getRegions()).getTopBound();
       Logger.Log("PositionY:", 1, "" + positionY);
       if (positionY > 140) {
         Logger.Log("Path Chooser B", 1, "Choosing close path");

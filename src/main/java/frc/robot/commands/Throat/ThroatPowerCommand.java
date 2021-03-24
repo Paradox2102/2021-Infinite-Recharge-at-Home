@@ -74,7 +74,7 @@ public class ThroatPowerCommand extends CommandBase {
       if (!m_subsystem.GetTopBreak()) {
         systime = System.currentTimeMillis();
         m_subsystem.setThroatPower(m_power);
-      } else if (System.currentTimeMillis() - systime >= 1000) {
+      } else if (System.currentTimeMillis() - systime >= 250) {
         m_subsystem.setThroatPower(m_power);
       } else {
         m_subsystem.setThroatPower(0);

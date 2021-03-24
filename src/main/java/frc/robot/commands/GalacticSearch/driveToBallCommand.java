@@ -66,7 +66,8 @@ public class driveToBallCommand extends CommandBase {
         Logger.Log("finish", 1, "" + finished);
       }
     } else {
-      m_subsystem.setPower(0, 0);
+      // m_subsystem.setPower(0, 0);
+      Logger.Log("CAnSEE?", 1, "Cant SEE ANYTHIGN");
     }
   }
 

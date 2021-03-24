@@ -24,18 +24,13 @@ import frc.robot.commands.Drive.ArcadeDriveCommand;
 import frc.robot.commands.Drive.DriveToTargetSizeCommand;
 import frc.robot.commands.GalacticSearch.driveToBallCommand;
 import frc.robot.commands.Intake.DropIntake;
-import frc.robot.commands.Intake.IntakeCommand;
-import frc.robot.commands.Intake.RaiseIntake;
 import frc.robot.commands.Serializer.PowerSerializeCommand;
-import frc.robot.commands.Shooter.CalibrateShooterSpeedCommand;
 import frc.robot.commands.Shooter.SetAngleCommand;
 import frc.robot.commands.Shooter.SpeedByThrottleCommand;
 import frc.robot.commands.Shooter.SpinUpShooterCommand;
 import frc.robot.commands.Teleop.FireCommand;
 import frc.robot.commands.Teleop.UnJumbleCommand;
 import frc.robot.commands.Throat.ThroatAtSpeedCommand;
-import frc.robot.commands.Throat.ThroatMoveCommand;
-import frc.robot.commands.Turret.IncrementOffsetCommand;
 import frc.robot.commands.Turret.TurretMoveCommand;
 import frc.robot.commands.Turret.TurretTrackingCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -73,7 +68,7 @@ public class RobotContainer {
   Joystick m_climbStick = new Joystick(2);
   Joystick m_calibStick = new Joystick(3);
   Joystick m_powerPortStick = new Joystick(4);
-  Joystick m_velocityStick = new Joystick(4);
+  // Joystick m_velocityStick = new Joystick(4);
 
   // show stick
   // JoystickButton m_unJumble = new JoystickButton(m_showStick, 4);
@@ -96,6 +91,7 @@ public class RobotContainer {
 
   // Driver 1 Buttons
   JoystickButton m_intake = new JoystickButton(m_stick, 3); // While hold move down and spin. move up on release
+  JoystickButton m_driverTrack = new JoystickButton(m_stick, 4);
 
   // // Driver 2 Buttons
   JoystickButton m_spinUp = new JoystickButton(m_climbStick, 2); // Toggle command to rev up the shooter to specified
@@ -181,10 +177,15 @@ public class RobotContainer {
 
     // m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem,
     // 0.25));
-    m_shooterAngleSubsystem
-        .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
+    // m_shooterAngleSubsystem
+    // .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () ->
+    // m_climbStick.getThrottle()));
+    // m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem,
+    // () -> m_stick.getX(),
+    // () -> (-m_stick.getY() - m_velocityStick.getY()), () ->
+    // m_stick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
-        () -> (-m_stick.getY() - m_velocityStick.getY()), () -> m_stick.getThrottle()));
+        () -> -m_stick.getY(), () -> m_stick.getThrottle()));
     // m_serializerSubsystem.setDefaultCommand(new
     // SerializeCommand(m_serializerSubsystem, 0.3,
     // () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () ->
@@ -221,6 +222,7 @@ public class RobotContainer {
     // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.7));
     // m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.25));
     m_intake.toggleWhenPressed(new DropIntake(m_serializerSubsystem, m_intakeSubsystem, 0.2, 0.7));
+    m_driverTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     // m_intake.whileHeld(new IntakeCommand(m_intakeSubsystem, 1.0));
     m_unJumble.whileHeld(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
 
