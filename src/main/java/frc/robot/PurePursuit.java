@@ -18,9 +18,9 @@ public class PurePursuit {
 	private final double k_lookAheadDist = 0.75;
 	private final int k_maxTimeLookAhead = 1;
 
-	private final double k_maxVelFast = 6;// 7.96;//10.7
-	private final double k_maxAcc = 3; //4
-	private final double k_maxDeccel = 3; //4
+	private final double k_maxVelFast = 6;// 7.96;//10.7 //bounce is 7
+	private final double k_maxAcc = 3; // 4
+	private final double k_maxDeccel = 3; // 4
 	private final double k_maxJerk = 100;
 
 	private final double k_width = 2.17;
@@ -39,10 +39,13 @@ public class PurePursuit {
 	public final PathConfig m_pathConfigFast = new PathConfig(k_points, k_maxVelFast, k_maxAcc, k_maxDeccel, k_maxJerk,
 			k_dt, k_width);
 	public final PathConfig m_pathConfigFastAccel = new PathConfig(k_points, k_maxVelFast, 5, 5, k_maxJerk, k_dt,
-			k_width);
+			k_width); // accel and deccel used to be 5
+	public final PathConfig m_slalomConfig = new PathConfig(k_points, 7, 6, 6, k_maxJerk, k_dt, k_width);
+	public final PathConfig m_bounceConfig = new PathConfig(k_points, 7, 5, 5, k_maxJerk, k_dt, k_width);
+	public final PathConfig m_barrelConfig = new PathConfig(k_points, 8, 7, 10, k_maxJerk, k_dt, k_width);
 
 	public enum PathConfigs {
-		fast, fastAccel
+		fast, fastAccel, slalom, bounce, barrel
 	}
 
 	private Field[] k_fields = { new Field("Vel", 'f'), new Field("Ideal Vel L", 'f'), new Field("Ideal Vel R", 'f'),
@@ -292,6 +295,12 @@ public class PurePursuit {
 			return m_pathConfigFast;
 		case fastAccel:
 			return m_pathConfigFastAccel;
+		case slalom:
+			return m_slalomConfig;
+		case bounce:
+			return m_bounceConfig;
+		case barrel:
+			return m_barrelConfig;
 		}
 		return null;
 	}

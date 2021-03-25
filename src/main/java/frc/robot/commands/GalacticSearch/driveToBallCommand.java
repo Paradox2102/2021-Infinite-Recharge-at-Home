@@ -53,13 +53,16 @@ public class driveToBallCommand extends CommandBase {
     // CameraData cameraData = m_camera.createData();
     Region cameraData[] = m_camera.getRegions();
     if (cameraData != null) {
-      System.out.println(m_camera.findClosestRegion(cameraData).getTopBound());
+      // System.out.println(m_camera.findClosestRegion(cameraData).getTopBound());
       // ArrayList<PiCameraRegion> regions = cameraData.ballFilter();
       // PiCameraRegion region = regions.get(0);
       Region region = m_camera.findClosestRegion(cameraData);
       double centerDiff = region.centerDiff() - m_camera.getCenterLine();
+      Logger.Log("Center Difference", 1, String.format("Center=%f, LeftPower=%f, RightPower=%f", centerDiff, 
+          m_power + (k_turningFactor * centerDiff), m_power - (k_turningFactor * centerDiff)));
 
-      m_subsystem.setPower(m_power + (k_turningFactor * centerDiff), m_power - (k_turningFactor * centerDiff));
+      // m_subsystem.setPower(m_power + (k_turningFactor * centerDiff), m_power - (k_turningFactor * centerDiff));
+      m_subsystem.setPower(0.25, 0.25);
 
       if (region.getTopBound() >= lowerBound) {
         finished = true;
@@ -67,7 +70,7 @@ public class driveToBallCommand extends CommandBase {
       }
     } else {
       // m_subsystem.setPower(0, 0);
-      Logger.Log("CAnSEE?", 1, "Cant SEE ANYTHIGN");
+      // Logger.Log("CAnSEE?", 1, "Cant SEE ANYTHIGN");
     }
   }
 
@@ -75,7 +78,7 @@ public class driveToBallCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Logger.Log("driveToBallCommand", 1, "end");
-    // m_subsystem.setPower(0, 0);
+    m_subsystem.setPower(0, 0);
   }
 
   // Returns true when the command should end.
