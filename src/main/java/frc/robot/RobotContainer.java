@@ -68,7 +68,7 @@ public class RobotContainer {
   Joystick m_climbStick = new Joystick(2);
   Joystick m_calibStick = new Joystick(3);
   Joystick m_powerPortStick = new Joystick(4);
-  // Joystick m_velocityStick = new Joystick(4);
+  Joystick m_velocityStick = new Joystick(5);
 
   // show stick
   // JoystickButton m_unJumble = new JoystickButton(m_showStick, 4);
@@ -185,7 +185,7 @@ public class RobotContainer {
     // () -> (-m_stick.getY() - m_velocityStick.getY()), () ->
     // m_stick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
-        () -> -m_stick.getY(), () -> m_stick.getThrottle()));
+        () -> (-m_stick.getY()- m_velocityStick.getY()), () -> m_stick.getThrottle()));
     // m_serializerSubsystem.setDefaultCommand(new
     // SerializeCommand(m_serializerSubsystem, 0.3,
     // () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () ->
