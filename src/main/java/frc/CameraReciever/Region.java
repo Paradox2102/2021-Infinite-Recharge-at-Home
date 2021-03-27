@@ -1,28 +1,28 @@
 package frc.CameraReciever;
 
 public class Region {
-    short m_xmin, m_xmax, m_ymin, m_ymax;
+    double m_xmin, m_xmax, m_ymin, m_ymax;
 
-    public Region(short xmin, short ymin, short xmax, short ymax) {
+    public Region(double xmin, double ymin, double xmax, double ymax) {
         m_xmin = xmin;
         m_xmax = xmax;
         m_ymin = ymin;
         m_ymax = ymax;
     }
 
-    public int getTopBound() {
+    public double getTopBound() {
         return m_ymin;
     }
 
-    public int getBottomBound() {
+    public double getBottomBound() {
         return m_ymax;
     }
 
-    public int getRightBound() {
+    public double getRightBound() {
         return m_xmax;
     }
 
-    public int getLeftBound() {
+    public double getLeftBound() {
         return m_xmin;
     }
 
