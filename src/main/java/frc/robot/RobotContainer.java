@@ -180,15 +180,14 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.25));
-    // m_shooterAngleSubsystem
-    // .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () ->
-    // m_climbStick.getThrottle()));
+    m_shooterAngleSubsystem
+        .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
+        () -> (-m_stick.getY() - m_velocityStick.getY()), () -> m_stick.getThrottle()));
     // m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem,
     // () -> m_stick.getX(),
-    // () -> (-m_stick.getY() - m_velocityStick.getY()), () ->
+    // () -> (-m_stick.getY()- m_velocityStick.getY()), () ->
     // m_stick.getThrottle()));
-    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
-        () -> (-m_stick.getY()- m_velocityStick.getY()), () -> m_stick.getThrottle()));
     // m_serializerSubsystem.setDefaultCommand(new
     // SerializeCommand(m_serializerSubsystem, 0.3,
     // () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () ->
