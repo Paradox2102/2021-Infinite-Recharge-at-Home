@@ -37,6 +37,8 @@ public class driveToBallCommand extends CommandBase {
     m_camera = camera;
     m_subsystem = subsystem;
     m_power = -power;
+
+    addRequirements(m_subsystem);
   }
 
   // Called when the command is initially scheduled.
