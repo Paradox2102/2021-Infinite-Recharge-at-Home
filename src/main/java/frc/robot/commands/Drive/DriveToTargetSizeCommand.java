@@ -7,7 +7,6 @@ package frc.robot.commands.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Camera;
 import frc.lib.Logger;
-import frc.lib.Camera.CameraData;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterAngleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -28,8 +27,7 @@ public class DriveToTargetSizeCommand extends CommandBase {
 
   double k_turnP = 0.5;
 
-  public DriveToTargetSizeCommand(DriveSubsystem driveSubsystem, ShooterSubsystem shooterSubsystem,
-      ShooterAngleSubsystem shooterAngleSubsystem, Camera camera, double angle, double speed, double targetArea) {
+  public DriveToTargetSizeCommand(ShooterSubsystem shooterSubsystem, ShooterAngleSubsystem shooterAngleSubsystem, double angle, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     // m_driveSubsystem = driveSubsystem;
     m_shooterSubsystem = shooterSubsystem;
@@ -41,6 +39,7 @@ public class DriveToTargetSizeCommand extends CommandBase {
     // m_driveBack = false;
 
     // addRequirements(m_driveSubsystem);
+    addRequirements(m_ShooterAngleSubsystem, m_shooterSubsystem);
   }
 
   public DriveToTargetSizeCommand(DriveSubsystem driveSubsystem, Camera camera) {
@@ -57,9 +56,9 @@ public class DriveToTargetSizeCommand extends CommandBase {
     Logger.Log("DriveToTargetSizeCommand", 1, "Initialized");
     m_shooterSubsystem.setSpeed(m_speed, m_speed);
     m_ShooterAngleSubsystem.setAngle(m_angle);
-    m_finished = false;
+    // m_finished = false;
     // m_camera.toggleLights(true);
-    m_haveSeen = false;
+    // m_haveSeen = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -97,8 +96,7 @@ public class DriveToTargetSizeCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Logger.Log("DriveToTargetSizeCommand", 1, "End");
-    // m_driveSubsystem.stop();
-    // m_camera.toggleLights(false);
+    m_shooterSubsystem.stop();
   }
 
   // Returns true when the command should end.

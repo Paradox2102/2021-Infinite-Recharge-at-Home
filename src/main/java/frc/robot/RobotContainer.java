@@ -87,11 +87,10 @@ public class RobotContainer {
   // Power Port Challenge Buttons
   JoystickButton m_portFire = new JoystickButton(m_powerPortStick, 1);
   JoystickButton m_portTrack = new JoystickButton(m_powerPortStick, 3);
-  JoystickButton m_driveToFirst = new JoystickButton(m_powerPortStick, 7);
-  JoystickButton m_driveToSecond = new JoystickButton(m_powerPortStick, 8);
-  JoystickButton m_driveToThird = new JoystickButton(m_powerPortStick, 9);
-  JoystickButton m_driveToFourth = new JoystickButton(m_powerPortStick, 10);
-  JoystickButton m_driveBack = new JoystickButton(m_powerPortStick, 2);
+  JoystickButton m_farShoot = new JoystickButton(m_powerPortStick, 7);
+  JoystickButton m_farMidShoot = new JoystickButton(m_powerPortStick, 8);
+  JoystickButton m_closeMidShoot = new JoystickButton(m_powerPortStick, 9);
+  JoystickButton m_closeShoot = new JoystickButton(m_powerPortStick, 10);
 
   // Driver 1 Buttons
   JoystickButton m_intake = new JoystickButton(m_stick, 3); // While hold move down and spin. move up on release
@@ -179,7 +178,8 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.25));
+    // m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem,
+    // 0.25));
     m_shooterAngleSubsystem
         .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
@@ -211,17 +211,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Power Port Bindings
-    m_portFire.toggleWhenPressed(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
+    m_portFire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
     m_portTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
-    m_driveToFirst.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_shooterSubsystem,
-        m_shooterAngleSubsystem, m_turretCamera, 0.23, 2600, 6900));
-    m_driveToSecond.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_shooterSubsystem,
-        m_shooterAngleSubsystem, m_turretCamera, 0.335, 2600, 13000));
-    m_driveToThird.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_shooterSubsystem,
-        m_shooterAngleSubsystem, m_turretCamera, 0.515, 2600, 32840));
-    m_driveToFourth.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_shooterSubsystem,
-        m_shooterAngleSubsystem, m_turretCamera, 1.0, 2800, 91500));
-    m_driveBack.toggleWhenPressed(new DriveToTargetSizeCommand(m_driveSubsystem, m_turretCamera));
+    m_farShoot
+        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.23, 2400));
+    m_farMidShoot
+        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.28, 2600));
+    m_closeMidShoot
+        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.47, 2600));
+    m_closeShoot
+        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.8, 2600));
 
     // Driver 1 bindings
     // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.7));
