@@ -15,10 +15,11 @@ public class SmoothTurnCommand extends CommandBase {
   DriveSubsystem m_subsystem;
   double m_angle;
   double m_power;
-  double k_deadzone = 10;
+  double k_deadzone = 5;
 
   double m_drivePower;
   double m_turnPower;
+  double m_targetAngle;
 
   /**
    * Creates a new SmoothTurnCommand.
@@ -36,7 +37,8 @@ public class SmoothTurnCommand extends CommandBase {
   @Override
   public void initialize() {
     Logger.Log("SmoothTurnCommand", 1, "initialize");
-    m_subsystem.resetAngle(m_angle);
+    // m_subsystem.resetAngle(m_angle);
+    m_targetAngle = m_subsystem.getAngle() - m_angle;
 
     if (m_angle > 0) {
       m_subsystem.setPower(m_drivePower + m_turnPower, m_drivePower - m_turnPower);
@@ -55,12 +57,18 @@ public class SmoothTurnCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Logger.Log("SmoothTurnCommand", 1, "end");
+    m_subsystem.setPower(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    Logger.Log("SmoothTurnCommand", -1, "isFinished");
-    return Math.abs(m_subsystem.getAngle()) < k_deadzone;
+    Logger.Log("SmoothTurnCommand", 1, "isFinished Angle: " + m_subsystem.getAngle());
+    if(m_angle > 0) {
+      return m_subsystem.getAngle() < m_targetAngle;
+    } else {
+      return m_subsystem.getAngle() > m_targetAngle;
+    }
+    // return m_subsystem.getAngle() < k_deadzone;
   }
 }

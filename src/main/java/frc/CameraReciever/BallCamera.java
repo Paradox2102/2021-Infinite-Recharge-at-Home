@@ -29,11 +29,11 @@ public class BallCamera extends Thread {
     }
 
     public void Receive() {
-        double[] nums = SmartDashboard.getNumberArray("ballCoords", (double[]) null);
+        double[] nums = SmartDashboard.getNumberArray("ballcoords", (double[]) null);
         if (nums != null) {
         m_cameraData = new Region[nums.length / 4];
             for (int i = 0; i < m_cameraData.length; i++) {
-                m_cameraData[i] = new Region(nums[i], nums[i + 1], nums[i + 2], nums[i + 3]);
+                m_cameraData[i] = new Region(nums[4*i], nums[4*i + 1], nums[4*i + 2], nums[4*i + 3]);
             }
         } else {
             m_cameraData = null;
@@ -106,6 +106,20 @@ public class BallCamera extends Thread {
 
     }
 
+    public Region[] getRegions() {
+        Region[] cameraData;
+        double[] nums = SmartDashboard.getNumberArray("ballcoords", (double[]) null);
+        if (nums != null && nums.length > 0) {
+            cameraData = new Region[nums.length / 4];
+            for (int i = 0; i < cameraData.length; i++) {
+                cameraData[i] = new Region(nums[4 * i], nums[4 * i + 1], nums[4 * i + 2], nums[4 * i + 3]);
+            }
+        } else {
+            cameraData = null;
+        }
+        return cameraData;
+    }
+
     public Region findClosestRegion(Region cameraData[]) {
         Region closest = cameraData[0];
         for (int i = 1; i < cameraData.length; i++) {
@@ -116,11 +130,11 @@ public class BallCamera extends Thread {
         return closest;
     }
 
-    public Region[] getRegions() {
-        synchronized (m_lock) {
-            return m_cameraData;
-        }
-    }
+    // public Region[] getRegions() {
+    //     synchronized (m_lock) {
+    //         return m_cameraData;
+    //     }
+    // }
 
     public int getCenterLine() {
         return centerLine;

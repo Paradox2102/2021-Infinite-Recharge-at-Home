@@ -45,7 +45,7 @@ public class PathChooserCommandGroupA extends InstantCommand {
     if (m_camera.getRegions() != null) {
       double positionY = m_camera.findClosestRegion(m_camera.getRegions()).getTopBound();
       Logger.Log("PositionY:", 1, "" + positionY);
-      if (positionY > 120) {
+      if (positionY > 80) {
         Logger.Log("Path Chooser A", 1, "Choosing close path");
         new closePathAutoGroupA(m_camera, m_subsystem, m_intakeSubsystem, m_searchPower, m_turnPower).schedule();
       } else {

@@ -25,7 +25,7 @@ public class driveToBallCommand extends CommandBase {
 
   double k_turningFactor = 0.0004;
   double m_power;
-  int lowerBound = 200;
+  int lowerBound = 165;
 
   boolean finished;
 
@@ -63,23 +63,24 @@ public class driveToBallCommand extends CommandBase {
       Logger.Log("Center Difference", 1, String.format("Center=%f, LeftPower=%f, RightPower=%f", centerDiff, 
           m_power + (k_turningFactor * centerDiff), m_power - (k_turningFactor * centerDiff)));
 
-      // m_subsystem.setPower(m_power + (k_turningFactor * centerDiff), m_power - (k_turningFactor * centerDiff));
-      m_subsystem.setPower(0.25, 0.25);
+      m_subsystem.setPower(m_power + (k_turningFactor * centerDiff), m_power - (k_turningFactor * centerDiff));
+      // m_subsystem.setPower(0.25, 0.25);
 
+      Logger.Log("driveToBallCommand", 1, "Top Bound: " + region.getTopBound() + " Lower Bound: " + lowerBound);
       if (region.getTopBound() >= lowerBound) {
         finished = true;
         Logger.Log("finish", 1, "" + finished);
       }
     } else {
       // m_subsystem.setPower(0, 0);
-      // Logger.Log("CAnSEE?", 1, "Cant SEE ANYTHIGN");
+      Logger.Log("CAnSEE?", 1, "Cant SEE ANYTHIGN");
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Logger.Log("driveToBallCommand", 1, "end");
+    Logger.Log("driveToBallCommand", 1, "end: " + interrupted);
     m_subsystem.setPower(0, 0);
   }
 

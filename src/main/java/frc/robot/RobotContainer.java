@@ -24,6 +24,7 @@ import frc.robot.commands.Drive.ArcadeDriveCommand;
 import frc.robot.commands.Drive.DriveToTargetSizeCommand;
 import frc.robot.commands.GalacticSearch.BarrelPath;
 import frc.robot.commands.GalacticSearch.BouncePath;
+import frc.robot.commands.GalacticSearch.PathChooserCommandAll;
 import frc.robot.commands.GalacticSearch.SlalomPath;
 import frc.robot.commands.GalacticSearch.driveToBallCommand;
 import frc.robot.commands.Intake.DropIntake;
@@ -200,6 +201,7 @@ public class RobotContainer {
     m_chooser.addOption("Slalom Path", new SlalomPath(m_driveSubsystem));
     m_chooser.addOption("Bounce Path", new BouncePath(m_driveSubsystem));
     m_chooser.addOption("Barrel Path", new BarrelPath(m_driveSubsystem));
+    m_chooser.addOption("Galactic Search", new PathChooserCommandAll(m_cam, m_driveSubsystem, m_intakeSubsystem, 0.3, 0.3));
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 

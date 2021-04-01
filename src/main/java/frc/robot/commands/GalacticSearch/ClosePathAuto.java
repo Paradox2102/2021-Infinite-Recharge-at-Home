@@ -29,7 +29,7 @@ public class ClosePathAuto extends ParallelCommandGroup {
    * Creates a new driveToBallAuto.
    */
   final static double k_turnPower = .25;
-  final static double k_waitTime = .5;
+  final static double k_waitTime = 1;
 
   public ClosePathAuto(BallCamera camera, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem,
       double searchPower, double drivePower) {
@@ -37,12 +37,20 @@ public class ClosePathAuto extends ParallelCommandGroup {
     // super(new FooCommand(), new BarCommand());
     addCommands(/* new IntakeCommand(intakeSubsystem, 0.9), */
         new IntakeCommand(intakeSubsystem, 0.6),
-        new SequentialCommandGroup(new driveToBallCommand(camera, driveSubsystem, searchPower),
-            new WaitCommand(k_waitTime), new SmoothTurnCommand(driveSubsystem, 35, -drivePower, k_turnPower),
-            new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(k_waitTime),
-            new SmoothTurnCommand(driveSubsystem, -80, -drivePower, k_turnPower),
-            new driveToBallCommand(camera, driveSubsystem, searchPower), new WaitCommand(k_waitTime),
-            new SmoothTurnCommand(driveSubsystem, 60, -drivePower, k_turnPower),
-            new driveToBallCommand(camera, driveSubsystem, searchPower)));
+        new SequentialCommandGroup(
+            new driveToBallCommand(camera, driveSubsystem, searchPower),
+            new WaitCommand(k_waitTime),
+            new SmoothTurnCommand(driveSubsystem, 10, -drivePower, k_turnPower),
+            new WaitCommand(k_waitTime),
+            new driveToBallCommand(camera, driveSubsystem, searchPower),
+            new WaitCommand(k_waitTime),
+            new SmoothTurnCommand(driveSubsystem, -60, -drivePower, k_turnPower),
+            new WaitCommand(k_waitTime),
+            new driveToBallCommand(camera, driveSubsystem, searchPower),
+            new WaitCommand(k_waitTime),
+            new SmoothTurnCommand(driveSubsystem, 40, -drivePower, k_turnPower),
+            new WaitCommand(k_waitTime),
+            new driveToBallCommand(camera, driveSubsystem, searchPower)
+            ));
   }
 }

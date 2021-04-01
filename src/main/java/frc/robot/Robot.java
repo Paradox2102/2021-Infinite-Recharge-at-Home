@@ -58,10 +58,10 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     // System.out.println("Periodic Running");
-    if (m_robotContainer.canSee()) {
-      SmartDashboard.putNumber("Target Height", m_robotContainer.getTargetHeight());
-      SmartDashboard.putNumber("Target Width", m_robotContainer.getTargetWidth());
-    }
+    // if (m_robotContainer.canSee()) {
+    //   SmartDashboard.putNumber("Target Height", m_robotContainer.getTargetHeight());
+    //   SmartDashboard.putNumber("Target Width", m_robotContainer.getTargetWidth());
+    // }
 
     m_robotContainer.periodic();
   }

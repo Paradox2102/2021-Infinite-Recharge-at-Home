@@ -55,7 +55,7 @@ public class ThroatAtSpeedCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_throatSubsystem.stopThroatPower();
-    Logger.Log("ThroatAtSpeedCommand", 3, "end");
+    Logger.Log("ThroatAtSpeedCommand", 3, "end: " + interrupted);
   }
 
   // Returns true when the command should end.
