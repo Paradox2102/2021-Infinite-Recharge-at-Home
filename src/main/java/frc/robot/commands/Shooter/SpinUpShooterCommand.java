@@ -18,15 +18,15 @@ public class SpinUpShooterCommand extends CommandBase {
    */
 
   ShooterSubsystem m_subsystem;
-  double m_shooterPower;
-  double m_backWheelPower;
+  double m_shooterSpeed;
+  double m_backWheelSpeeed;
   Joystick m_stick;
 
-  public SpinUpShooterCommand(ShooterSubsystem subsystem, double shooterPower, double backWheelPower, Joystick stick) {
+  public SpinUpShooterCommand(ShooterSubsystem subsystem, double shooterSpeed, double backWheelSpeed, Joystick stick) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsystem;
-    m_shooterPower = shooterPower;
-    m_backWheelPower = backWheelPower;
+    m_shooterSpeed = shooterSpeed;
+    m_backWheelSpeeed = backWheelSpeed;
     m_stick = stick;
 
     addRequirements(m_subsystem);
@@ -36,7 +36,7 @@ public class SpinUpShooterCommand extends CommandBase {
   @Override
   public void initialize() {
     Logger.Log("SpinUPCommand", 1, "Initialized");
-    m_subsystem.setSpeed(2800, 2800);
+    m_subsystem.setSpeed(m_shooterSpeed, m_backWheelSpeeed);
     // m_subsystem.setShooterPower(0.7);
     // m_subsystem.setBackWheelPower(0.6);
   }

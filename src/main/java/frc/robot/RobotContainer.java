@@ -161,10 +161,13 @@ public class RobotContainer {
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  double m_shooterSpeed = 33000;// 31000; //36000;
+  // double m_shooterSpeed = 33000;// 31000; //36000;
 
-  double m_shooterPower = 0.5;
-  double m_backWheelPower = 0.5;
+  double m_shooterSpeed = 2800;
+  double m_backWheelSpeed = 2800;
+
+  // double m_shooterPower = 0.5;
+  // double m_backWheelPower = 0.5;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -233,7 +236,7 @@ public class RobotContainer {
     m_unJumble.whileHeld(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
 
     // Driver 2 bindings
-    m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterPower, m_backWheelPower, m_stick));
+    m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterSpeed, m_backWheelSpeed, m_stick));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
     m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_moveTurrent.whileHeld(new TurretMoveCommand(m_turretSubsystem, () -> m_climbStick.getZ()));
