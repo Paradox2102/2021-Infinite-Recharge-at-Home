@@ -101,7 +101,7 @@ public class ArcadeDriveCommand extends CommandBase {
         m_subsystem.setSpeed(ds.leftMotor* k_maxSpeed, ds.rightMotor * k_maxSpeed);}
         break;
         case curvatureLSM: {
-          double speedVariable = .8;
+          double speedVariable = 1;
           DriveSignal ds = m_driveHelper.cheesyDrive(y*speedVariable, x, false);
           DriveSignal dsLow = m_driveHelper.cheesyDrive(y*speedVariable, x, true);
           double leftMotor;
