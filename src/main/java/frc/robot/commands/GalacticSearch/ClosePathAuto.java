@@ -16,10 +16,13 @@ import frc.robot.commands.Camera.ToggleLightsCommand;
 import frc.robot.commands.Drive.DriveByDistanceCommand;
 import frc.robot.commands.Drive.SmoothTurnCommand;
 import frc.robot.commands.Drive.TurnByAngleCommand;
+import frc.robot.commands.Intake.DropIntake;
 import frc.robot.commands.Intake.IntakeCommand;
+import frc.robot.commands.Serializer.PowerSerializeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.SerializerSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -29,15 +32,16 @@ public class ClosePathAuto extends ParallelCommandGroup {
    * Creates a new driveToBallAuto.
    */
   final static double k_turnPower = .25;
-  final static double k_waitTime = 1;
+  final static double k_waitTime = 0.25;
 
-  public ClosePathAuto(BallCamera camera, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem,
+  public ClosePathAuto(BallCamera camera, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, SerializerSubsystem serializerSubsystem,
       double searchPower, double drivePower) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(/* new IntakeCommand(intakeSubsystem, 0.9), */
-        new IntakeCommand(intakeSubsystem, 0.6),
+        new DropIntake(serializerSubsystem, intakeSubsystem, 1.0, 0.7),
         new SequentialCommandGroup(
+            // new DriveByDistanceCommand(driveSubsystem, 1, -0.6),
             new driveToBallCommand(camera, driveSubsystem, searchPower),
             new WaitCommand(k_waitTime),
             new SmoothTurnCommand(driveSubsystem, 10, -drivePower, k_turnPower),
@@ -50,7 +54,7 @@ public class ClosePathAuto extends ParallelCommandGroup {
             new WaitCommand(k_waitTime),
             new SmoothTurnCommand(driveSubsystem, 40, -drivePower, k_turnPower),
             new WaitCommand(k_waitTime),
-            new driveToBallCommand(camera, driveSubsystem, searchPower)
+            new driveToBallCommand(camera, driveSubsystem, 0.65)
             ));
   }
 }

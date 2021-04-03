@@ -15,6 +15,7 @@ import frc.lib.Camera.CameraData;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.SerializerSubsystem;
 
 public class PathChooserCommandAll extends InstantCommand {
   /**
@@ -23,10 +24,11 @@ public class PathChooserCommandAll extends InstantCommand {
   BallCamera m_camera;
   DriveSubsystem m_subsystem;
   IntakeSubsystem m_intakeSubsystem;
+  SerializerSubsystem m_serializerSubsystem;
   double m_searchPower;
   double m_turnPower;
 
-  public PathChooserCommandAll(BallCamera camera, DriveSubsystem subsystem, IntakeSubsystem intakeSubsystem,
+  public PathChooserCommandAll(BallCamera camera, DriveSubsystem subsystem, IntakeSubsystem intakeSubsystem, SerializerSubsystem serializerSubsystem,
       double searchPower, double turnPower) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_camera = camera;
@@ -34,6 +36,7 @@ public class PathChooserCommandAll extends InstantCommand {
     m_intakeSubsystem = intakeSubsystem;
     m_searchPower = searchPower;
     m_turnPower = turnPower;
+    m_serializerSubsystem = serializerSubsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -47,10 +50,10 @@ public class PathChooserCommandAll extends InstantCommand {
       Logger.Log("PositionY:", 1, "" + positionY);
       if (positionY > 95) {
         Logger.Log("Path Chooser", 1, "Choosing close path");
-        new ClosePathAuto(m_camera, m_subsystem, m_intakeSubsystem, m_searchPower, m_turnPower).schedule();
+        new ClosePathAuto(m_camera, m_subsystem, m_intakeSubsystem, m_serializerSubsystem, m_searchPower, m_turnPower).schedule();
       } else {
         Logger.Log("Path Chooser", 1, "Choosing far path");
-        new FarPathAuto(m_camera, m_subsystem, m_intakeSubsystem, m_searchPower, m_turnPower).schedule();
+        new FarPathAuto(m_camera, m_subsystem, m_intakeSubsystem, m_serializerSubsystem, m_searchPower, m_turnPower).schedule();
       }
     } else {
       Logger.Log("Can see:", 1, "CANT SEE");

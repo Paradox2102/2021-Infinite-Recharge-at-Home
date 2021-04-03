@@ -2,6 +2,7 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.PiCamera.Logger;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class RaiseIntake extends CommandBase {
@@ -18,6 +19,7 @@ public class RaiseIntake extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        Logger.Log("Raise Intake: ", 1, "Initialized");
         m_subsystem.deploy(-m_power);
     }
 

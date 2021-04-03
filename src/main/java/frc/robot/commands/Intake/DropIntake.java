@@ -15,6 +15,7 @@ public class DropIntake extends CommandBase {
   SerializerSubsystem m_serializerSubsystem;
   double m_deployPower;
   double m_spinPower;
+  double m_timeStamp;
 
   public DropIntake(SerializerSubsystem serializerSubsystem, IntakeSubsystem subsystem, double deployPower, double spinPower) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,11 +33,15 @@ public class DropIntake extends CommandBase {
     m_subsystem.deploy(m_deployPower);
     m_subsystem.setPower(m_spinPower);
     m_serializerSubsystem.setPower(-m_spinPower);
+    m_timeStamp = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (System.currentTimeMillis() - m_timeStamp >= 500) {
+      m_subsystem.stopDeploy();
+    }
   }
 
   // Called once the command ends or is interrupted.

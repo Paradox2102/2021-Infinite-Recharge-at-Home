@@ -16,7 +16,7 @@ public class PowerSerializeCommand extends CommandBase {
   double m_power;
   public PowerSerializeCommand(SerializerSubsystem subsystem, double power) {
     m_subsystem = subsystem;
-    m_power = power;
+    m_power = -power;
     addRequirements(m_subsystem);
   }
 

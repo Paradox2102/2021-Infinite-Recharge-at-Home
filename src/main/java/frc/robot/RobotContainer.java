@@ -182,8 +182,7 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    // m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem,
-    // 0.25));
+    // m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.4));
     m_shooterAngleSubsystem
         .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
@@ -204,7 +203,7 @@ public class RobotContainer {
     m_chooser.addOption("Slalom Path", new SlalomPath(m_driveSubsystem));
     m_chooser.addOption("Bounce Path", new BouncePath(m_driveSubsystem));
     m_chooser.addOption("Barrel Path", new BarrelPath(m_driveSubsystem));
-    m_chooser.addOption("Galactic Search", new PathChooserCommandAll(m_cam, m_driveSubsystem, m_intakeSubsystem, 0.3, 0.3));
+    m_chooser.addOption("Galactic Search", new PathChooserCommandAll(m_cam, m_driveSubsystem, m_intakeSubsystem, m_serializerSubsystem, 0.3, 0.3));
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 
@@ -219,13 +218,13 @@ public class RobotContainer {
     m_portFire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
     m_portTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_farShoot
-        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.23, 2400));
+        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.23, 2525));
     m_farMidShoot
-        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.28, 2600));
+        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.33, 2600));
     m_closeMidShoot
-        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.47, 2600));
+        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.53, 2600));
     m_closeShoot
-        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.8, 2600));
+        .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 1.0, 3300));
 
     // Driver 1 bindings
     // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.7));
