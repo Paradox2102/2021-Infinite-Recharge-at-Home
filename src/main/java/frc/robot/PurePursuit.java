@@ -42,7 +42,7 @@ public class PurePursuit {
 			k_width); // accel and deccel used to be 5
 	public final PathConfig m_slalomConfig = new PathConfig(k_points, 9, 8, 15, k_maxJerk, k_dt, k_width);
 	public final PathConfig m_bounceConfig = new PathConfig(k_points, 8, 8, 30, k_maxJerk, k_dt, k_width);
-	public final PathConfig m_barrelConfig = new PathConfig(k_points, 8, 7, 10, k_maxJerk, k_dt, k_width);
+	public final PathConfig m_barrelConfig = new PathConfig(k_points, 8, 8, 15, k_maxJerk, k_dt, k_width);
 
 	public enum PathConfigs {
 		fast, fastAccel, slalom, bounce, barrel
