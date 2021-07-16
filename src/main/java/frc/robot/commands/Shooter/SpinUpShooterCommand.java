@@ -37,7 +37,7 @@ public class SpinUpShooterCommand extends CommandBase {
   public void initialize() {
     Logger.Log("SpinUPCommand", 1, "Initialized");
     m_subsystem.setSpeed(m_shooterSpeed, m_backWheelSpeeed);
-    // m_subsystem.setShooterPower(0.7);
+    // m_subsystem.setShooterPower(0.6);
     // m_subsystem.setBackWheelPower(0.6);
   }
 
