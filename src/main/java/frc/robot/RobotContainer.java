@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.CameraReciever.BallCamera;
 import frc.lib.Camera;
+import frc.lib.Camera.CameraData;
 import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
@@ -28,7 +29,6 @@ import frc.robot.commands.GalacticSearch.PathChooserCommandAll;
 import frc.robot.commands.GalacticSearch.SlalomPath;
 import frc.robot.commands.GalacticSearch.driveToBallCommand;
 import frc.robot.commands.Intake.DropIntake;
-import frc.robot.commands.Intake.RaiseIntake;
 import frc.robot.commands.Serializer.PowerSerializeCommand;
 import frc.robot.commands.Shooter.SetAngleCommand;
 import frc.robot.commands.Shooter.SpeedByThrottleCommand;
@@ -94,12 +94,12 @@ public class RobotContainer {
   JoystickButton m_closeShoot = new JoystickButton(m_powerPortStick, 10);
 
   // Driver 1 Buttons
-  JoystickButton m_intake = new JoystickButton(m_stick, 3); // While hold move down and spin. move up on release
   JoystickButton m_driverTrack = new JoystickButton(m_stick, 4);
-
+  
   // // Driver 2 Buttons
+  JoystickButton m_intake = new JoystickButton(m_climbStick, 7); // While hold move down and spin. move up on release
   JoystickButton m_spinUp = new JoystickButton(m_climbStick, 2); // Toggle command to rev up the shooter to specified
-                                                                 // speed.
+  // speed.
   JoystickButton m_turretTrack = new JoystickButton(m_climbStick, 2); // Toggle command to start turret tracking with
                                                                       // front camera.
   JoystickButton m_fire = new JoystickButton(m_climbStick, 1); // Hold command to run the throat only when shooter is
@@ -111,7 +111,7 @@ public class RobotContainer {
   // (Should cancel tracking command if in use)
   JoystickButton m_unJumble = new JoystickButton(m_climbStick, 8); // Toggle command to run intake, vbelt, and throat in
                                                                    // reverse
-  JoystickButton m_serialize = new JoystickButton(m_climbStick, 7); // Toggle command to run serializer (V-Belt)
+  JoystickButton m_serialize = new JoystickButton(m_climbStick, 10); // Toggle command to run serializer (V-Belt)
   // Controls shooter hood with throttle
 
   // Calibration buttons
@@ -353,7 +353,11 @@ public class RobotContainer {
     SmartDashboard.putNumber("Time Left", DriverStation.getInstance().getMatchTime());
     SmartDashboard.putNumber("Offset", m_turretSubsystem.getOffset());
     SmartDashboard.putBoolean("Lights State", m_turretCamera.getLightsState());
-
+    CameraData camData = m_turretCamera.createData();
+    if(camData.m_regions != null && camData.m_regions.GetRegionCount() >= 1) {
+      SmartDashboard.putNumber("Height", camData.m_regions.GetRegion(0).m_bounds.m_bottom - camData.m_regions.GetRegion(0).m_bounds.m_top);
+      SmartDashboard.putNumber("Width", camData.m_regions.GetRegion(0).m_bounds.m_right - camData.m_regions.GetRegion(0).m_bounds.m_left);
+    }
     SmartDashboard.putNumber("Joystick Z", m_climbStick.getZ());
   }
 
