@@ -33,13 +33,15 @@ public class SpeedByThrottleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_speed = 500 * m_throttle.getAsDouble() + 2000;
+    m_speed = 1500 * m_throttle.getAsDouble() + 2000;
     m_subsystem.setSpeed(m_speed, m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_subsystem.stop();
+  }
 
   // Returns true when the command should end.
   @Override

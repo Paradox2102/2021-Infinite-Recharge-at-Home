@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -141,12 +142,12 @@ public class RobotContainer {
   // JoystickButton m_calibrateSpeed = new JoystickButton(m_calibStick, 1);
   // JoystickButton m_calibrateSpeedShooter = new JoystickButton(m_calibStick, 2);
   // JoystickButton m_snootTesting = new JoystickButton(m_calibStick, 3);
-  // JoystickButton m_turretTrackCalib = new JoystickButton(m_calibStick, 4);
+  JoystickButton m_turretTrackCalib = new JoystickButton(m_calibStick, 2);
 
   // JoystickButton m_snootSetRotation = new JoystickButton(m_calibStick, 5); //
   // snooter is snooting
 
-  JoystickButton m_trackBalls = new JoystickButton(m_calibStick, 6);
+  // JoystickButton m_trackBalls = new JoystickButton(m_calibStick, 6);
   // JoystickButton m_toggleIntake = new JoystickButton(m_calibStick, 8);
 
   // JoystickButton m_galacticSearchA = new JoystickButton(m_stick, 12);
@@ -174,6 +175,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
+    SmartDashboard.putData("PDP", new PowerDistributionPanel());
     DriverStation.getInstance().silenceJoystickConnectionWarning(true);
     // Configure the button bindings
     m_turretCamera.connect(Constants.m_robotConstants.k_ipAddress);
@@ -252,7 +254,7 @@ public class RobotContainer {
         .toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
 
     // m_calibrateBtn.whileHeld(new SpeedCommand(m_driveSubsystem, 11.94));
-    m_trackBalls.toggleWhenPressed(new driveToBallCommand(m_cam, m_driveSubsystem, 0.25));
+    // m_trackBalls.toggleWhenPressed(new driveToBallCommand(m_cam, m_driveSubsystem, 0.25));
     // m_shoot.toggleWhenPressed(new ShootAllCommand(m_throatSubsystem,
     // m_shooterSubsystem, m_serializerSubsystem, m_indexerSubsystem,
     // m_intakeSubsystem, () -> getThrottle()));
@@ -304,8 +306,7 @@ public class RobotContainer {
     // m_trackBalls.whileHeld(new BallDriveCommand(m_driveSubsystem, m_backCamera,
     // 0.25, BallSide.LEFT, true, 20));
 
-    // m_turretTrackCalib.toggleWhenPressed(new
-    // TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
+    m_turretTrackCalib.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
 
     // m_galacticSearchA.toggleWhenPressed(new
     // PathChooserCommandGroupA(m_backCamera, m_driveSubsystem, m_intakeSubsystem,
