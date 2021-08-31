@@ -32,6 +32,7 @@ import frc.robot.commands.GalacticSearch.driveToBallCommand;
 import frc.robot.commands.Intake.DropIntake;
 import frc.robot.commands.Serializer.PowerSerializeCommand;
 import frc.robot.commands.Shooter.SetAngleCommand;
+import frc.robot.commands.Shooter.ShootByDistanceCommand;
 import frc.robot.commands.Shooter.SpeedByThrottleCommand;
 import frc.robot.commands.Shooter.SpinUpShooterCommand;
 import frc.robot.commands.Teleop.FireCommand;
@@ -117,6 +118,7 @@ public class RobotContainer {
 
   // Calibration buttons
   JoystickButton m_calibrateShooter = new JoystickButton(m_calibStick, 2);
+  JoystickButton m_shootByDistance = new JoystickButton(m_calibStick, 3);
 
   // JoystickButton m_raiseIntake = new JoystickButton(m_stick, 4);
   // JoystickButton m_feederIntake = new JoystickButton(m_stick, 6);
@@ -252,6 +254,7 @@ public class RobotContainer {
     // CalibrateShooterSpeedCommand(m_shooterSubsystem, 1500.0));
     m_calibrateShooter
         .toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
+    m_shootByDistance.toggleWhenPressed(new ShootByDistanceCommand(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
 
     // m_calibrateBtn.whileHeld(new SpeedCommand(m_driveSubsystem, 11.94));
     // m_trackBalls.toggleWhenPressed(new driveToBallCommand(m_cam, m_driveSubsystem, 0.25));

@@ -4,9 +4,6 @@
 
 package frc.robot.commands.Shooter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Camera;
 import frc.lib.Camera.CameraData;
@@ -19,72 +16,10 @@ public class ShootByDistanceCommand extends CommandBase {
   ShooterAngleSubsystem m_angleSubsystem;
   Camera m_camera;
 
-  // m_keys array must be sorted
-  double[] m_keys = { 44, 45, 50, 56, 62, 70, 79, 92, 102 };
-  HashMap<Double, ArrayList<Double>> m_distances;
-
-  public ShootByDistanceCommand(ShooterSubsystem subsystem, ShooterAngleSubsystem angleSubsystem, Camera camera) {
-    m_subsystem = subsystem;
+  public ShootByDistanceCommand(ShooterSubsystem shooterSubsystem, ShooterAngleSubsystem angleSubsystem, Camera camera) {
+    m_subsystem = shooterSubsystem;
     m_angleSubsystem = angleSubsystem;
     m_camera = camera;
-
-    m_distances = new HashMap<>();
-    m_distances.put(m_keys[0], new ArrayList<>() {
-      {
-        add(2700d);
-        add(0.23);
-      }
-    });
-    m_distances.put(m_keys[1], new ArrayList<>() {
-      {
-        add(2700d);
-        add(0.23);
-      }
-    });
-    m_distances.put(m_keys[2], new ArrayList<>() {
-      {
-        add(2600d);
-        add(0.23);
-      }
-    });
-    m_distances.put(m_keys[3], new ArrayList<>() {
-      {
-        add(2600d);
-        add(0.23);
-      }
-    });
-    m_distances.put(m_keys[4], new ArrayList<>() {
-      {
-        add(2700d);
-        add(0.23);
-      }
-    });
-    m_distances.put(m_keys[5], new ArrayList<>() {
-      {
-        add(2800d);
-        add(0.23);
-      }
-    });
-    m_distances.put(m_keys[6], new ArrayList<>() {
-      {
-        add(3000d);
-        add(0.23);
-      }
-    });
-    m_distances.put(m_keys[7], new ArrayList<>() {
-      {
-        add(3000d);
-        add(0.3d);
-      }
-    });
-    m_distances.put(m_keys[8], new ArrayList<>() {
-      {
-        add(3000d);
-        add(0.43d);
-      }
-    });
-
-    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -97,49 +32,16 @@ public class ShootByDistanceCommand extends CommandBase {
   @Override
   public void execute() {
     CameraData data = m_camera.createData();
-    if (data != null && data.canSee()) {
-      if (data.m_regions.GetRegionCount() > 0) {
-        // Adin helped with this
-        // Currently O(n) but could be O(log(n)) if we binary search
-        double height = data.m_regions.GetRegion(0).m_bounds.m_bottom - data.m_regions.GetRegion(0).m_bounds.m_top;
-        double[] ans = { 0d, 0d };
+    if (data.canSee() && data.m_regions.GetRegion(0) != null) {
+      double area = (data.m_regions.GetRegion(0).m_bounds.m_bottom - data.m_regions.GetRegion(0).m_bounds.m_top) * (data.m_regions.GetRegion(0).m_bounds.m_right - data.m_regions.GetRegion(0).m_bounds.m_left);
+      double distance = -3.39426154352767E-12*area*area*area+0.000000182429533380718*area*area+-0.00350938626520345*area+34.1876601964883;
+      double speed = 0.515572390572389*distance*distance*distance + -20.7927489177488*distance*distance + 225.602753727752*distance + 2278.94570707071;
+      double hood_angle = -0.000243055555555556*distance*distance*distance + 0.0125852272727273*distance*distance + -0.210438762626263*distance + 1.36127840909091;
 
-        if (height < m_keys[0]) {
-          ans[0] = m_distances.get(m_keys[0]).get(0);
-          ans[1] = m_distances.get(m_keys[0]).get(1);
-        } else if (height > m_keys[m_keys.length - 1]) {
-          ans[0] = m_distances.get(m_keys[m_keys.length - 1]).get(0);
-          ans[1] = m_distances.get(m_keys[m_keys.length - 1]).get(1);
-        } else {
-          for (int i = 0; i < m_keys.length; i++) {
-            if (m_keys[i] == height) {
-              ans[0] = m_distances.get(m_keys[i]).get(0);
-              ans[1] = m_distances.get(m_keys[i]).get(1);
-              break;
-            }
-
-            if (m_keys[i] > height) {
-              ans = new double[] {
-                  interpolate(height, m_keys[i - 1], m_distances.get(m_keys[i - 1]).get(0), m_keys[i],
-                      m_distances.get(m_keys[i]).get(0)),
-                  interpolate(height, m_keys[i - 1], m_distances.get(m_keys[i - 1]).get(1), m_keys[i],
-                      m_distances.get(m_keys[i]).get(1)) };
-              break;
-            }
-          }
-        }
-
-        m_subsystem.setSpeed(ans[0], ans[0]);
-        m_angleSubsystem.setAngle(ans[1]);
-      }
+      m_subsystem.setSpeed(speed, speed);
+      m_angleSubsystem.setAngle(hood_angle);
     }
-  }
 
-  private double interpolate(double x, double x1, double x2, double y1, double y2) {
-    if (x1 != x2)
-      return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
-    else
-      throw new ArithmeticException("x1 == x2");
   }
 
   // Called once the command ends or is interrupted.
