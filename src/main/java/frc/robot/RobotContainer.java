@@ -30,6 +30,7 @@ import frc.robot.commands.GalacticSearch.PathChooserCommandAll;
 import frc.robot.commands.GalacticSearch.SlalomPath;
 import frc.robot.commands.GalacticSearch.driveToBallCommand;
 import frc.robot.commands.Intake.DropIntake;
+import frc.robot.commands.Intake.RaiseIntake;
 import frc.robot.commands.Serializer.PowerSerializeCommand;
 import frc.robot.commands.Shooter.SetAngleCommand;
 import frc.robot.commands.Shooter.ShootByDistanceCommand;
@@ -186,7 +187,7 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    // m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.4));
+    m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.4));
     m_shooterAngleSubsystem
         .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
@@ -231,8 +232,8 @@ public class RobotContainer {
         .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 1.0, 3300));
 
     // Driver 1 bindings
-    // m_intake.whileHeld(new DropIntake(m_intakeSubsystem, 0.3, 0.7));
-    // m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.25));
+    m_intake.whileHeld(new DropIntake(m_serializerSubsystem, m_intakeSubsystem, 0.3, 0.7));
+    m_intake.whenReleased(new RaiseIntake(m_intakeSubsystem, 0.25));
     m_intake.toggleWhenPressed(new DropIntake(m_serializerSubsystem, m_intakeSubsystem, 0.2, 0.7));
     m_driverTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     // m_intake.whileHeld(new IntakeCommand(m_intakeSubsystem, 1.0));

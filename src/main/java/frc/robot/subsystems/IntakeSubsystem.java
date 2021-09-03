@@ -24,18 +24,24 @@ public class IntakeSubsystem extends SubsystemBase {
   CANSparkMax m_intakeDeploy = new CANSparkMax(Constants.k_intakeDeploy, MotorType.kBrushless);
   CANEncoder m_intakeDeployEncoder;
 
-  double systime;
+  double m_systime;
+  double m_lastPower;
   
   public IntakeSubsystem() {
+    m_intakeDeploy.restoreFactoryDefaults();
+
     m_intakeDeployEncoder = m_intakeDeploy.getEncoder();
     m_intakeDeploy.setIdleMode(IdleMode.kCoast);
+    // m_intakeDeploy.setSmartCurrentLimit(10, 100);
 
     m_intake.setInverted(false);
 
     m_intakeDeploy.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen).enableLimitSwitch(true);
-    m_intakeDeploy.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen).enableLimitSwitch(true);
+    m_intakeDeploy.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen).enableLimitSwitch(false);
 
-    systime = 0;
+
+    m_systime = System.currentTimeMillis();
+    m_lastPower = 0;
   }
 
   @Override
@@ -44,7 +50,15 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("ForwardLimitIntake", isForwardLimitEnabled());
     SmartDashboard.putBoolean("ReverseLimitIntake", isReverseLimitEnabled());
     
-
+    if (isReverseLimitEnabled()) {
+      if (System.currentTimeMillis() - m_systime >= 5*1000) {
+        stopDeploy();
+      } else if(m_lastPower < 0){
+        m_intakeDeploy.set(-0.1);
+      }
+    } else {
+      m_systime = System.currentTimeMillis();
+    }
   }
 
   public double getEncoder() {
@@ -81,6 +95,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void deploy(double power){
     m_intakeDeploy.set(power);
+    m_systime = System.currentTimeMillis();
+    m_lastPower = power;
   }
   public void stopDeploy() {
     m_intakeDeploy.set(0);

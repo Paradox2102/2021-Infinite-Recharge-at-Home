@@ -17,6 +17,7 @@ public class RaiseIntake extends CommandBase {
     }
 
     // Called when the command is initially scheduled.
+    // Stalls at -0.1 power
     @Override
     public void initialize() {
         Logger.Log("Raise Intake: ", 1, "Initialized");
@@ -26,11 +27,21 @@ public class RaiseIntake extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        // if(m_subsystem.isReverseLimitEnabled()) {
+        //     m_subsystem.deploy(-m_stallPower);
+        // } else {
+        //     m_subsystem.deploy(-m_power);
+        // }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         m_subsystem.stopDeploy();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }
