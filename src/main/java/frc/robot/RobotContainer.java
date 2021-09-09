@@ -34,6 +34,7 @@ import frc.robot.commands.Intake.RaiseIntake;
 import frc.robot.commands.Serializer.PowerSerializeCommand;
 import frc.robot.commands.Shooter.SetAngleCommand;
 import frc.robot.commands.Shooter.ShootByDistanceCommand;
+import frc.robot.commands.Shooter.ShootByDistanceCommandInterpolate;
 import frc.robot.commands.Shooter.SpeedByThrottleCommand;
 import frc.robot.commands.Shooter.SpinUpShooterCommand;
 import frc.robot.commands.Teleop.FireCommand;
@@ -118,8 +119,9 @@ public class RobotContainer {
   // Controls shooter hood with throttle
 
   // Calibration buttons
-  JoystickButton m_calibrateShooter = new JoystickButton(m_calibStick, 2);
-  JoystickButton m_shootByDistance = new JoystickButton(m_calibStick, 3);
+  // JoystickButton m_calibrateShooter = new JoystickButton(m_calibStick, 2);
+  JoystickButton m_shootByDistance = new JoystickButton(m_calibStick, 2);
+  JoystickButton m_calibTrack = new JoystickButton(m_calibStick, 2);
 
   // JoystickButton m_raiseIntake = new JoystickButton(m_stick, 4);
   // JoystickButton m_feederIntake = new JoystickButton(m_stick, 6);
@@ -167,7 +169,7 @@ public class RobotContainer {
 
   // double m_shooterSpeed = 33000;// 31000; //36000;
 
-  double m_shooterSpeed = 2800;
+  double m_shooterSpeed = 2600;
   double m_backWheelSpeed = 2800;
 
   // double m_shooterPower = 0.5;
@@ -253,10 +255,10 @@ public class RobotContainer {
     // Calibration bindings
     // m_calibrateShooter.toggleWhenPressed(new
     // CalibrateShooterSpeedCommand(m_shooterSubsystem, 1500.0));
-    m_calibrateShooter
-        .toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
-    m_shootByDistance.toggleWhenPressed(new ShootByDistanceCommand(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
-
+    // m_calibrateShooter
+    //     .toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
+    m_shootByDistance.toggleWhenPressed(new ShootByDistanceCommandInterpolate(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
+    m_calibTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     // m_calibrateBtn.whileHeld(new SpeedCommand(m_driveSubsystem, 11.94));
     // m_trackBalls.toggleWhenPressed(new driveToBallCommand(m_cam, m_driveSubsystem, 0.25));
     // m_shoot.toggleWhenPressed(new ShootAllCommand(m_throatSubsystem,

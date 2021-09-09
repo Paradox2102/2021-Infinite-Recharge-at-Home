@@ -48,6 +48,7 @@ public class ShootByDistanceCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_camera.toggleLights(false);
+    m_subsystem.stop();
   }
 
   // Returns true when the command should end.
