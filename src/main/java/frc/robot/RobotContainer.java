@@ -22,6 +22,8 @@ import frc.lib.Camera.CameraData;
 import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
+import frc.robot.commands.Auto.TrenchRun.TrenchRun;
+import frc.robot.commands.Auto.TrenchRun.TrenchRunSix;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
 import frc.robot.commands.Drive.DriveToTargetSizeCommand;
 import frc.robot.commands.GalacticSearch.BarrelPath;
@@ -207,10 +209,12 @@ public class RobotContainer {
     // m_intakeSubsystem.setDefaultCommand(new
     // AmbientIntakePowerCommand(m_intakeSubsystem, 0.25));
 
-    m_chooser.addOption("Slalom Path", new SlalomPath(m_driveSubsystem));
-    m_chooser.addOption("Bounce Path", new BouncePath(m_driveSubsystem));
-    m_chooser.addOption("Barrel Path", new BarrelPath(m_driveSubsystem));
-    m_chooser.addOption("Galactic Search", new PathChooserCommandAll(m_cam, m_driveSubsystem, m_intakeSubsystem, m_serializerSubsystem, 0.3, 0.3));
+    // m_chooser.addOption("Slalom Path", new SlalomPath(m_driveSubsystem));
+    // m_chooser.addOption("Bounce Path", new BouncePath(m_driveSubsystem));
+    // m_chooser.addOption("Barrel Path", new BarrelPath(m_driveSubsystem));
+    // m_chooser.addOption("Galactic Search", new PathChooserCommandAll(m_cam, m_driveSubsystem, m_intakeSubsystem, m_serializerSubsystem, 0.3, 0.3));
+    // m_chooser.addOption("Trench Run", new TrenchRun(driveSubsystem, intakeSubsystem, shooterSubsystem, turretSubsystem, throatSubsystem, serializerSubsystem, turretCamera, shooterSpeed, getPosX, getPosY, backCamera));
+    m_chooser.addOption("Trench Run 6", new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_backCamera, m_backWheelSpeed));
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 
@@ -242,7 +246,8 @@ public class RobotContainer {
     m_unJumble.whileHeld(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
 
     // Driver 2 bindings
-    m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterSpeed, m_backWheelSpeed, m_stick));
+    // m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterSpeed, m_backWheelSpeed));
+    m_spinUp.toggleWhenPressed(new ShootByDistanceCommandInterpolate(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
     m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_moveTurrent.whileHeld(new TurretMoveCommand(m_turretSubsystem, () -> m_climbStick.getZ()));

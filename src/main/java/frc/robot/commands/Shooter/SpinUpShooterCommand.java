@@ -20,14 +20,12 @@ public class SpinUpShooterCommand extends CommandBase {
   ShooterSubsystem m_subsystem;
   double m_shooterSpeed;
   double m_backWheelSpeeed;
-  Joystick m_stick;
 
-  public SpinUpShooterCommand(ShooterSubsystem subsystem, double shooterSpeed, double backWheelSpeed, Joystick stick) {
+  public SpinUpShooterCommand(ShooterSubsystem subsystem, double shooterSpeed, double backWheelSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsystem;
     m_shooterSpeed = shooterSpeed;
     m_backWheelSpeeed = backWheelSpeed;
-    m_stick = stick;
 
     addRequirements(m_subsystem);
   }

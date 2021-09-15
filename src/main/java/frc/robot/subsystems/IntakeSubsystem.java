@@ -51,7 +51,7 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("ReverseLimitIntake", isReverseLimitEnabled());
     
     if (isReverseLimitEnabled()) {
-      if (System.currentTimeMillis() - m_systime >= 5*1000) {
+      if (System.currentTimeMillis() - m_systime >= 3*60*1000) {
         stopDeploy();
       } else if(m_lastPower < 0){
         m_intakeDeploy.set(-0.1);
