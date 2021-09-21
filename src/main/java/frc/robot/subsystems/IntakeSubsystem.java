@@ -26,6 +26,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   double m_systime;
   double m_lastPower;
+
+  boolean stopped;
   
   public IntakeSubsystem() {
     m_intakeDeploy.restoreFactoryDefaults();
@@ -42,6 +44,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     m_systime = System.currentTimeMillis();
     m_lastPower = 0;
+    stopped = false;
   }
 
   @Override
@@ -49,12 +52,19 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("ForwardLimitIntake", isForwardLimitEnabled());
     SmartDashboard.putBoolean("ReverseLimitIntake", isReverseLimitEnabled());
+    SmartDashboard.putNumber("Intake Temperature", m_intakeDeploy.getMotorTemperature());
     
-    if (isReverseLimitEnabled()) {
+    if(m_intakeDeploy.getMotorTemperature() >= 50) {
+      m_intakeDeploy.set(0);
+      stopped = true;
+    } else if(stopped && m_intakeDeploy.getMotorTemperature() <= 48) {
+      stopped = false;
+    }
+
+    if (isReverseLimitEnabled() && !stopped) {
       if (System.currentTimeMillis() - m_systime >= 3*60*1000) {
-        stopDeploy();
       } else if(m_lastPower < 0){
-        m_intakeDeploy.set(-0.1);
+        m_intakeDeploy.set(Constants.stallPower);
       }
     } else {
       m_systime = System.currentTimeMillis();
@@ -94,9 +104,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void deploy(double power){
+    if(!stopped) {
     m_intakeDeploy.set(power);
     m_systime = System.currentTimeMillis();
     m_lastPower = power;
+    }
   }
   public void stopDeploy() {
     m_intakeDeploy.set(0);
