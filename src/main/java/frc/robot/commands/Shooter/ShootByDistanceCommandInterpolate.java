@@ -24,6 +24,12 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
   double[] m_keys = {7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27};
   HashMap<Double, ArrayList<Double>> m_distances;
 
+  static double table[][] = {
+    {7,  3000, 0.43},
+    {9,  3000, 0.41},
+    {11, 3000, 0.34}
+  };
+
   public ShootByDistanceCommandInterpolate(ShooterSubsystem subsystem, ShooterAngleSubsystem angleSubsystem, Camera camera) {
     m_subsystem = subsystem;
     m_angleSubsystem = angleSubsystem;
@@ -34,7 +40,7 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
     m_distances.put(m_keys[0], new ArrayList<>() {
       {
         add(3000d);
-        add(0.43d);
+        add(0.55d);
       }
     });
     m_distances.put(m_keys[1], new ArrayList<>() {
@@ -58,43 +64,43 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
     m_distances.put(m_keys[4], new ArrayList<>() {
       {
         add(2700d);
-        add(0.25);
+        add(0.3);
       }
     });
     m_distances.put(m_keys[5], new ArrayList<>() {
       {
-        add(2600d);
-        add(0.23);
+        add(2700d);
+        add(0.3);
       }
     });
     m_distances.put(m_keys[6], new ArrayList<>() {
       {
-        add(2600d);
-        add(0.23);
+        add(2700d);
+        add(0.25);
       }
     });
     m_distances.put(m_keys[7], new ArrayList<>() {
       {
-        add(2700d);
-        add(0.23);
+        add(2800d);
+        add(0.25);
       }
     });
     m_distances.put(m_keys[8], new ArrayList<>() {
       {
-        add(2600d);
-        add(0.23);
+        add(2800d);
+        add(0.25);
       }
     });
     m_distances.put(m_keys[9], new ArrayList<>() {
       {
-        add(2600d);
-        add(0.23);
+        add(2800d);
+        add(0.25);
       }
     });
     m_distances.put(m_keys[10], new ArrayList<>() {
       {
-        add(2700d);
-        add(0.23);
+        add(2800d);
+        add(0.25);
       }
     });
 
@@ -144,12 +150,15 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
                       m_distances.get(m_keys[i]).get(1)) };
               // System.out.println("Index: " + i + " Distance: " + distance + " Angle: " + ans[0] + 
               // " Speed: " + ans[1]);
+              SmartDashboard.putNumber("Distance", distance);
               break;
             }
           }
         }
 
+        // ans[0] *= 1.2;
         m_subsystem.setSpeed(ans[0], ans[0]);
+        SmartDashboard.putNumber("Set Shooter Speed", ans[0]);
         m_angleSubsystem.setAngle(ans[1]);
       }
     }
@@ -167,6 +176,7 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
   public void end(boolean interrupted) {
     m_camera.toggleLights(false);
     m_subsystem.stop();
+    m_angleSubsystem.stop();
   }
 
   // Returns true when the command should end.

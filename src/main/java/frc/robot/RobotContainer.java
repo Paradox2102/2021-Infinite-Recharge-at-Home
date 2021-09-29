@@ -121,8 +121,8 @@ public class RobotContainer {
   // Controls shooter hood with throttle
 
   // Calibration buttons
-  // JoystickButton m_calibrateShooter = new JoystickButton(m_calibStick, 2);
-  JoystickButton m_shootByDistance = new JoystickButton(m_calibStick, 2);
+  JoystickButton m_calibrateShooter = new JoystickButton(m_calibStick, 2);
+  // JoystickButton m_shootByDistance = new JoystickButton(m_calibStick, 2);
   JoystickButton m_calibTrack = new JoystickButton(m_calibStick, 2);
 
   // JoystickButton m_raiseIntake = new JoystickButton(m_stick, 4);
@@ -204,7 +204,7 @@ public class RobotContainer {
     // SerializeCommand(m_serializerSubsystem, 0.3,
     // () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () ->
     // !m_throatSubsystem.GetTopBreak()));
-    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.5));
+    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.3));
 
     // m_intakeSubsystem.setDefaultCommand(new
     // AmbientIntakePowerCommand(m_intakeSubsystem, 0.25));
@@ -260,9 +260,9 @@ public class RobotContainer {
     // Calibration bindings
     // m_calibrateShooter.toggleWhenPressed(new
     // CalibrateShooterSpeedCommand(m_shooterSubsystem, 1500.0));
-    // m_calibrateShooter
-    //     .toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
-    m_shootByDistance.toggleWhenPressed(new ShootByDistanceCommandInterpolate(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
+    m_calibrateShooter
+        .toggleWhenPressed(new SpeedByThrottleCommand(m_shooterSubsystem, () -> m_calibStick.getThrottle()));
+    // m_shootByDistance.toggleWhenPressed(new ShootByDistanceCommandInterpolate(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
     m_calibTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     // m_calibrateBtn.whileHeld(new SpeedCommand(m_driveSubsystem, 11.94));
     // m_trackBalls.toggleWhenPressed(new driveToBallCommand(m_cam, m_driveSubsystem, 0.25));

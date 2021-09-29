@@ -31,4 +31,10 @@ public class ShooterAngleSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Servo Angle", angle);
     m_angleServo.set(angle);
   }
+
+  public void stop() {
+    Logger.Log("ShooterAngleSubsystem", 1, "Servo Disabled");
+    m_angleServo.setDisabled();
+  }
+
 }
