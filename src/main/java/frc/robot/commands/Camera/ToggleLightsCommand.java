@@ -8,6 +8,7 @@
 package frc.robot.commands.Camera;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.PiCamera.Logger;
 import frc.lib.Camera;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -25,6 +26,7 @@ public class ToggleLightsCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.Log("ToggleLightsCommadn", 3, "initialize()");
     m_camera.toggleLights(m_on);
   }
 }

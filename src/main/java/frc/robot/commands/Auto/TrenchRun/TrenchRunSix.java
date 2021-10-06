@@ -5,7 +5,10 @@
 package frc.robot.commands.Auto.TrenchRun;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib.Camera;
+import frc.robot.commands.Auto.FireCommandAuto;
 import frc.robot.commands.Auto.WaitForShooterSpeedCommand;
 import frc.robot.commands.Camera.ToggleLightsCommand;
 import frc.robot.commands.Intake.DropIntake;
@@ -27,7 +30,7 @@ public class TrenchRunSix extends ParallelCommandGroup {
   /** Creates a new TrenchRunSix. */
   public TrenchRunSix(DriveSubsystem m_driveSubsystem, ShooterSubsystem m_shooterSubsystem, TurretSubsystem m_turretSubsystem,
     ThroatSubsystem m_throatSubsystem, SerializerSubsystem m_serializerSubsystem, IntakeSubsystem m_intakeSubsystem,
-    Camera frontCam, double shootSpeed) {
+    Camera frontCam, Camera m_turretCamera, double shootSpeed) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -35,7 +38,11 @@ public class TrenchRunSix extends ParallelCommandGroup {
       new TurretTrackingCommand(m_turretSubsystem, frontCam),
       new DropIntake(m_serializerSubsystem, m_intakeSubsystem, 0.3, 0.7),
       new ToggleLightsCommand(frontCam, true),
-      new TrenchForwardBack(m_driveSubsystem)
+      new SequentialCommandGroup(
+        new MoveBack3Ball(m_driveSubsystem),
+        new WaitCommand(2), 
+        new FireCommandAuto(m_throatSubsystem, m_turretSubsystem, m_shooterSubsystem, m_turretCamera, 50)
+        )
     );
   }
 }
