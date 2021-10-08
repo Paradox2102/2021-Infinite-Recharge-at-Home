@@ -39,31 +39,31 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
     
     m_distances.put(m_keys[0], new ArrayList<>() {
       {
-        add(3000d);
+        add(3600d); //3000
         add(0.55d);
       }
     });
     m_distances.put(m_keys[1], new ArrayList<>() {
       {
-        add(3000d);
+        add(3600d); // 3000
         add(0.41d);
       }
     });
     m_distances.put(m_keys[2], new ArrayList<>() {
       {
-        add(3000d);
+        add(3600d); //3000
         add(0.34);
       }
     });
     m_distances.put(m_keys[3], new ArrayList<>() {
       {
-        add(2800d);
+        add(3200d); //2800
         add(0.26);
       }
     });
     m_distances.put(m_keys[4], new ArrayList<>() {
       {
-        add(2700d);
+        add(3200d); //2700
         add(0.3);
       }
     });

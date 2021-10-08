@@ -22,6 +22,7 @@ import frc.lib.Camera.CameraData;
 import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
+import frc.robot.commands.Auto.TrenchRun.MoveBack6Ball;
 import frc.robot.commands.Auto.TrenchRun.TrenchRun;
 import frc.robot.commands.Auto.TrenchRun.TrenchRunSix;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
@@ -82,14 +83,14 @@ public class RobotContainer {
   Joystick m_velocityStick = new Joystick(5);
 
   // show stick
-  JoystickButton m_unJumble = new JoystickButton(m_showStick, 4);
-  JoystickButton m_intake = new JoystickButton(m_showStick, 3);
-  JoystickButton m_spinUp = new JoystickButton(m_showStick, 2);
+  // JoystickButton m_unJumble = new JoystickButton(m_showStick, 4);
+  // JoystickButton m_intake = new JoystickButton(m_showStick, 3);
+  // JoystickButton m_spinUp = new JoystickButton(m_showStick, 2);
   // JoystickButton m_turretTrack = new JoystickButton(m_showStick, 2);
-  JoystickButton m_fire = new JoystickButton(m_showStick, 1);
+  // JoystickButton m_fire = new JoystickButton(m_showStick, 1);
   // JoystickButton m_moveTurrentL = new JoystickButton(m_showStick, 7);
   // JoystickButton m_moveTurrentR = new JoystickButton(m_showStick, 8);
-  JoystickButton m_moveTurret = new JoystickButton(m_showStick, 9);
+  // JoystickButton m_moveTurret = new JoystickButton(m_showStick, 9);
   // JoystickButton m_serialize = new JoystickButton(m_showStick, 5);
 
   // Power Port Challenge Buttons
@@ -99,24 +100,25 @@ public class RobotContainer {
   JoystickButton m_farMidShoot = new JoystickButton(m_powerPortStick, 8);
   JoystickButton m_closeMidShoot = new JoystickButton(m_powerPortStick, 9);
   JoystickButton m_closeShoot = new JoystickButton(m_powerPortStick, 10);
+  JoystickButton m_autonomous = new JoystickButton(m_showStick, 11); 
 
   // Driver 1 Buttons
   JoystickButton m_driverTrack = new JoystickButton(m_stick, 4);
   
   // // Driver 2 Buttons
-  // JoystickButton m_intake = new JoystickButton(m_climbStick, 7); // While hold move down and spin. move up on release
-  // JoystickButton m_spinUp = new JoystickButton(m_climbStick, 2); // Toggle command to rev up the shooter to specified
+  JoystickButton m_intake = new JoystickButton(m_climbStick, 7); // While hold move down and spin. move up on release
+  JoystickButton m_spinUp = new JoystickButton(m_climbStick, 2); // Toggle command to rev up the shooter to specified
   // speed.
   JoystickButton m_turretTrack = new JoystickButton(m_climbStick, 2); // Toggle command to start turret tracking with
                                                                       // front camera.
-  // JoystickButton m_fire = new JoystickButton(m_climbStick, 1); // Hold command to run the throat only when shooter is
+  JoystickButton m_fire = new JoystickButton(m_climbStick, 1); // Hold command to run the throat only when shooter is
                                                                // revved
   JoystickButton m_moveTurrent = new JoystickButton(m_climbStick, 9); // Toggle command to turn the turret manually
                                                                       // (Should cancel tracking command if in use)
   // JoystickButton m_moveTurrentR = new JoystickButton(m_climbStick, 4); //
   // Toggle command to turn the turret manually
   // (Should cancel tracking command if in use)
-  // JoystickButton m_unJumble = new JoystickButton(m_climbStick, 8); // Toggle command to run intake, vbelt, and throat in
+  JoystickButton m_unJumble = new JoystickButton(m_climbStick, 8); // Toggle command to run intake, vbelt, and throat in
                                                                    // reverse
   JoystickButton m_serialize = new JoystickButton(m_climbStick, 10); // Toggle command to run serializer (V-Belt)
   // Controls shooter hood with throttle
@@ -172,8 +174,8 @@ public class RobotContainer {
 
   // double m_shooterSpeed = 33000;// 31000; //36000;
 
-  double m_shooterSpeed = 2600;
-  double m_backWheelSpeed = 2800;
+  double m_shooterSpeed = 2700;
+  double m_backWheelSpeed = 2700;
 
   // double m_shooterPower = 0.5;
   // double m_backWheelPower = 0.5;
@@ -195,8 +197,8 @@ public class RobotContainer {
     m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.4));
     m_shooterAngleSubsystem
         .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
-    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_showStick.getX(),
-        () -> (-m_showStick.getY() - m_velocityStick.getY()), () -> m_showStick.getThrottle()));
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
+        () -> (-m_stick.getY() - m_velocityStick.getY()), () -> m_stick.getThrottle()));
     // m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem,
     // () -> m_stick.getX(),
     // () -> (-m_stick.getY()- m_velocityStick.getY()), () ->
@@ -207,6 +209,7 @@ public class RobotContainer {
     // !m_throatSubsystem.GetTopBreak()));
     m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.3));
 
+    m_autonomous.whileHeld(new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_turretCamera, m_backCamera, m_backWheelSpeed)); 
     // m_intakeSubsystem.setDefaultCommand(new
     // AmbientIntakePowerCommand(m_intakeSubsystem, 0.25));
 
@@ -215,8 +218,9 @@ public class RobotContainer {
     // m_chooser.addOption("Barrel Path", new BarrelPath(m_driveSubsystem));
     // m_chooser.addOption("Galactic Search", new PathChooserCommandAll(m_cam, m_driveSubsystem, m_intakeSubsystem, m_serializerSubsystem, 0.3, 0.3));
     // m_chooser.addOption("Trench Run", new TrenchRun(driveSubsystem, intakeSubsystem, shooterSubsystem, turretSubsystem, throatSubsystem, serializerSubsystem, turretCamera, shooterSpeed, getPosX, getPosY, backCamera));
-    m_chooser.addOption("Trench Run 6", new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_backCamera, m_turretCamera, m_backWheelSpeed 
-       )); 
+    m_chooser.addOption("Trench Run 6", new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_turretCamera, m_backCamera, m_backWheelSpeed 
+       ));
+    m_chooser.addOption("Move6", new MoveBack6Ball(m_driveSubsystem));
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 

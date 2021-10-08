@@ -61,6 +61,7 @@ public class CreatePathCommand extends CommandBase {
     public void initialize() {
     	if(m_setXY) {
             m_subsystem.setPos(m_path.m_centerPath[0].x, m_path.m_centerPath[0].y);
+            Logger.Log("SetXY Position", 1, m_path.m_centerPath[0].x + " " + m_path.m_centerPath[0].y);
     	}
     	m_subsystem.loadFollowPath(m_path, m_isReversed, m_isExtended);
         m_subsystem.startFollow();
