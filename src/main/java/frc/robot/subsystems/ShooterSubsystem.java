@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.Map;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -15,12 +17,13 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.PiCamera.Logger;
+import frc.PiCamera.Network;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -50,7 +53,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
   double m_setPoint = 0;
 
-  ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter Tuning");
+  // Temperature readout
+  // Fudge factor
+  // 
+  ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Tab");
+  NetworkTableEntry m_fudgeFactor = 
+    driverTab
+      .add("Speed Factor (±1000)", 0)
+      .withWidget(BuiltInWidgets.kNumberSlider)
+      .withProperties(Map.of("min", -1, "max", 1))
+      .getEntry();
+
   NetworkTableEntry m_f;
   NetworkTableEntry m_p;
   NetworkTableEntry m_i;
@@ -126,7 +139,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Shooter Speed", m_shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Backwheel Speed", m_backWheelEncoder.getVelocity());
-
   }
 
   public void configPID() {
@@ -166,6 +178,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setSpeed(double frontSpeed, double backSpeed) {
+    frontSpeed += m_fudgeFactor.getDouble(0)*1000;
+    backSpeed += m_fudgeFactor.getDouble(0)*1000;
     m_shooterController.setReference(frontSpeed, ControlType.kVelocity);
     m_backWheelController.setReference(backSpeed, ControlType.kVelocity);
     m_setPoint = frontSpeed;

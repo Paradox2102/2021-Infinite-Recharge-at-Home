@@ -33,11 +33,15 @@ public final class Constants {
     public static int k_shooterFollower = 10;
     public static int k_backWheels = 12;
     public static int k_serializerFollower = 13;
+    public static int k_climberMotor1 = 14;
+    public static int k_climberMotor2 = 15;
 
     public static final int k_dioTop = 0;
     public static final int k_dioBottom = 1;
 
     public static final int k_shooterAngle = 9; // servo
+    public static final int k_climberServo1 = 10; // servo
+    public static final int k_climberServo2 = 11; // servo
 
     public static final double stallPower = -0.05;
 

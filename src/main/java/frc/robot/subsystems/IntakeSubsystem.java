@@ -15,6 +15,7 @@ import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -53,6 +54,8 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("ForwardLimitIntake", isForwardLimitEnabled());
     SmartDashboard.putBoolean("ReverseLimitIntake", isReverseLimitEnabled());
     SmartDashboard.putNumber("Intake Temperature", m_intakeDeploy.getMotorTemperature());
+    Shuffleboard.getTab("Driver Tab")
+      .add("Intake Temperature", m_intakeDeploy.getMotorTemperature());
     
     if(m_intakeDeploy.getMotorTemperature() >= 50) {
       m_intakeDeploy.set(0);
