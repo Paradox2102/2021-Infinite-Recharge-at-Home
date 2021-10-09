@@ -25,6 +25,7 @@ import frc.robot.Triggers.IncreaseTrimTrigger;
 import frc.robot.commands.Auto.TrenchRun.MoveBack6Ball;
 import frc.robot.commands.Auto.TrenchRun.TrenchRun;
 import frc.robot.commands.Auto.TrenchRun.TrenchRunSix;
+import frc.robot.commands.Climber.ClimbCommand;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
 import frc.robot.commands.Drive.DriveToTargetSizeCommand;
 import frc.robot.commands.GalacticSearch.BarrelPath;
@@ -45,6 +46,7 @@ import frc.robot.commands.Teleop.UnJumbleCommand;
 import frc.robot.commands.Throat.ThroatAtSpeedCommand;
 import frc.robot.commands.Turret.TurretMoveCommand;
 import frc.robot.commands.Turret.TurretTrackingCommand;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DriveSubsystemSPARKMAX;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -67,6 +69,7 @@ public class RobotContainer {
   TurretSubsystem m_turretSubsystem = new TurretSubsystem();
   ThroatSubsystem m_throatSubsystem = new ThroatSubsystem();
   ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   ShooterAngleSubsystem m_shooterAngleSubsystem = new ShooterAngleSubsystem();
   SerializerSubsystem m_serializerSubsystem = new SerializerSubsystem();
   IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -106,6 +109,7 @@ public class RobotContainer {
   JoystickButton m_driverTrack = new JoystickButton(m_stick, 4);
   
   // // Driver 2 Buttons
+  JoystickButton m_climb = new JoystickButton(m_climbStick, 11);
   JoystickButton m_intake = new JoystickButton(m_climbStick, 7); // While hold move down and spin. move up on release
   JoystickButton m_spinUp = new JoystickButton(m_climbStick, 2); // Toggle command to rev up the shooter to specified
   // speed.
@@ -207,7 +211,7 @@ public class RobotContainer {
     // SerializeCommand(m_serializerSubsystem, 0.3,
     // () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () ->
     // !m_throatSubsystem.GetTopBreak()));
-    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.3));
+    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.4));
 
     m_autonomous.whileHeld(new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_turretCamera, m_backCamera, m_backWheelSpeed)); 
     // m_intakeSubsystem.setDefaultCommand(new
@@ -252,6 +256,7 @@ public class RobotContainer {
     m_unJumble.whileHeld(new UnJumbleCommand(m_intakeSubsystem, m_throatSubsystem, m_serializerSubsystem));
 
     // Driver 2 bindings
+    m_climb.whileHeld(new ClimbCommand(m_climberSubsystem, () -> m_climbStick.getY()));
     m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterSpeed, m_backWheelSpeed));
     // m_spinUp.toggleWhenPressed(new ShootByDistanceCommandInterpolate(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));

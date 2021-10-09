@@ -29,7 +29,7 @@ public class ClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climberSubsystem.setPower(y.getAsDouble()/2);
+    // m_climberSubsystem.setPower(y.getAsDouble()/10);
   }
 
   // Called once the command ends or is interrupted.

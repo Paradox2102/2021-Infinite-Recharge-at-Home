@@ -38,8 +38,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void unLock() {
-    m_servo1.setAngle(0);
-    m_servo2.setAngle(0);
+    m_servo1.set(0);
+    m_servo2.set(1);
   }
   public void lock() {
     m_servo1.setAngle(0);

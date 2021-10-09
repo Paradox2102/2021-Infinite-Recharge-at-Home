@@ -39,6 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     m_intake.setInverted(false);
 
+    Shuffleboard.getTab("Driver Tab").add("Intake Temperature", m_intakeDeploy.getMotorTemperature());
+
     m_intakeDeploy.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen).enableLimitSwitch(true);
     m_intakeDeploy.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen).enableLimitSwitch(false);
 
@@ -54,8 +56,7 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("ForwardLimitIntake", isForwardLimitEnabled());
     SmartDashboard.putBoolean("ReverseLimitIntake", isReverseLimitEnabled());
     SmartDashboard.putNumber("Intake Temperature", m_intakeDeploy.getMotorTemperature());
-    Shuffleboard.getTab("Driver Tab")
-      .add("Intake Temperature", m_intakeDeploy.getMotorTemperature());
+    // Shuffleboard.getTab("Driver Tab").add("Intake Temperature", m_intakeDeploy.getMotorTemperature());
     
     if(m_intakeDeploy.getMotorTemperature() >= 50) {
       m_intakeDeploy.set(0);
