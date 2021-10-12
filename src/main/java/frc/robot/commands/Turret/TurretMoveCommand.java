@@ -21,7 +21,7 @@ public class TurretMoveCommand extends CommandBase {
     m_turretSubsystem = turretSubsystem;
     m_power = power;
 
-    addRequirements(m_turretSubsystem);
+    // addRequirements(m_turretSubsystem);
   }
 
   // Called when the command is initially scheduled.

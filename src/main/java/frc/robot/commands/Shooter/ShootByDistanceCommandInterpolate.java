@@ -39,31 +39,31 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
     
     m_distances.put(m_keys[0], new ArrayList<>() {
       {
-        add(3600d); //3000
+        add(3000d); //3000
         add(0.55d);
       }
     });
     m_distances.put(m_keys[1], new ArrayList<>() {
       {
-        add(3600d); // 3000
+        add(3000d); // 3000
         add(0.41d);
       }
     });
     m_distances.put(m_keys[2], new ArrayList<>() {
       {
-        add(3600d); //3000
+        add(3000d); //3000
         add(0.34);
       }
     });
     m_distances.put(m_keys[3], new ArrayList<>() {
       {
-        add(3200d); //2800
+        add(2800d); //2800
         add(0.26);
       }
     });
     m_distances.put(m_keys[4], new ArrayList<>() {
       {
-        add(3200d); //2700
+        add(2700d); //2700
         add(0.3);
       }
     });
@@ -104,7 +104,7 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
       }
     });
 
-    addRequirements(subsystem);
+    addRequirements(subsystem, angleSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -159,6 +159,7 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
         // ans[0] *= 1.2;
         m_subsystem.setSpeed(ans[0], ans[0]);
         SmartDashboard.putNumber("Set Shooter Speed", ans[0]);
+        SmartDashboard.putNumber("Set Angle", ans[1]);
         m_angleSubsystem.setAngle(ans[1]);
       }
     }

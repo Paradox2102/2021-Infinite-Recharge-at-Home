@@ -22,7 +22,7 @@ public class ThroatPowerCommand extends CommandBase {
   double m_power;
   DoubleSupplier m_getVel;
   DoubleSupplier m_rpmSpeed;
-  double k_deadZoneSpeed = 200;
+  double k_deadZoneSpeed = 300;
   double k_deadZoneX = 0;
   Camera m_turretCamera = null;
   DoubleSupplier m_offset;
@@ -70,7 +70,7 @@ public class ThroatPowerCommand extends CommandBase {
     // if(m_getVel.getAsDouble() > m_rpmSpeed.getAsDouble() - 5000) {
     // m_subsystem.setThroatPower(m_power);
     // }
-    if (m_semiAuto) {
+    if (m_semiAuto /*&& m_getVel.getAsDouble() >= m_rpmSpeed.getAsDouble() - k_deadZoneSpeed*/) {
       if (!m_subsystem.GetTopBreak()) {
         systime = System.currentTimeMillis();
         m_subsystem.setThroatPower(m_power);
@@ -82,7 +82,7 @@ public class ThroatPowerCommand extends CommandBase {
     } else {
       m_subsystem.setThroatPower(m_power);
     }
-
+    
     // if (m_getVel.getAsDouble() - k_deadZoneSpeed > (m_burst ? 0 :
     // m_rpmSpeed.getAsDouble()) && m_rpmSpeed.getAsDouble() > 0) {
     // // turret position

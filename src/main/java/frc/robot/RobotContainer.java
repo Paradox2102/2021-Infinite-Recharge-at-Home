@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,7 +26,9 @@ import frc.robot.Triggers.IncreaseTrimTrigger;
 import frc.robot.commands.Auto.TrenchRun.MoveBack6Ball;
 import frc.robot.commands.Auto.TrenchRun.TrenchRun;
 import frc.robot.commands.Auto.TrenchRun.TrenchRunSix;
+import frc.robot.commands.Auto.TrenchRun.TrenchRunThree;
 import frc.robot.commands.Climber.ClimbCommand;
+import frc.robot.commands.Climber.SetClimberAngleCommand;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
 import frc.robot.commands.Drive.DriveToTargetSizeCommand;
 import frc.robot.commands.GalacticSearch.BarrelPath;
@@ -198,9 +201,10 @@ public class RobotContainer {
 
     configureButtonBindings();
 
+    // m_climberSubsystem.setDefaultCommand(new SetClimberAngleCommand(m_climberSubsystem, () -> m_calibStick.getThrottle()));
     m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.4));
-    m_shooterAngleSubsystem
-        .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
+    // m_shooterAngleSubsystem
+    //     .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
         () -> (-m_stick.getY() - m_velocityStick.getY()), () -> m_stick.getThrottle()));
     // m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem,
@@ -213,7 +217,7 @@ public class RobotContainer {
     // !m_throatSubsystem.GetTopBreak()));
     m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.4));
 
-    m_autonomous.whileHeld(new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_turretCamera, m_backCamera, m_backWheelSpeed)); 
+    // m_autonomous.whileHeld(new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_turretCamera, m_backCamera, m_backWheelSpeed)); 
     // m_intakeSubsystem.setDefaultCommand(new
     // AmbientIntakePowerCommand(m_intakeSubsystem, 0.25));
 
@@ -222,10 +226,14 @@ public class RobotContainer {
     // m_chooser.addOption("Barrel Path", new BarrelPath(m_driveSubsystem));
     // m_chooser.addOption("Galactic Search", new PathChooserCommandAll(m_cam, m_driveSubsystem, m_intakeSubsystem, m_serializerSubsystem, 0.3, 0.3));
     // m_chooser.addOption("Trench Run", new TrenchRun(driveSubsystem, intakeSubsystem, shooterSubsystem, turretSubsystem, throatSubsystem, serializerSubsystem, turretCamera, shooterSpeed, getPosX, getPosY, backCamera));
+
     m_chooser.addOption("Trench Run 6", new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_turretCamera, m_backCamera, m_backWheelSpeed 
        ));
-    m_chooser.addOption("Move6", new MoveBack6Ball(m_driveSubsystem));
+    m_chooser.addOption("Trench Run 3", new TrenchRunThree(m_driveSubsystem, m_shooterSubsystem,
+        m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem,
+        m_turretCamera, m_backCamera, m_backWheelSpeed));
     SmartDashboard.putData("Auto mode", m_chooser);
+    Shuffleboard.getTab("Driver Tab").add("Auto Mode", m_chooser);
   }
 
   /**
@@ -257,8 +265,8 @@ public class RobotContainer {
 
     // Driver 2 bindings
     m_climb.whileHeld(new ClimbCommand(m_climberSubsystem, () -> m_climbStick.getY()));
-    m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterSpeed, m_backWheelSpeed));
-    // m_spinUp.toggleWhenPressed(new ShootByDistanceCommandInterpolate(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
+    // m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterSpeed, m_backWheelSpeed));
+    m_spinUp.toggleWhenPressed(new ShootByDistanceCommandInterpolate(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
     m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_moveTurrent.whileHeld(new TurretMoveCommand(m_turretSubsystem, () -> m_climbStick.getZ()));

@@ -59,7 +59,7 @@ public class ShooterSubsystem extends SubsystemBase {
   ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Tab");
   NetworkTableEntry m_fudgeFactor = 
     driverTab
-      .add("Speed Factor (±1000)", 0)
+      .add("Speed Factor (±1000)", 0/*0.4*/)
       .withWidget(BuiltInWidgets.kNumberSlider)
       .withProperties(Map.of("min", -1, "max", 1))
       .getEntry();
