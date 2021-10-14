@@ -23,6 +23,7 @@ import frc.lib.Camera.CameraData;
 import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
+import frc.robot.commands.Auto.FiveWheel.FiveWheel;
 import frc.robot.commands.Auto.TrenchRun.MoveBack6Ball;
 import frc.robot.commands.Auto.TrenchRun.TrenchRun;
 import frc.robot.commands.Auto.TrenchRun.TrenchRunSix;
@@ -229,6 +230,9 @@ public class RobotContainer {
 
     m_chooser.addOption("Trench Run 6", new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_turretCamera, m_backCamera, m_backWheelSpeed 
        ));
+    m_chooser.addOption("Wheel Run 5", new FiveWheel(m_driveSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem,
+        m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_turretCamera, m_backCamera,
+        m_backWheelSpeed));
     m_chooser.addOption("Trench Run 3", new TrenchRunThree(m_driveSubsystem, m_shooterSubsystem,
         m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem,
         m_turretCamera, m_backCamera, m_backWheelSpeed));
