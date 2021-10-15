@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -22,26 +23,44 @@ public class ClimberSubsystem extends SubsystemBase {
   Servo m_servo2 = new Servo(Constants.k_climberServo2);
   // Switches
   DigitalInput m_limit1, m_limit2;
+  PigeonIMU m_gyro;
 
-  
+  double k_p = 0;//0.025;
+  double m_difference = 0;
+
+  boolean m_hit1, m_hit2 = false;
 
   /** Creates a new ClimberSubsystem. */
-  public ClimberSubsystem() {
-    m_limit1 = new DigitalInput(8);
-    m_limit2 = new DigitalInput(9);
+  public ClimberSubsystem(PigeonIMU gyro) {
+    m_gyro = gyro;
+    m_limit1 = new DigitalInput(4);
+    m_limit2 = new DigitalInput(5);
 
-    m_climberMotor1.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    m_climberMotor2.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    m_climberMotor1.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    m_climberMotor2.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    
+    m_climberMotor1.setInverted(false);
+    m_climberMotor2.setInverted(false);
   }
 
   @Override
   public void periodic() {
+    double[] ypr = new double[3];
+    m_gyro.getYawPitchRoll(ypr);
+    m_difference = ypr[1] * k_p;
 
     if(!m_limit1.get()) {
-      m_climberMotor1.set(0);
-    } else if(!m_limit2.get()) {
-      m_climberMotor2.set(0);
+      m_hit1 = true;
+    } else {
+      m_hit1 = false;
     }
+    if(!m_limit2.get()) {
+      m_hit2 = true;
+    } else {
+      m_hit2 = false;
+    }
+
+    SmartDashboard.putNumber("Gyro Pitch", ypr[1]);
 
     SmartDashboard.putBoolean("Climber Limit 1", m_limit1.get());
     SmartDashboard.putBoolean("Climber Limit 2", m_limit2.get());
@@ -50,19 +69,31 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber Servo 2", m_servo2.get());
   }
 
-  public void setBrake(boolean brake) {
-    if (brake) {
-      m_climberMotor1.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      m_climberMotor2.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    } else {
-      m_climberMotor1.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      m_climberMotor2.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    }
-  }
+  // public void setBrake(boolean brake) {
+  //   if (brake) {
+  //     m_climberMotor1.setIdleMode(CANSparkMax.IdleMode.kBrake);
+  //     m_climberMotor2.setIdleMode(CANSparkMax.IdleMode.kBrake);
+  //   } else {
+  //     m_climberMotor1.setIdleMode(CANSparkMax.IdleMode.kCoast);
+  //     m_climberMotor2.setIdleMode(CANSparkMax.IdleMode.kCoast);
+  //   }
+  // }
 
   public void setPower(double power) {
-    m_climberMotor1.set(power);
-    m_climberMotor2.set(power);
+    if(m_hit1 && power > 0) {
+      m_climberMotor1.set(0);
+      // setBrake(true);
+    } else {
+      m_climberMotor1.set(power - m_difference * power);
+      // setBrake(false);
+    }
+    if(m_hit2 && power > 0) {
+      m_climberMotor2.set(0);
+      // setBrake(true);
+    } else {
+      m_climberMotor2.set(power*1 + m_difference * power);
+      // setBrake(false);
+    }
   }
 
   public void setAngle1(double angle) {
@@ -75,10 +106,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void unLock() {
     m_servo1.set(0.226); // 0.226
-    m_servo2.set(1);
+    m_servo2.set(0.335556);
   }
   public void lock() {
     m_servo1.setAngle(0.1288); // 0.1288
-    m_servo2.setAngle(0);
+    m_servo2.setAngle(0.4455);
   }
 }

@@ -1,13 +1,13 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.PiCamera.Logger;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class RaiseIntake extends CommandBase {
     IntakeSubsystem m_subsystem;
     double m_power;
+    double m_systime;
 
     public RaiseIntake(IntakeSubsystem subsystem, double power) {
         m_subsystem = subsystem;
@@ -21,17 +21,18 @@ public class RaiseIntake extends CommandBase {
     @Override
     public void initialize() {
         Logger.Log("Raise Intake: ", 1, "Initialized");
+        
+        m_systime = System.currentTimeMillis();
         m_subsystem.deploy(-m_power);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // if(m_subsystem.isReverseLimitEnabled()) {
-        //     m_subsystem.deploy(-m_stallPower);
-        // } else {
-        //     m_subsystem.deploy(-m_power);
-        // }
+        if (m_power > 0.2 && System.currentTimeMillis() - m_systime >= 2500) {
+            Logger.Log("Raise Intake", 1, "Intake stalled at high power");
+            m_subsystem.deploy(-0.1);
+        }
     }
 
     // Called once the command ends or is interrupted.

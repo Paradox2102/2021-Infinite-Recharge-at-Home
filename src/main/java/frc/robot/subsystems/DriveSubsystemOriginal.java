@@ -334,4 +334,10 @@ public class DriveSubsystemOriginal extends SubsystemBase implements DriveSubsys
     m_rightDrive.setIdleMode(IdleMode.kBrake);
     m_rightFollower.setIdleMode(IdleMode.kBrake);
   }
+
+  @Override
+  public PigeonIMU getGyro() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

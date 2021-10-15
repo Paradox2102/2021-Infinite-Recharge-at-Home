@@ -73,7 +73,7 @@ public class RobotContainer {
   TurretSubsystem m_turretSubsystem = new TurretSubsystem();
   ThroatSubsystem m_throatSubsystem = new ThroatSubsystem();
   ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(m_driveSubsystem.getGyro());
   ShooterAngleSubsystem m_shooterAngleSubsystem = new ShooterAngleSubsystem();
   SerializerSubsystem m_serializerSubsystem = new SerializerSubsystem();
   IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -202,7 +202,7 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    // m_climberSubsystem.setDefaultCommand(new SetClimberAngleCommand(m_climberSubsystem, () -> m_calibStick.getThrottle()));
+    m_climberSubsystem.setDefaultCommand(new SetClimberAngleCommand(m_climberSubsystem, () -> m_climbStick.getThrottle()));
     m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.4));
     // m_shooterAngleSubsystem
     //     .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));

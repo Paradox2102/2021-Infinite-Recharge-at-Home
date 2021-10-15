@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
+
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.pathfinder.Pathfinder.Path;
 import frc.robot.PositionTracker.PositionContainer;
@@ -29,6 +31,8 @@ public interface DriveSubsystem extends Subsystem {
 	public void resetAngle(double angle);
 
 	public double getAngle();
+
+	public PigeonIMU getGyro();
 
 	public PositionContainer getPos();
 

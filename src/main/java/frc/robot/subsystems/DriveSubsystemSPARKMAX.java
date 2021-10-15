@@ -219,6 +219,10 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
     // System.out.println(k_iLeft);
   }
 
+  public PigeonIMU getGyro() {
+    return m_gyro;
+  }
+
   // setting basic power(checks for disabling PID controller)
   public void setPower(double leftPower, double rightPower) {
     m_leftPIDController.setReference(leftPower, ControlType.kDutyCycle);

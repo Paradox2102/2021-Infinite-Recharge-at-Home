@@ -28,7 +28,7 @@ public class SetClimberAngleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climberSubsystem.setAngle2((m_throttle.getAsDouble()+1)/2);
+    m_climberSubsystem.setAngle1((m_throttle.getAsDouble()+1)/2);
   }
 
   // Called once the command ends or is interrupted.
