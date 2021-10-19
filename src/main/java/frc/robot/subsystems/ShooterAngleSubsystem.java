@@ -4,7 +4,13 @@
 
 package frc.robot.subsystems;
 
+import java.util.Map;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.PiCamera.Logger;
@@ -17,6 +23,11 @@ public class ShooterAngleSubsystem extends SubsystemBase {
 
   Servo m_angleServo = new Servo(Constants.k_shooterAngle);
 
+  ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Tab");
+  
+  NetworkTableEntry m_fudgeFactor = driverTab.add("Angle Factor", 0).withWidget(BuiltInWidgets.kNumberSlider)
+      .withProperties(Map.of("min", -0.3, "max", 0.3)).getEntry();
+
   public ShooterAngleSubsystem() {
   }
 
@@ -27,8 +38,13 @@ public class ShooterAngleSubsystem extends SubsystemBase {
 
   public void setAngle(double angle) {
     //Logger.Log("Shooter angle", 1, angle+"");
-    SmartDashboard.putNumber("Servo Angle", angle);
-    m_angleServo.set(angle);
+    if(angle + m_fudgeFactor.getDouble(0) > 0.25) {
+      SmartDashboard.putNumber("Servo Angle", angle);
+      m_angleServo.set(angle + (m_fudgeFactor.getDouble(0)));
+    } else {
+      SmartDashboard.putNumber("Servo Angle", 0.25);
+      m_angleServo.set(0.25);
+    }
   }
 
   public void stop() {

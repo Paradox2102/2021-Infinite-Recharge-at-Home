@@ -19,7 +19,7 @@ public class SerializerSubsystem extends SubsystemBase {
   public SerializerSubsystem() {
     // m_serializerFollower.follow(m_serializer);
     // m_serializerFollower.setInverted(true);
-    m_serializer.setInverted(false);
+    m_serializer.setInverted(true);
   }
 
   @Override

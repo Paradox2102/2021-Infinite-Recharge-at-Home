@@ -40,67 +40,68 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
     m_distances.put(m_keys[0], new ArrayList<>() {
       {
         add(3000d); //3000
-        add(0.55d);
+        add(0.6d);
       }
     });
     m_distances.put(m_keys[1], new ArrayList<>() {
       {
         add(3000d); // 3000
-        add(0.41d);
+        add(0.62d);
       }
     });
     m_distances.put(m_keys[2], new ArrayList<>() {
       {
         add(3000d); //3000
-        add(0.34);
+        add(0.52d);
       }
     });
     m_distances.put(m_keys[3], new ArrayList<>() {
       {
-        add(2800d); //2800
-        add(0.26);
+        add(3200d); //2800
+        add(0.45);
       }
     });
     m_distances.put(m_keys[4], new ArrayList<>() {
       {
-        add(2700d); //2700
-        add(0.3);
+        add(3100d); //2700
+        add(0.45);
       }
     });
     m_distances.put(m_keys[5], new ArrayList<>() {
       {
-        add(2700d);
-        add(0.3);
+        add(3100d
+        );
+        add(0.45);
       }
     });
     m_distances.put(m_keys[6], new ArrayList<>() {
       {
-        add(2700d);
-        add(0.25);
+        add(2900d);
+        add(0.29);
       }
     });
     m_distances.put(m_keys[7], new ArrayList<>() {
       {
-        add(2800d);
-        add(0.25);
+        add(2900d);
+        add(0.29);
       }
     });
     m_distances.put(m_keys[8], new ArrayList<>() {
       {
-        add(2800d);
-        add(0.25);
+        add(2900d);
+        add(0.29);
       }
     });
     m_distances.put(m_keys[9], new ArrayList<>() {
       {
-        add(2800d);
-        add(0.25);
+        add(2900d);
+        add(0.29);
       }
     });
     m_distances.put(m_keys[10], new ArrayList<>() {
       {
-        add(2800d);
-        add(0.25);
+        add(2900d);
+        add(0.29);
       }
     });
 

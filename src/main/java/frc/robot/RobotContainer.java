@@ -30,6 +30,7 @@ import frc.robot.commands.Auto.TrenchRun.TrenchRunSix;
 import frc.robot.commands.Auto.TrenchRun.TrenchRunThree;
 import frc.robot.commands.Climber.ClimbCommand;
 import frc.robot.commands.Climber.SetClimberAngleCommand;
+import frc.robot.commands.Climber.StallClimberCommand;
 import frc.robot.commands.Drive.ArcadeDriveCommand;
 import frc.robot.commands.Drive.DriveToTargetSizeCommand;
 import frc.robot.commands.GalacticSearch.BarrelPath;
@@ -202,10 +203,10 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    m_climberSubsystem.setDefaultCommand(new SetClimberAngleCommand(m_climberSubsystem, () -> m_climbStick.getThrottle()));
+    m_climberSubsystem.setDefaultCommand(new StallClimberCommand(m_climberSubsystem, 0.07));
     m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.4));
-    // m_shooterAngleSubsystem
-    //     .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
+    m_shooterAngleSubsystem
+        .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
         () -> (-m_stick.getY() - m_velocityStick.getY()), () -> m_stick.getThrottle()));
     // m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem,
@@ -248,7 +249,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Power Port Bindings
-    m_portFire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
+    m_portFire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem, true));
     m_portTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_farShoot
         .toggleWhenPressed(new DriveToTargetSizeCommand(m_shooterSubsystem, m_shooterAngleSubsystem, 0.23, 2525));
@@ -271,7 +272,7 @@ public class RobotContainer {
     m_climb.whileHeld(new ClimbCommand(m_climberSubsystem, () -> m_climbStick.getY()));
     // m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterSpeed, m_backWheelSpeed));
     m_spinUp.toggleWhenPressed(new ShootByDistanceCommandInterpolate(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
-    m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem));
+    m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem, true));
     m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_moveTurrent.whileHeld(new TurretMoveCommand(m_turretSubsystem, () -> m_climbStick.getZ()));
     // m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.6));

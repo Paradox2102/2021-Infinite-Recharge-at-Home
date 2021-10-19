@@ -4,45 +4,36 @@
 
 package frc.robot.commands.Climber;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class ClimbCommand extends CommandBase {
+public class StallClimberCommand extends CommandBase {
 
-  ClimberSubsystem m_climberSubsystem;
-  DoubleSupplier y;
+  ClimberSubsystem m_subsystem;
+  double m_power;
 
-  public ClimbCommand(ClimberSubsystem climberSubsystem, DoubleSupplier joystickY) {
-    m_climberSubsystem = climberSubsystem;
-    y = joystickY;
-    addRequirements(m_climberSubsystem);
+  public StallClimberCommand(ClimberSubsystem subsystem, double power) {
+
+    m_subsystem = subsystem;
+    m_power = power;
+
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // m_climberSubsystem.setBrake(false);
-    // m_climberSubsystem.unLock();
+    m_subsystem.setPower(m_power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if(y.getAsDouble() > 0) {
-      m_climberSubsystem.setPower(y.getAsDouble()/2);
-    } else {
-      m_climberSubsystem.setPower(y.getAsDouble());
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climberSubsystem.setPower(0);
-    // m_climberSubsystem.setBrake(true);
-    // m_climberSubsystem.lock();
+    m_subsystem.setPower(0);
   }
 
   // Returns true when the command should end.

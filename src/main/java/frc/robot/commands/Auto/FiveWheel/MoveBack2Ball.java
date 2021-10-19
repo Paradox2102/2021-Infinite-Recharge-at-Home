@@ -17,7 +17,7 @@ public class MoveBack2Ball extends SequentialCommandGroup {
 
   Waypoint[] k_points = {
     new Waypoint(11, 11.5, Math.toRadians(90)),
-    new Waypoint(11, 19, Math.toRadians(90))
+    new Waypoint(11, 18, Math.toRadians(90))
   };
 
   public MoveBack2Ball(DriveSubsystem driveSubsystem) {

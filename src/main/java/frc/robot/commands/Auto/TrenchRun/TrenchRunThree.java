@@ -41,7 +41,7 @@ public class TrenchRunThree extends ParallelCommandGroup {
         new MoveBack3Ball(driveSubsystem),
         new ParallelDeadlineGroup(
           new WaitCommand(2),
-          new FireCommand(throatSubsystem, shooterSubsystem)
+          new FireCommand(throatSubsystem, shooterSubsystem, true)
           // new FireCommandAuto(throatSubsystem, turretSubsystem, null, frontCam, 50)
         )
       )

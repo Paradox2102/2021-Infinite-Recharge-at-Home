@@ -21,9 +21,9 @@ public class FireCommand extends ParallelCommandGroup {
   /**
    * Creates a new FireCommand.
    */
-  public FireCommand(ThroatSubsystem throatSubsystem, ShooterSubsystem shooterSubsystem) {
+  public FireCommand(ThroatSubsystem throatSubsystem, ShooterSubsystem shooterSubsystem, boolean semi) {
     addCommands(new ThroatPowerCommand(throatSubsystem, () -> shooterSubsystem.getSpeed(),
-        () -> shooterSubsystem.getSetpoint() - 5000, 0.5, true)
+        () -> shooterSubsystem.getSetpoint(), 0.3, semi)
     // new IntakeCommand(intakeSubsystem, 0.5)
     );
   }

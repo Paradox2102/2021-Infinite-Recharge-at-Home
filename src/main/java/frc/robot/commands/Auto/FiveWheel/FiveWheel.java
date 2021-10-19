@@ -40,12 +40,12 @@ public class FiveWheel extends ParallelCommandGroup {
           new MoveBack3Ball(driveSubsystem),
           new ParallelDeadlineGroup(
             new WaitCommand(2),
-            new FireCommand(throatSubsystem, shooterSubsystem)
+            new FireCommand(throatSubsystem, shooterSubsystem, true)
           ),
           new MoveBack2Ball(driveSubsystem),
           new ParallelDeadlineGroup(
             new WaitCommand(2),
-            new FireCommand(throatSubsystem, shooterSubsystem)
+            new FireCommand(throatSubsystem, shooterSubsystem, true)
           )
         )
     );

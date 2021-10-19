@@ -22,7 +22,7 @@ public class ThroatPowerCommand extends CommandBase {
   double m_power;
   DoubleSupplier m_getVel;
   DoubleSupplier m_rpmSpeed;
-  double k_deadZoneSpeed = 300;
+  double k_deadZoneSpeed = 150;
   double k_deadZoneX = 0;
   Camera m_turretCamera = null;
   DoubleSupplier m_offset;
@@ -67,20 +67,22 @@ public class ThroatPowerCommand extends CommandBase {
   @Override
   public void execute() {
 
-    // if(m_getVel.getAsDouble() > m_rpmSpeed.getAsDouble() - 5000) {
-    // m_subsystem.setThroatPower(m_power);
+    // if(m_getVel.getAsDouble() + k_deadZoneSpeed >= m_rpmSpeed.getAsDouble()) {
+    //   m_subsystem.setThroatPower(m_power);
     // }
-    if (m_semiAuto /*&& m_getVel.getAsDouble() >= m_rpmSpeed.getAsDouble() - k_deadZoneSpeed*/) {
-      if (!m_subsystem.GetTopBreak()) {
-        systime = System.currentTimeMillis();
-        m_subsystem.setThroatPower(m_power);
-      } else if (System.currentTimeMillis() - systime >= 250) {
-        m_subsystem.setThroatPower(m_power);
+    if(m_getVel.getAsDouble() + k_deadZoneSpeed >= m_rpmSpeed.getAsDouble()) {
+      if (m_semiAuto) {
+        if (!m_subsystem.GetTopBreak()) {
+          systime = System.currentTimeMillis();
+          m_subsystem.setThroatPower(m_power);
+        } else if (System.currentTimeMillis() - systime >= 600) {
+          m_subsystem.setThroatPower(m_power);
+        } else {
+          m_subsystem.setThroatPower(0);
+        }
       } else {
-        m_subsystem.setThroatPower(0);
+        m_subsystem.setThroatPower(m_power);
       }
-    } else {
-      m_subsystem.setThroatPower(m_power);
     }
     
     // if (m_getVel.getAsDouble() - k_deadZoneSpeed > (m_burst ? 0 :

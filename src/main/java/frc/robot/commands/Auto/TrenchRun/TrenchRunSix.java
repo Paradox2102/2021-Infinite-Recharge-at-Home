@@ -46,7 +46,7 @@ public class TrenchRunSix extends ParallelCommandGroup {
         new MoveBack3Ball(driveSubsystem),
         new ParallelDeadlineGroup(
           new WaitCommand(2),
-          new FireCommand(throatSubsystem, shooterSubsystem)
+          new FireCommand(throatSubsystem, shooterSubsystem, true)
           // new FireCommandAuto(throatSubsystem, turretSubsystem, null, frontCam, 50)
         ),
         new ParallelDeadlineGroup(
@@ -55,7 +55,7 @@ public class TrenchRunSix extends ParallelCommandGroup {
         ),
         new ParallelDeadlineGroup(
           new WaitCommand(6),
-          new FireCommand(throatSubsystem, shooterSubsystem)
+          new FireCommand(throatSubsystem, shooterSubsystem, true)
         )
       )
     );
