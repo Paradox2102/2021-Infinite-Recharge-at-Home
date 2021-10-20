@@ -167,7 +167,7 @@ public class DriveSubsystemSPARKMAX extends SubsystemBase implements DriveSubsys
     m_rightPIDController.setIZone(k_iRange);
     m_rightPIDController.setOutputRange(-1, 1);
 
-    final double k_timeRamp = 0;
+    final double k_timeRamp = 0.75;
 
     m_leftDrive.setOpenLoopRampRate(k_timeRamp);
     m_rightDrive.setOpenLoopRampRate(k_timeRamp);

@@ -205,7 +205,7 @@ public class PiCamera implements Network.NetworkReceiver {
 	private static final int k_timeout = 5000;
 
 	public PiCamera() {
-		m_watchdogTimer.scheduleAtFixedRate(new TimerTask() {
+		m_watchdogTimer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
