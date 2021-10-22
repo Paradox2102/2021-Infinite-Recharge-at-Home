@@ -203,7 +203,7 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    m_climberSubsystem.setDefaultCommand(new StallClimberCommand(m_climberSubsystem, 0.07));
+    // m_climberSubsystem.setDefaultCommand(new StallClimberCommand(m_climberSubsystem, 0.07));
     m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.4));
     m_shooterAngleSubsystem
         .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
