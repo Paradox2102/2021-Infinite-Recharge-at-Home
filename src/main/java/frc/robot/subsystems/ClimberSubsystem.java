@@ -39,7 +39,7 @@ public class ClimberSubsystem extends SubsystemBase {
     m_climberMotor1.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_climberMotor2.setIdleMode(CANSparkMax.IdleMode.kBrake);
     
-    m_climberMotor1.setInverted(false);
+    m_climberMotor1.setInverted(true);
     m_climberMotor2.setInverted(false);
   }
 

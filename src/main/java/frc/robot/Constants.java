@@ -39,7 +39,7 @@ public final class Constants {
     public static final int k_dioTop = 0;
     public static final int k_dioBottom = 1;
 
-    public static final int k_shooterAngle = 9; // servo
+    public static final int k_shooterAngle = 8; // servo
     public static final int k_climberServo1 = 6; // servo
     public static final int k_climberServo2 = 7; // servo
 
