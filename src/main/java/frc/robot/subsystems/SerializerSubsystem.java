@@ -15,10 +15,10 @@ import frc.robot.Constants;
 
 public class SerializerSubsystem extends SubsystemBase {
   TalonSRX m_serializer = new TalonSRX(Constants.k_serializer);
-  // TalonSRX m_serializerFollower = new TalonSRX(Constants.k_serializerFollower);
+  TalonSRX m_serializerFollower = new TalonSRX(Constants.k_serializerFollower);
   public SerializerSubsystem() {
     // m_serializerFollower.follow(m_serializer);
-    // m_serializerFollower.setInverted(true);
+    m_serializerFollower.setInverted(true);
     m_serializer.setInverted(true);
   }
 
@@ -29,9 +29,11 @@ public class SerializerSubsystem extends SubsystemBase {
 
   public void setPower(double power){
     m_serializer.set(ControlMode.PercentOutput, power);
+    m_serializerFollower.set(ControlMode.PercentOutput, power/2);
   }
 
   public void stop(){
     m_serializer.set(ControlMode.PercentOutput, 0);
+    m_serializerFollower.set(ControlMode.PercentOutput, 0);
   }
 }

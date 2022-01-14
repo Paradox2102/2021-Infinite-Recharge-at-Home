@@ -70,7 +70,7 @@ public class ThroatPowerCommand extends CommandBase {
     // if(m_getVel.getAsDouble() + k_deadZoneSpeed >= m_rpmSpeed.getAsDouble()) {
     //   m_subsystem.setThroatPower(m_power);
     // }
-    if(m_getVel.getAsDouble() + k_deadZoneSpeed >= m_rpmSpeed.getAsDouble()) {
+    if(m_rpmSpeed.getAsDouble() != 0 && m_getVel.getAsDouble() + k_deadZoneSpeed >= m_rpmSpeed.getAsDouble()) {
       if (m_semiAuto) {
         if (!m_subsystem.GetTopBreak()) {
           systime = System.currentTimeMillis();

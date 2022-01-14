@@ -40,14 +40,14 @@ public class ShooterAngleSubsystem extends SubsystemBase {
     // Max: 0
     // Min: 0.5
     // Logger.Log("Shooter angle", 1, angle+"");
-    // if(angle + m_fudgeFactor.getDouble(0) > 0.25) {
+    if(angle + m_fudgeFactor.getDouble(0) > 0) {
       SmartDashboard.putNumber("Servo Angle", angle);
-    //   m_angleServo.set(angle + (m_fudgeFactor.getDouble(0)));
-    // } else {
-    //   SmartDashboard.putNumber("Servo Angle", 0.25);
-    //   m_angleServo.set(0.25);
-    // }
-    m_angleServo.set(angle);
+      m_angleServo.set(angle + (m_fudgeFactor.getDouble(0)));
+    } else {
+      SmartDashboard.putNumber("Servo Angle", 0);
+      m_angleServo.set(0);
+    }
+    // m_angleServo.set(angle);
   }
 
   public void stop() {

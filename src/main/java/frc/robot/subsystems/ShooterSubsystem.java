@@ -61,7 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
     driverTab
       .add("Speed Factor (±1000)", 0)
       .withWidget(BuiltInWidgets.kNumberSlider)
-      .withProperties(Map.of("min", -1, "max", 1))
+      .withProperties(Map.of("min", -1, "max", 1, "Display value", true))
       .getEntry();
 
   NetworkTableEntry m_f;

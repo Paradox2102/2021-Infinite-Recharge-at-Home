@@ -81,14 +81,14 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
     });
     m_distances.put(m_keys[7], new ArrayList<>() {
       {
-        add(2150d);
+        add(2100d);
         add(0.0);
       }
     });
     m_distances.put(m_keys[8], new ArrayList<>() {
       {
         add(2100d);
-        add(0.0);
+        add(0.18d);
       }
     });
     m_distances.put(m_keys[9], new ArrayList<>() {
@@ -178,6 +178,7 @@ public class ShootByDistanceCommandInterpolate extends CommandBase {
     m_camera.toggleLights(false);
     m_subsystem.stop();
     m_angleSubsystem.stop();
+    m_angleSubsystem.setAngle(0.5);
   }
 
   // Returns true when the command should end.

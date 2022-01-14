@@ -24,6 +24,7 @@ import frc.robot.PositionTracker.PositionContainer;
 import frc.robot.Triggers.DecreaseTrimTrigger;
 import frc.robot.Triggers.IncreaseTrimTrigger;
 import frc.robot.commands.Auto.FiveWheel.FiveWheel;
+import frc.robot.commands.Auto.ShootThree.ShootThree;
 import frc.robot.commands.Auto.TrenchRun.MoveBack6Ball;
 import frc.robot.commands.Auto.TrenchRun.TrenchRun;
 import frc.robot.commands.Auto.TrenchRun.TrenchRunSix;
@@ -122,6 +123,7 @@ public class RobotContainer {
                                                                       // front camera.
   JoystickButton m_fire = new JoystickButton(m_climbStick, 1); // Hold command to run the throat only when shooter is
                                                                // revved
+  JoystickButton m_fireSerialize = new JoystickButton(m_climbStick, 1);
   JoystickButton m_moveTurrent = new JoystickButton(m_climbStick, 9); // Toggle command to turn the turret manually
                                                                       // (Should cancel tracking command if in use)
   // JoystickButton m_moveTurrentR = new JoystickButton(m_climbStick, 4); //
@@ -203,10 +205,10 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    // m_climberSubsystem.setDefaultCommand(new StallClimberCommand(m_climberSubsystem, 0.07));
+    m_climberSubsystem.setDefaultCommand(new StallClimberCommand(m_climberSubsystem, 0.07));
     m_intakeSubsystem.setDefaultCommand(new RaiseIntake(m_intakeSubsystem, 0.4));
-    m_shooterAngleSubsystem
-        .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
+    // m_shooterAngleSubsystem
+    //     .setDefaultCommand(new SetAngleCommand(m_shooterAngleSubsystem, () -> m_climbStick.getThrottle()));
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick.getX(),
         () -> (-m_stick.getY() - m_velocityStick.getY()), () -> m_stick.getThrottle()));
     // m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem,
@@ -217,7 +219,7 @@ public class RobotContainer {
     // SerializeCommand(m_serializerSubsystem, 0.3,
     // () -> m_throatSubsystem.GetTopBreak(), () -> getThrottle(), () ->
     // !m_throatSubsystem.GetTopBreak()));
-    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.4));
+    m_throatSubsystem.setDefaultCommand(new ThroatAtSpeedCommand(m_throatSubsystem, 0.6));
 
     // m_autonomous.whileHeld(new TrenchRunSix(m_driveSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem, m_turretCamera, m_backCamera, m_backWheelSpeed)); 
     // m_intakeSubsystem.setDefaultCommand(new
@@ -237,6 +239,7 @@ public class RobotContainer {
     m_chooser.addOption("Trench Run 3", new TrenchRunThree(m_driveSubsystem, m_shooterSubsystem,
         m_shooterAngleSubsystem, m_turretSubsystem, m_throatSubsystem, m_serializerSubsystem, m_intakeSubsystem,
         m_turretCamera, m_backCamera, m_backWheelSpeed));
+    m_chooser.addOption("Shoot 3 Still", new ShootThree(m_intakeSubsystem, m_throatSubsystem, m_turretSubsystem, m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
     SmartDashboard.putData("Auto mode", m_chooser);
     Shuffleboard.getTab("Driver Tab").add("Auto Mode", m_chooser);
   }
@@ -273,6 +276,8 @@ public class RobotContainer {
     // m_spinUp.toggleWhenPressed(new SpinUpShooterCommand(m_shooterSubsystem, m_shooterSpeed, m_backWheelSpeed));
     m_spinUp.toggleWhenPressed(new ShootByDistanceCommandInterpolate(m_shooterSubsystem, m_shooterAngleSubsystem, m_turretCamera));
     m_fire.whileHeld(new FireCommand(m_throatSubsystem, m_shooterSubsystem, true));
+    m_fireSerialize.whileHeld(new PowerSerializeCommand(m_serializerSubsystem, -0.3));
+
     m_turretTrack.toggleWhenPressed(new TurretTrackingCommand(m_turretSubsystem, m_turretCamera));
     m_moveTurrent.whileHeld(new TurretMoveCommand(m_turretSubsystem, () -> m_climbStick.getZ()));
     // m_moveTurrentL.whileHeld(new TurretMoveCommand(m_turretSubsystem, -0.6));
