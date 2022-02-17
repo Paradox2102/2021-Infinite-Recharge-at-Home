@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.pathfinder.Pathfinder.Path;
 import frc.pathfinder.Pathfinder.Segment;
-import frc.PiCamera.Logger;
+import frc.PiCamera.Logger; 
 import frc.lib.CSVWriter;
 import frc.lib.CSVWriter.Field;
 import frc.robot.PositionTracker.PositionContainer;
