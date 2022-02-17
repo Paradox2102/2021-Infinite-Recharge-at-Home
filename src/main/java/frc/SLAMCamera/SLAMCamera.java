@@ -16,6 +16,8 @@
  *    Contact: robotics@gabysoft.com
  */
 
+// 10.21.2.11 5800
+
 package frc.SLAMCamera;
 
 import java.io.FileNotFoundException;
@@ -258,7 +260,7 @@ public class SLAMCamera implements Network.NetworkReceiver {
 	// ! @cond PRIVATE
 	@Override
 	public void ProcessData(String data) {
-		Logger.Log("SLAMCamera", -1, String.format("Data: %s", data));
+		Logger.Log("SLAMCamera", 1, String.format("Data: %s", data));
 
 		if (data.charAt(0)=='P'){
 			int[] values;
